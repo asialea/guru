@@ -1,0 +1,48 @@
+.header{
+  background:#27B32D!important;
+  height: 80px;
+
+}
+
+.row{
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.inputdiv{
+  margin-top: 30px;
+}
+
+.picdiv{
+      margin-top: 200px;
+}
+
+.formdiv{
+  margin-top: 200px;
+}
+
+form{
+     margin: 0 auto;
+     width:500px;
+}
+
+button{
+   margin: 0 auto;
+   background-color:#346D2F!important;
+   color:white!important;
+   border-color: #346D2F!important;
+}
+
+h1{
+text-align: center;
+}
+
+p{
+  text-align: center;
+
+}
+
+img{
+  display:block;
+   margin:auto;
+}
