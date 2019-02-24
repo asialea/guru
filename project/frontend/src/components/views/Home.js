@@ -2,10 +2,22 @@ import React, { Component } from 'react';
 import {forms,buttons,layout,header} from 'cirrus-ui';
 import '../static/Home.css';
 import Register from './Register';
+import {Link} from 'react-router-dom';
 
 
 
 class Home extends Component {
+
+  state = {
+    email: "",
+    password: "",
+  }
+
+  onSubmit = e => {
+    e.preventDefault();
+    console.error("Not implemented!!");
+  }
+
 
   render () {
       return (
@@ -19,26 +31,32 @@ class Home extends Component {
           </div>
         </div>
         <div className="header-nav">
-          <div className="nav-right">
+          <div className="nav-right" >
 
-            <div className="nav-item no-hover">
-              <input className = ""  type="text"
+          <form onSubmit={this.onSubmit} id="login-form">
+
+              <input className = "login-input"  type="text"
                placeholder="Email"/>
-            </div>
-            <div className="nav-item no-hover">
-              <input className = ""  type="password"
+
+
+              <input className = "login-input"  type="password"
                placeholder="Password"/>
-            </div>
-            <div className="nav-item no-hover">
-            <button className = "" id='submit'>Login</button>
-            </div>
+
+
+            <button className ='submit' id='login-submit'>Login</button>
+
+          </form>
+
           </div>
         </div>
       </div>
 
         <div className= 'row'>
              <div className = 'picdiv col-6 ignore-screen'>
-             <h6 className='caption'>Get connected to a mentor today! Start your path to a bright future in tech</h6>
+             <h6 className='caption'> Get connected to a mentor today! Start your path to a bright future in tech</h6>
+             <p>
+           <Link to="/contact">Click Here</Link> to contact us!
+           </p>
              <img src="../static/coding.jpg" alt="" height="450" width="500"/>
 
              </div>
@@ -46,9 +64,10 @@ class Home extends Component {
             <div className = 'formdiv col-6 ignore-screen'>
               <h1>Sign Up</h1>
               <Register/>
-
             </div>
+
         </div>
+
          <div>{this.props.children}</div>
 </div>
 
@@ -56,6 +75,14 @@ class Home extends Component {
 
       );
    }
+}
+
+const mapStateToProps = state => {
+  return {};
+}
+
+const mapDispatchToProps = dispatch => {
+  return {};
 }
 
 export default Home;

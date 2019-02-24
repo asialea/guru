@@ -44,7 +44,7 @@ class Register extends Component {
 
 
                     <div className="inputdiv col-12">
-                    <button className = "" id='submit'>Sign Up</button>
+                    <button className = "submit" >Sign Up</button>
                     </div>
                </div>
         </form>
