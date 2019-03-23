@@ -61,9 +61,10 @@ class Home extends Component {
         </div>
       </div>
 
-        <div className= 'row'>
-             <div id= 'register-div'>
-                <h1>Sign Up</h1>
+        <div className= "row">
+             <div id = "register-div">
+                <p id = "banner"> Join the tech community </p>
+                <p id = "banner2"> Get started - it's free </p>
                 <Register/>
                 <p>
                   <Link to="/contact">Click Here</Link> to contact us!

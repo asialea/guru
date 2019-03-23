@@ -15,7 +15,7 @@ class IntegerRangeField(models.IntegerField):
 
 class User(AbstractUser):
     class Meta:
-        unique_together = (('type', 'email'),)
+        unique_together = (('username', 'type'),)
 
     MENTOR = 'MR'
     MENTEE = 'ME'

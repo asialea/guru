@@ -21,14 +21,9 @@ div#home{
   right: 0;
 }
 
-
-.row{
-  padding-top: 0px;
-  padding-bottom: 0px;
-}
-
 .inputdiv{
   margin-top: 30px;
+
 }
 
 
@@ -46,7 +41,7 @@ div#home{
 }
 
 form#login-form{
-  margin-left: 800px;
+  margin-left: 500px;
 }
 
 div#register-div{
@@ -58,12 +53,31 @@ div#register-div{
   padding-bottom: 10px;
 }
 
+#banner{
+  padding-top: 25px;
+  font-size: 2em;
+}
+
+#banner2{
+  font-size: 1.5em;
+  padding-bottom: 10px;
+}
+
 form{
      margin: 0 auto;
      width:80%;
 }
 
+form .row {
+    padding: 0;
+}
 
+input[type=text].login-input, input[type=password].login-input {
+    margin-top: 20px;
+    margin-right: 10px;
+    width: 15%;
+    height: 35px;
+}
 
 button.submit{
    margin: 0 auto;
