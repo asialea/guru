@@ -9,9 +9,14 @@ import {auth} from "../../actions";
 
 class Home extends Component {
 
+    state = {
+   username: "",
+   password: "",
+  }
 
   onSubmit = e => {
     e.preventDefault();
+    console.log(this.state.username, this.state.password);
     this.props.login(this.state.username, this.state.password);
   }
 
@@ -36,7 +41,7 @@ class Home extends Component {
         <div className="header-nav">
           <div className="nav-right" >
 
-          <form onSubmit={this.onSubmit} id="login-form">
+          <form id="login-form">
 
               <input className = "login-input"  type="text"
                placeholder="Email" onChange={e => this.setState({username: e.target.value})}/>
@@ -45,7 +50,7 @@ class Home extends Component {
               <input className = "login-input"  type="password"
                placeholder="Password" onChange={e => this.setState({password: e.target.value})}/>
 
-              <button className ='submit' id='login-submit'>Login</button>
+              <button className ='submit' onClick={this.onSubmit} id='login-submit'>Login</button>
 
             {this.props.errors.length > 0 && (
               <ul>
@@ -82,6 +87,7 @@ class Home extends Component {
    }
 }
 
+
 const mapStateToProps = state => {
   let errors = [];
   if (state.auth.errors) {
@@ -93,6 +99,7 @@ const mapStateToProps = state => {
     errors,
     isAuthenticated: state.auth.isAuthenticated
   };
+
 }
 
 const mapDispatchToProps = dispatch => {

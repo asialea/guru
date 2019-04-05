@@ -34,10 +34,10 @@ export const loadUser = () => {
   }
 }
 
-export const login = (email, password) => {
+export const login = (username, password) => {
   return (dispatch, getState) => {
     let headers = {"Content-Type": "application/json"};
-    let body = JSON.stringify({email, password});
+    let body = JSON.stringify({username, password});
 
     return fetch("/auth/login/", {headers, body, method: "POST"})
       .then(res => {
@@ -66,10 +66,10 @@ export const login = (email, password) => {
 }
 
 
-export const register = (username,first_name,last_name,password) => {
+export const register = (username,first_name,last_name,password,type) => {
   return (dispatch, getState) => {
     let headers = {"Content-Type": "application/json"};
-    let body = JSON.stringify({username,first_name,last_name,password});
+    let body = JSON.stringify({username,first_name,last_name,password,type});
 
     return fetch("/auth/register/", {headers, body, method: "POST"})
       .then(res => {
