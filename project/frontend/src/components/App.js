@@ -10,6 +10,7 @@ import {auth} from "../actions";
 import  guruApp from "../reducers"
 import Home from "./views/Home";
 import NotFound from "./views/NotFound"
+import Dashboard from "./views/Dashboard"
 
 let store = createStore(guruApp, applyMiddleware(thunk));
 
@@ -39,8 +40,9 @@ class RootContainerComponent extends Component {
 
       <BrowserRouter>
          <Switch>
-           <Route exact path="/" component={Home} />
-           <Route component={NotFound} />
+          <PrivateRoute exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/" component={Home} />
+          <Route component={NotFound} />
          </Switch>
       </BrowserRouter>
 

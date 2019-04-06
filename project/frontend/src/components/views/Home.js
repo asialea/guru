@@ -24,7 +24,7 @@ class Home extends Component {
   render () {
 
     if (this.props.isAuthenticated) {
-      // return <Redirect to="/" />    eventually gonna redirect to user dashboard
+       return <Redirect to="/dashboard" />
       console.log("Authenticated")
     }
       return (
@@ -34,7 +34,7 @@ class Home extends Component {
       <div className="header header-fill header-fixed">
         <div className="header-brand">
           <div className="nav-item no-hover">
-              <h6 className="title">Guru</h6>
+              <h1 className="title">Guru</h1>
 
           </div>
         </div>

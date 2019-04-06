@@ -1,9 +1,9 @@
 import auth from "./auth";
 import { combineReducers } from 'redux';
+import user from "./user";
 
 
-
-const guruApp = combineReducers({auth});
+const guruApp = combineReducers({auth,user});
 
 export default guruApp;
 

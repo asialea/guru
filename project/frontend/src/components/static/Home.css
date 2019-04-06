@@ -1,11 +1,13 @@
 div.header{
-  background:#363636;
-  height: 80px;
+  background: #27B32D;
+  height: 70px;
 
 }
 
-h6.title{
-  color:white;
+h1.title{
+  color:#363636;
+  font-size: 40px;
+
 }
 
 
@@ -36,12 +38,26 @@ div#home{
 
 #login-submit{
   display:inline;
-  background-color:rgba(36, 36, 36, 0.5);
-  border-color: black;
+  background-color: #346D2F;
+  border-color: #346D2F;
+  padding: 0;
+  height: 40px;
+  width: 80px;
+  border: 1px solid transparent;
+  border-radius: .25rem;
 }
 
+
+#login-submit:hover {
+  -webkit-transition: all .3s;
+  transition: all .3s;
+  -moz-transition: all .3s;
+  background: #eee;
+}
+
+
 form#login-form{
-  margin-left: 500px;
+  margin-left: 540px;
 }
 
 div#register-div{
@@ -82,10 +98,8 @@ input[type=text].login-input, input[type=password].login-input {
 
 button.submit{
    margin: 0 auto;
-   background-color:rgb(36, 36, 36);  /* #346D2F; */
+   background-color:#346D2F;
    color:white;
-   border-color:black;
-   /* border-color: #346D2F; */
 }
 
 h1{
