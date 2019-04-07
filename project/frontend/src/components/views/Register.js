@@ -16,7 +16,7 @@ class Register extends Component {
   registerSubmit = e => {
     e.preventDefault();
     if(this.state.password === document.getElementById("confirm_pass").value){
-          this.props.register(this.state.first_name,this.state.last_name,this.state.username,this.state.password,this.state.type);
+          this.props.register(this.state.username,this.state.first_name,this.state.last_name,this.state.password,this.state.type,this.state.username);
     }else{
        alert("Password does not match");
      }

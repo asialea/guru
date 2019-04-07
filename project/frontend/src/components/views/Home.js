@@ -24,8 +24,7 @@ class Home extends Component {
   render () {
 
     if (this.props.isAuthenticated) {
-       return <Redirect to="/dashboard" />
-      console.log("Authenticated")
+      return <Redirect to="/dashboard" />
     }
       return (
 
