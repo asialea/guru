@@ -1,0 +1,17 @@
+div.header{
+  background: #27B32D;
+  height: 70px;
+
+}
+
+.profile-pic{
+  display: inline-block;
+  background-image: url("/../static/asia-resume.jpg");
+  border-radius: 50%;
+  height: 60px;
+  width: 60px;
+  margin-top: 3px;
+  border: .1px solid grey;
+  background-position: center center;
+  background-size: cover;
+}

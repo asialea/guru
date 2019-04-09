@@ -24,7 +24,7 @@ class Home extends Component {
   render () {
 
     if (this.props.isAuthenticated) {
-      return <Redirect to="/dashboard" />
+      return <Redirect to="/about" />
     }
       return (
 

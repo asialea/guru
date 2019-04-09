@@ -1,0 +1,46 @@
+#body{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  width: 70%;
+  margin-left: 15%;
+  margin-top: 60px;
+  border-left:0.5px solid #dee4ed;
+  border-right:0.5px solid #dee4ed;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+#pro-pic{
+  grid-row: 1;
+  width: 250px;
+  height:250px;
+  background-image: url("/../static/asia-resume.jpg");
+  border-radius: 50%;
+  margin-top: 20px;
+  margin-left: 20px;
+  border: .1px solid grey;
+  background-position: center center;
+  background-size: cover;
+  border:0.5px solid #dee4ed;
+}
+
+#pro-pic p {
+  visibility: hidden;
+}
+
+#pro-pic:hover p {
+  visibility: visible;
+  font-weight: bold;
+  color:black;
+}
+
+#pro-pic:hover {
+  opacity: 0.3;
+}
+
+#about-me{
+  grid-row: 2/2;
+  grid-column: 1;
+}

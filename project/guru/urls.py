@@ -7,7 +7,6 @@ urlpatterns = [
     url('^api/users/$', views.UserViewSet.as_view() ),
     url('^auth/register/$', views.RegistrationView.as_view()),
     url('^auth/login/$', views.LoginView.as_view()),
-    url("^auth/user/$", views.UserView.as_view()),
-
-
+    url('^auth/user/$', views.UserView.as_view()),
+    url('^auth/user/(?P<id>[0-9]+)/$',views.ProfileView.as_view()),
 ]

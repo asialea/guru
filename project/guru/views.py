@@ -56,3 +56,15 @@ class UserView(generics.RetrieveAPIView):
 
     def get_object(self):
         return self.request.user
+
+class ProfileView(generics.RetrieveAPIView):
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        try:
+            user_id = int(self.kwargs['id'])
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            user = None
+
+        return user
