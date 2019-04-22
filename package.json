@@ -26,12 +26,18 @@
     "style-loader": "^0.23.1",
     "weak-key": "^1.0.1",
     "webpack": "^4.28.3",
+    "webpack-bundle-tracker": "^0.4.2-beta",
     "webpack-cli": "^3.1.2"
   },
   "dependencies": {
+    "@material-ui/core": "^3.9.3",
     "cirrus-ui": "^0.5.4",
+    "file-loader": "^3.0.1",
+    "history": "^4.9.0",
     "ra-data-simple-rest": "^2.5.2",
+    "react-icons": "^3.5.0",
     "react-router-dom": "^4.3.1",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "url-loader": "^1.1.2"
   }
 }

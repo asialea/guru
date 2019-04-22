@@ -5,3 +5,5 @@ import 'cirrus-ui/dist/cirrus.css';
 
 
 ReactDOM.render(<App />, document.getElementById('app'));
+
+console.log('public url:', process.env.PUBLIC_URL);

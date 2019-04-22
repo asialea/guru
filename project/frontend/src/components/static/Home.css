@@ -5,7 +5,7 @@ div.header{
 }
 
 h1.title{
-  color:#363636;
+  color:white;
   font-size: 40px;
 
 }
@@ -58,6 +58,7 @@ div#home{
 
 form#login-form{
   margin-left: 540px;
+  width: 1000px;
 }
 
 div#register-div{

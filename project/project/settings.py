@@ -41,7 +41,15 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'frontend',
+    'webpack_loader'
 ]
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+            'BUNDLE_DIR_NAME': 'bundles/',
+            'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.dev.json'),
+        }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -139,3 +147,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+#
+# TEMPLATES = [
+#     {
+#         # ... other settings
+#         'DIRS': [os.path.join(BASE_DIR + "/frontend", "templates"), ],
+#         # ... other settings
+#     },
+# ]

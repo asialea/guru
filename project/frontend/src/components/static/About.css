@@ -40,7 +40,23 @@
   opacity: 0.3;
 }
 
+caption {
+
+    color:#363636;
+    font-weight: bold;
+}
+
 #about-me{
   grid-row: 2/2;
   grid-column: 1;
+  height: 400px;
+}
+
+.table{
+  border-top: 1px solid rgba(219, 219, 219, 0.50);
+  margin-top: 2rem;
+}
+
+#about-edit{
+  font-size: 1em;
 }

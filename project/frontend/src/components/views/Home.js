@@ -24,7 +24,8 @@ class Home extends Component {
   render () {
 
     if (this.props.isAuthenticated) {
-      return <Redirect to="/about" />
+      localStorage.setItem('isAuthenticated','true');
+      return <Redirect to="/about" />;
     }
       return (
 
@@ -43,7 +44,7 @@ class Home extends Component {
           <form id="login-form">
 
               <input className = "login-input"  type="text"
-               placeholder="Email" onChange={e => this.setState({username: e.target.value})}/>
+               placeholder="Username" onChange={e => this.setState({username: e.target.value})}/>
 
 
               <input className = "login-input"  type="password"
@@ -79,8 +80,6 @@ class Home extends Component {
 
          <div>{this.props.children}</div>
 </div>
-
-
 
       );
    }

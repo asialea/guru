@@ -7,6 +7,7 @@ class Register extends Component {
 
   state = {
     username: "",
+    email:"",
     first_name:"",
     last_name:"",
     password: "",
@@ -16,7 +17,8 @@ class Register extends Component {
   registerSubmit = e => {
     e.preventDefault();
     if(this.state.password === document.getElementById("confirm_pass").value){
-          this.props.register(this.state.username,this.state.first_name,this.state.last_name,this.state.password,this.state.type,this.state.username);
+          this.props.register(this.state.username,this.state.email,this.state.first_name,
+          this.state.last_name,this.state.password,this.state.type,this.state.username);
     }else{
        alert("Password does not match");
      }
@@ -40,9 +42,15 @@ class Register extends Component {
                </div>
 
                <div className = "row">
+
+                     <div className="inputdiv col-12">
+                    <input className = ""  type="text"
+                     placeholder="Username" onChange={e => this.setState({username: e.target.value})} required/>
+                     </div>
+
                      <div className="inputdiv col-12">
                     <input className = ""  type="email"
-                     placeholder="Email" onChange={e => this.setState({username: e.target.value})} required/>
+                     placeholder="Email" onChange={e => this.setState({email: e.target.value})} required/>
                      </div>
 
                     <div className="inputdiv col-12">
@@ -96,7 +104,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    register: (username,first_name,last_name,password,type) => dispatch(auth.register(username,first_name,last_name,password,type)),
+    register: (username,email,first_name,last_name,password,type) => dispatch(auth.register(username,email,first_name,last_name,password,type)),
   };
 }
 
