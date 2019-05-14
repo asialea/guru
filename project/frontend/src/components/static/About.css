@@ -1,26 +1,33 @@
 #body{
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: auto;
-  width: 70%;
-  margin-left: 15%;
-  margin-top: 60px;
-  border-left:0.5px solid #dee4ed;
-  border-right:0.5px solid #dee4ed;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: repeat(5,20%);
+  width: 75%;
+  margin: 0 auto;
   position: absolute;
-  top: 0;
+  top: 60px;
   bottom: 0;
+  grid-column-gap: 30px;
+}
+
+.flex-box{
+  display: flex;
+  justify-content: center;
+}
+
+#bio h1{
+  text-align: center;
+  font-size: 3rem;
 }
 
 #pro-pic{
-  grid-row: 1;
+  grid-row: 1/2;
   width: 250px;
   height:250px;
   background-image: url("/../static/asia-resume.jpg");
   border-radius: 50%;
   margin-top: 20px;
   margin-left: 20px;
-  border: .1px solid grey;
   background-position: center center;
   background-size: cover;
   border:0.5px solid #dee4ed;
@@ -41,22 +48,66 @@
 }
 
 caption {
-
     color:#363636;
     font-weight: bold;
 }
 
 #about-me{
-  grid-row: 2/2;
+  grid-row: 3/5;
   grid-column: 1;
   height: 400px;
 }
 
 .table{
   border-top: 1px solid rgba(219, 219, 219, 0.50);
-  margin-top: 2rem;
+  margin-top: 1rem;
+}
+
+
+#resume{
+  grid-column: 2;
+  grid-row: 3/6;
+  margin-top: 1rem;
 }
 
 #about-edit{
   font-size: 1em;
+}
+
+#bio h1{
+  text-align: center;
+}
+
+section p{
+  text-align: left;
+}
+
+form{
+  width: 100%;
+}
+
+.input-small.group-1{
+  width: 30%;
+  margin-right: 6px;
+}
+
+.input-small.group-2{
+  width: 20%;
+  margin-left:6px;
+}
+
+.accordion{
+  padding: 18px;
+  width: 100%;
+  text-align: center;
+}
+
+.form{
+  display: none;
+  overflow: hidden;
+}
+
+button h2{
+  font-size: 2rem;
+  color: #374054;
 }

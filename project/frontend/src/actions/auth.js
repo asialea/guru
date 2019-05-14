@@ -25,13 +25,51 @@ export const loadUser = () => {
       .then(res => {
         if (res.status === 200) {
           dispatch({type: 'USER_LOADED', user: res.data });
-          console.log(res.data);
           return res.data;
         } else if (res.status >= 400 && res.status < 500) {
           dispatch({type: "AUTHENTICATION_ERROR", data: res.data});
           throw res.data;
         }
       })
+  }
+}
+
+export const updateUser = (username,email,first_name,last_name,password,github,linkedin,twitter_handle,csrftoken) => {
+  return(dispatch,getState) => {
+    dispatch({type: 'USER_LOADING'});
+    const token = getState().auth.token;
+    let body = JSON.stringify({username,email,first_name,last_name,password,github,linkedin,twitter_handle});
+    let headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'X-CSRFToken': csrftoken,
+    };
+
+    if (token) {
+      headers["Authorization"] = `Token ${token}`;
+    }
+
+    return fetch("/auth/user/update/", {headers,body,method:"POST",mode:"same-origin"})
+      .then(res => {
+        if (res.status < 500) {
+          return res.json().then(data => {
+            return {status: res.status, data};
+          })
+        } else {
+          console.log("Server Error!");
+          throw res;
+        }
+      })
+      .then(res => {
+        if (res.status === 200) {
+          dispatch({type: 'UPDATE_SUCCESSFUL', user: res.data });
+          return res.data;
+        } else if (res.status >= 400 && res.status < 500) {
+          dispatch({type: "UPDATE_ERROR", data: res.data});
+          throw res.data;
+        }
+      })
+
   }
 }
 
@@ -54,7 +92,6 @@ export const login = (username, password) => {
       .then(res => {
         if (res.status === 200) {
           dispatch({type: 'LOGIN_SUCCESSFUL', data: res.data });
-          localStorage.setItem("token", action.data.token);
           return res.data;
         } else if (res.status === 403 || res.status === 401) {
           dispatch({type: "AUTHENTICATION_ERROR", data: res.data});
@@ -87,7 +124,6 @@ export const register = (username,email,first_name,last_name,password,type) => {
       .then(res => {
         if (res.status === 200) {
           dispatch({type: 'REGISTRATION_SUCCESSFUL', data: res.data });
-          localStorage.setItem("token", action.data.token);
           return res.data;
         } else if (res.status === 403 || res.status === 401) {
           dispatch({type: "AUTHENTICATION_ERROR", data: res.data});
@@ -112,7 +148,7 @@ export const logout = () => {
           headers["Authorization"] = `Token ${token}`;
         };
 
-        return fetch("/auth/logout/", {headers, body:"" ,method: "POST"})
+        return fetch("/auth/logout/", {headers, body:"" ,method: "POST",})
             .then(res => {
                 console.log(res.status);
                 if (res.status === 204) {
@@ -138,34 +174,3 @@ export const logout = () => {
             })
     }
 }
-//
-// export const updateUser = (username,first_name,last_name,password,birth_date,github,linkedin,twitter_handle,type) => {
-//   return (dispatch, getState) => {
-//     let headers = {"Content-Type": "application/json"};
-//     let body = JSON.stringify({username,first_name,last_name,password,birth_date,github,linkedin,twitter_handle,type});
-//
-//     return fetch("/auth/user/update/", {headers, body, method: "POST"})
-//       .then(res => {
-//         if (res.status < 500) {
-//           return res.json().then(data => {
-//             return {status: res.status, data};
-//           })
-//         } else {
-//           console.log("Server Error!");
-//           throw res;
-//         }
-//       })
-//       .then(res => {
-//         if (res.status === 200) {
-//           dispatch({type: 'UPDATE_SUCCESSFUL', data: res.data });
-//           return res.data;
-//         } else if (res.status === 403 || res.status === 401) {
-//           dispatch({type: "AUTHENTICATION_ERROR", data: res.data});
-//           throw res.data;
-//         } else {
-//           dispatch({type: "REGISTRATION_FAILED", data: res.data});
-//           throw res.data;
-//         }
-//       })
-//   }
-// }

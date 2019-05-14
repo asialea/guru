@@ -43,13 +43,13 @@ INSTALLED_APPS = [
     'frontend',
     'webpack_loader'
 ]
-
-WEBPACK_LOADER = {
-    'DEFAULT': {
-            'BUNDLE_DIR_NAME': 'bundles/',
-            'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.dev.json'),
-        }
-}
+#
+# WEBPACK_LOADER = {
+#     'DEFAULT': {
+#             'BUNDLE_DIR_NAME': 'bundles/',
+#             'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.dev.json'),
+#         }
+# }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -151,7 +151,7 @@ STATIC_URL = '/static/'
 # TEMPLATES = [
 #     {
 #         # ... other settings
-#         'DIRS': [os.path.join(BASE_DIR + "/frontend", "templates"), ],
+#         'DIRS': [os.path.join(BASE_DIR, "templates"), ],
 #         # ... other settings
 #     },
 # ]

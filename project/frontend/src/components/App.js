@@ -11,7 +11,7 @@ import  guruApp from "../reducers"
 import Home from "./views/Home";
 import NotFound from "./views/NotFound"
 import About from "./views/About"
-import AboutForm from "./views/AboutForm"
+import AboutForm from "./forms/AboutForm"
 import AboutView from "./views/AboutView"
 
 let store = createStore(guruApp, applyMiddleware(thunk));
@@ -43,8 +43,10 @@ class RootContainerComponent extends Component {
 
       <BrowserRouter>
          <Switch>
-          <PrivateRoute path="/about" component={About} />
-          <Route path="/" component={Home} />
+          <Route exact path="/" component={Home} />
+          <PrivateRoute exact path="/about" component={About}/>
+          <PrivateRoute path="/about/update" component={AboutForm}/>
+          <PrivateRoute path="/about/:username" component={AboutView} />
           <Route component={NotFound} />
          </Switch>
       </BrowserRouter>

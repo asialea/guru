@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {forms,buttons,layout,header} from 'cirrus-ui';
 import '../static/Home.css';
-import Register from './Register';
+import Register from '../forms/Register';
 import {Link,Redirect} from 'react-router-dom';
 import {connect} from "react-redux";
 import {auth} from "../../actions";
@@ -16,7 +16,6 @@ class Home extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    console.log(this.state.username, this.state.password);
     this.props.login(this.state.username, this.state.password);
   }
 
@@ -24,7 +23,6 @@ class Home extends Component {
   render () {
 
     if (this.props.isAuthenticated) {
-      localStorage.setItem('isAuthenticated','true');
       return <Redirect to="/about" />;
     }
       return (

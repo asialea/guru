@@ -1,14 +1,14 @@
 from django.shortcuts import render
-from .models import User
+from .models import User,Work
 from rest_framework.response import Response
 from rest_framework import permissions,status
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import generics
-from guru.serializers import UserSerializer, CreateUserSerializer,LoginUserSerializer, UpdateUserSerializer
+from guru.serializers import UserSerializer, CreateUserSerializer,LoginUserSerializer, WorkSerializer
 from django.contrib.auth import authenticate, login, logout
-
+import json
 
 class UserViewSet(generics.ListCreateAPIView):
     """
@@ -73,26 +73,45 @@ class UserView(generics.RetrieveAPIView):
 
 class UpdateUserView(generics.UpdateAPIView):
     permission_classes = [permissions.IsAuthenticated, ]
-    serializer_class = UpdateUserSerializer
+    serializer_class = CreateUserSerializer
 
+    def get_object(self, queryset=None):
+        return self.request.user
 
     def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+        return self.update(self, request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        serializer = self.get_serializer(self.request.user, data=self.request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
 
-        return Response({
-            "user": UserSerializer(user, context=self.get_serializer_context()).data,
-        })
+        return Response({"user": user })
 
+
+class WorkView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated, ]
+    queryset = Work.objects.all()
+    serializer_class = WorkSerializer(queryset,many = True)
+
+    def get(self,request):
+        work = Work.objects.filter(user_id=self.request.user.id).all()
+        serializer = WorkSerializer(work,many=True)
+        return Response({"work":serializer.data})
+
+    def post(self,request, *args, **kwargs):
+        serializer = self.get_serializer(data=self.request.data)
+        serializer.is_valid(raise_exception=True)
+        work = serializer.save()
+        return  Response({"success":("Successfully logged out.")})
 
 class ProfileView(generics.RetrieveAPIView):
     serializer_class = UserSerializer
 
     def get_object(self):
         try:
-            user_id = int(self.kwargs['id'])
-            user = User.objects.get(id=user_id)
+            username = str(self.kwargs['username'])
+            user = User.objects.get(username=username)
         except User.DoesNotExist:
             user = None
         return user

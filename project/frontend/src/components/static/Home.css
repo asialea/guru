@@ -1,6 +1,6 @@
 div.header{
   background: #27B32D;
-  height: 70px;
+  height: 55px;
 
 }
 
@@ -30,10 +30,10 @@ div#home{
 
 
  input[type=text].login-input, input[type=password].login-input{
-  margin-top: 15px;
+  margin-top: 10px;
   margin-right: 10px;
   width: 30%;
-  height: 35px;
+  height: 33px;
 }
 
 #login-submit{
@@ -41,7 +41,7 @@ div#home{
   background-color: #346D2F;
   border-color: #346D2F;
   padding: 0;
-  height: 40px;
+  height: 33px;
   width: 80px;
   border: 1px solid transparent;
   border-radius: .25rem;
@@ -91,7 +91,7 @@ form .row {
 }
 
 input[type=text].login-input, input[type=password].login-input {
-    margin-top: 20px;
+    margin-top: 10px;
     margin-right: 10px;
     width: 15%;
     height: 35px;
