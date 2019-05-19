@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import {connect} from "react-redux";
 import {readUser} from "../../actions";
 import Navbar from './Navbar';
 import '../static/About.css';
-import {forms,buttons} from 'cirrus-ui';
 
 
 class AboutView extends Component{

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import {forms,buttons,layout,header} from 'cirrus-ui';
 import '../static/Home.css';
 import Register from '../forms/Register';
 import {Link,Redirect} from 'react-router-dom';
-import {connect} from "react-redux";
+import {connect} from 'react-redux';
 import {auth} from "../../actions";
 
 
@@ -36,11 +35,11 @@ class Home extends Component {
 
           </div>
         </div>
-        <div className="header-nav">
-          <div className="nav-right" >
+
+
 
           <form id="login-form">
-
+            <div className="form-group">
               <input className = "login-input"  type="text"
                placeholder="Username" onChange={e => this.setState({username: e.target.value})}/>
 
@@ -57,11 +56,10 @@ class Home extends Component {
                 ))}
               </ul>
             )}
-
+            </div>
           </form>
 
-          </div>
-        </div>
+
       </div>
 
         <div className= "row">

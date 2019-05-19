@@ -7,7 +7,7 @@
   position: absolute;
   top: 60px;
   bottom: 0;
-  grid-column-gap: 30px;
+  grid-column-gap:4em;
 }
 
 .flex-box{
@@ -15,19 +15,12 @@
   justify-content: center;
 }
 
-#bio h1{
-  text-align: center;
-  font-size: 3rem;
-}
 
 #pro-pic{
-  grid-row: 1/2;
   width: 250px;
   height:250px;
   background-image: url("/../static/asia-resume.jpg");
   border-radius: 50%;
-  margin-top: 20px;
-  margin-left: 20px;
   background-position: center center;
   background-size: cover;
   border:0.5px solid #dee4ed;
@@ -55,19 +48,19 @@ caption {
 #about-me{
   grid-row: 3/5;
   grid-column: 1;
-  height: 400px;
-}
-
-.table{
-  border-top: 1px solid rgba(219, 219, 219, 0.50);
-  margin-top: 1rem;
 }
 
 
 #resume{
   grid-column: 2;
-  grid-row: 3/6;
-  margin-top: 1rem;
+  grid-row: 1/6;
+  margin-top: 2em;
+
+}
+
+#aboutUser{
+  margin-top: 2em;
+  grid-row-start: 1;
 }
 
 #about-edit{
@@ -76,7 +69,10 @@ caption {
 
 #bio h1{
   text-align: center;
+  line-height: normal;
 }
+
+
 
 section p{
   text-align: left;
@@ -97,9 +93,13 @@ form{
 }
 
 .accordion{
-  padding: 18px;
+  padding: 13px;
   width: 100%;
   text-align: center;
+  margin-bottom: 10px;
+  border:0.5px solid rgb(22, 114, 26);
+  border:1px solid transparent;
+  background-color:rgb(17, 300, 20,0.1);
 }
 
 .form{
@@ -108,6 +108,90 @@ form{
 }
 
 button h2{
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: #374054;
 }
+
+.main{
+    display: inline-block;
+    font-size: 1.2rem;
+}
+
+.res-item{
+  padding: 0 4px;
+  font-size: 1rem;
+  line-height: 1.3;
+
+}
+
+.position{
+  font-style: italic;
+}
+
+.date{
+  margin: 0;
+  line-height: normal;
+}
+
+.desc{
+  margin-top: 3px;
+}
+
+button.delete{
+  position: absolute;
+  right: 0px;
+  font-size: 1rem;
+  color: transparent;
+}
+
+.delete:hover{
+  color:grey;
+}
+
+.expand{
+  position: absolute;
+  right: 2em;
+  font-size: 1rem;
+  color: #374054;
+  margin-top: 0.5em;
+}
+
+
+.about-expand{
+  display: inline-flex;
+  color: #374054;
+  float: right;
+  font-size: 1rem;
+  margin-top: 0.5em;
+  margin-right: 1em;
+}
+
+.table{
+  margin-top: 1em;
+}
+
+.skill{
+  display: inline-flex;
+  margin: 5px;
+  border-radius: .25rem;
+  line-height: 2rem;
+  overflow: hidden;
+  padding: .2rem 1rem;
+  width: auto;
+  border-radius: .25rem;
+  text-align: center;
+  border: 0.5px solid rgb(39, 179, 45,0.1);
+  font-size: 0.8em;
+  letter-spacing: .03rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  min-width: 2rem;
+}
+
+button.deleteSkill{
+  font-size: 0.8em;
+}
+
+label{
+  font-size:0.8rem;
+ }

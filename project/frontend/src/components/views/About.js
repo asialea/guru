@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
-import {auth,editAbout} from "../../actions";
+import {work,education,aboutUser,skills,interests} from "../../actions";
 import Navbar from './Navbar';
 import '../static/About.css';
-import {forms,buttons} from 'cirrus-ui';
 import IconButton from '@material-ui/core/IconButton';
-import { FaPencilAlt} from 'react-icons/fa';
-import {Link} from 'react-router-dom';
+import {FaTimes,FaPlus} from 'react-icons/fa';
+import Skills from '../forms/Skills'
+import Interests from '../forms/Interests'
 import Experience from '../forms/Experience'
-
+import Education from '../forms/Education'
+import AboutUser from '../forms/AboutUser'
+import {getCookie} from '../forms/get_csrf.js'
 
 class About extends Component{
-  constructor() {
-    super()
-    this.state = {
-      work:{},
-    }
+
+  state ={
+    csrftoken:getCookie('csrftoken'),
   }
 
   componentDidMount(){
@@ -33,80 +33,106 @@ class About extends Component{
         }
       });
     }
-
-    let headers = {
-      'Content-Type': 'application/json',
-    };
-
-    headers["Authorization"] = `Token ${this.props.token}`;
-
-    fetch(`/api/work/`, {headers,})
-      .then(response => { return response.json();}).then(responseData => {return responseData; console.log(responseData);})
-     .then (json =>this.setState({work: json})).catch(err => {
-           console.log("fetch error" + err);
-       });
   }
 
   render(){
-    const work = [this.state.work];
     return(
-    <div>
+    <div className="body">
       <header>
         <Navbar/>
       </header>
       <div className="flex-box">
         <div id="body">
-          <div id="pro-pic"><p>Update Profile Pic</p></div>
-          <table className="table" id="about-me">
-            <caption>Personal Info<Link to="/about/update"><IconButton id="about-edit" ><FaPencilAlt/></IconButton></Link></caption>
-            <thead>
-            </thead>
-            <tbody>
-              <tr><th>Username</th><td>{this.props.user.username}</td></tr>
-              <tr><th>Email</th><td>{this.props.user.email}</td></tr>
-              <tr><th>Github</th><td>{this.props.user.github}</td></tr>
-              <tr><th>LinkedIn</th><td>{this.props.user.linkedin}</td></tr>
-              <tr><th>Twitter</th><td>{this.props.user.twitter}</td></tr>
-              <tr><th>User</th><td>{this.props.user.type}</td></tr>
-            </tbody>
-          </table>
-          <section id="bio">
-            <h1>{this.props.user.first_name} {this.props.user.last_name}</h1>
-            <p>{this.props.user.bio}t vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas as  </p>
+          <section id="aboutUser">
+            <div className="flex-box">
+              <div id="pro-pic"><p>Update Profile Pic</p></div>
+            </div>
+            <button className="table accordion btn-animated"><h2>About<FaPlus className="about-expand"/></h2></button>
+            <div className="form">
+             <AboutUser/>
+            </div>
+            <div>
+            <article id="bio">
+              <p className="desc res-item">{this.props.aboutUser && this.props.aboutUser.bio}</p>
+            </article>
+              <table className="table" id="about-me">
+                <thead>
+                </thead>
+                <tbody>
+                  <tr><th>Name</th><td>{this.props.user.first_name} {this.props.user.last_name}</td></tr>
+                  <tr><th>Location</th><td>{this.props.aboutUser.location}</td></tr>
+                  <tr><th>Email</th><td>{this.props.user.email}</td></tr>
+                  <tr><th>Github</th><td>{this.props.aboutUser.github}</td></tr>
+                  <tr><th>LinkedIn</th><td>{this.props.aboutUser.linkedin}</td></tr>
+                  <tr><th>Twitter</th><td>{this.props.aboutUser.twitter_handle}</td></tr>
+                </tbody>
+              </table>
+            </div>
           </section>
-
           <section id="resume">
             <article>
-             <button className="accordion btn-animated"><h2>Experience</h2></button>
+             <button className="accordion btn-animated"><h2>Experience<FaPlus className="expand"/></h2></button>
              <div className="form">
-             <Experience/>
+              <Experience/>
              </div>
-     //         <ul>
-     //         {rows.map((row) => {
-     //         return <ObjectRow key={row.uniqueId} />;
-     //     })}
-     // </ul>
+             <div>
+             {this.props.work.map(el => {
+                   return <div key={el.id}>
+                        <h3 className="main res-item">{el.company}, </h3><span className="res-item">{el.location} -</span>
+                        <span className="position">{el.position} </span>
+                        <IconButton className="delete" onClick={()=>this.props.deleteWork(el.id,this.state.csrftoken).then(this.props.fetchWork()).then(window.location.reload(true))} ><FaTimes/></IconButton>
+                        <p className="date res-item">{el.start}-{el.end}</p>
+                        <p className="desc res-item">{el.description}</p>
+                   </div>
+               })}
+            </div>
             </article>
 
             <article>
-              <button className="accordion btn-animated"><h2>Education</h2></button>
+              <button className="accordion btn-animated"><h2>Education<FaPlus className="expand"/></h2></button>
               <div className="form">
+                <Education/>
               </div>
-              <p></p>
+              <div>
+                {this.props.education.map(el => {
+                      return <div key={el.id}>
+                           <h3 className="main res-item">{el.school}, </h3><span className="res-item">{el.location} -</span>
+                           <span className="position">{el.degree} </span>
+                           <IconButton className="delete" onClick={()=>this.props.deleteEducation(el.id,this.state.csrftoken).then(this.props.fetchEducation()).then(window.location.reload(true))} ><FaTimes/></IconButton>
+                           <p className="date res-item">{el.start}-{el.end}</p>
+                      </div>
+                  })}
+              </div>
             </article>
 
             <article>
-              <button className="accordion btn-animated"><h2>Skills</h2></button>
+              <button className="accordion btn-animated"><h2>Skills<FaPlus className="expand"/></h2></button>
               <div className="form">
+                <Skills/>
               </div>
-              <p></p>
+              <div>
+              {this.props.skills.map(el => {
+                    return <div className="skill" key={el.id}>
+                         {el.skill} {el.level}<IconButton className="deleteSkill" onClick={()=>this.props.deleteSkill(el.id,this.state.csrftoken).then(this.props.fetchSkills()).then(window.location.reload(true))} ><FaTimes/></IconButton>
+
+                    </div>
+                })}
+              </div>
             </article>
 
             <article>
-              <button className="accordion btn-animated"><h2>Interests</h2></button>
-              <div className="panel">
+              <button className="accordion btn-animated"><h2>Interests<FaPlus className="expand"/></h2></button>
+              <div className="form">
+                <Interests/>
               </div>
-              <p></p>
+              <div>
+              {this.props.interests.map(el => {
+                    return <div className="skill" key={el.id}>
+                         {el.interest}<IconButton className="deleteSkill" onClick={()=>this.props.deleteInterest(el.id,this.state.csrftoken).then(this.props.fetchInterests()).then(window.location.reload(true))} ><FaTimes/></IconButton>
+
+                    </div>
+                })}
+              </div>
             </article>
           </section>
         </div>
@@ -116,18 +142,31 @@ class About extends Component{
     );
   }
 }
-// do this so we can have access to the global state in our component
+// do this so we can have access to the global state from the store in our component,
 const mapStateToProps = state => {
     return {
         user: state.auth.user,
         token: state.auth.token,
+        work:state.work,
+        education:state.education,
+        aboutUser:state.aboutUser.user,
+        skills:state.skills,
+        interests:state.interests
     }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    }
-    };
-
+    fetchWork: () => dispatch(work.fetchWork()),
+    deleteWork: (id) => dispatch(work.deleteWork(id)),
+    fetchEducation: () => dispatch(education.fetchEducation()),
+    deleteEducation: (id) => dispatch(education.deleteEducation(id)),
+    fetchAboutUser: () => dispatch(aboutUser.fetchAboutUser()),
+    fetchSkills: () => dispatch(skills.fetchSkills()),
+    deleteSkill: (id) => dispatch(skills.deleteSkill(id)),
+    fetchInterests: () => dispatch(interests.fetchInterests()),
+    deleteInterest: (id) => dispatch(interests.deleteInterest(id))
+  }
+}
 
 export default connect(mapStateToProps,mapDispatchToProps)(About);

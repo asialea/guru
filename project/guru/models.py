@@ -25,13 +25,15 @@ class User(AbstractUser):
     (MENTEE, 'Mentee'),)
 
     type = models.CharField(max_length=2,choices=ACCOUNT_TYPE_CHOICES,default = MENTEE,)
-    location = models.CharField(max_length=30, blank=True)
-    birth_date = models.DateField(null=True, blank=True)
-    avi_path = models.CharField(max_length=500,null = True)
-    bio = models.TextField(max_length=500, blank=True)
-    github = models.CharField(max_length=200,blank=True,null = True)
-    linkedin = models.CharField(max_length=100,null = True)
-    twitter_handle = models.CharField(max_length=15,null = True)
+
+
+class AboutUser(models.Model):
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null = False,unique = True)
+    location = models.CharField(max_length=30, blank=True,null=False,default="")
+    bio = models.TextField(max_length=500, blank=True,null = False,default="")
+    github = models.CharField(max_length=200,blank=True,null = False,default="")
+    linkedin = models.CharField(max_length=100,blank=True,null = False,default="")
+    twitter_handle = models.CharField(max_length=100,blank=True,null = False,default="")
 
 #Mentee
 class Mentee(models.Model):
@@ -67,69 +69,25 @@ class Work(models.Model):
     company = models.TextField(max_length=50, blank=False, null = False)
     location = models.CharField(max_length=30, blank=True)
     position = models.TextField(max_length=50, blank=False, null = False)
-    description = models.TextField(max_length=300, blank=True)
+    description = models.CharField(max_length=300, blank=True)
 
 #education
 class Education(models.Model):
-    FRESHMAN = 'FR'
-    SOPHOMORE = 'SO'
-    JUNIOR    = 'JR'
-    SENIOR = 'SR'
-    OTHER = 'NA'
-
-    HIGHSCHOOL = 'HS'
-    UNDERGRADUTE = 'UG'
-    GRADUATE = 'GD'
-
-    YEAR_CHOICES = (
-    (FRESHMAN, 'Freshman'),
-    (SOPHOMORE, 'SOPHOMORE'),
-    (JUNIOR, 'Junior'),
-    (SENIOR, 'Senior'),
-    (OTHER,'N/A')
-    )
-
-    LEVEL_CHOICES = (
-    (HIGHSCHOOL, 'High School'),
-    (UNDERGRADUTE, 'Undergraduate'),
-    (GRADUATE, 'Graduate School'),
-    (OTHER, 'N/A'),
-    )
-
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null = False)
     start = models.DateField()
     end = models.DateField(blank=True, null = True)
+    location = models.CharField(max_length=50, blank=True,null = True)
     school = models.TextField(max_length=50, blank=False, null = False)
-    level = models.CharField(max_length=2,choices=LEVEL_CHOICES,default = HIGHSCHOOL,)
-    year = models.CharField(max_length=2,choices=YEAR_CHOICES,default = FRESHMAN,)
-
-#interests enum
-class Interest(models.Model):
-    name = models.CharField(max_length=20, unique = True)
+    degree = models.TextField(max_length=50, blank=True, null = True)
 
 class UserInterests(models.Model):
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null = False)
-    interest = models.ForeignKey(Interest,on_delete=models.CASCADE,null = False)
-
-# skills enum
-class Skill(models.Model):
-    name = models.CharField(max_length=20, unique = True)
+    interest = models.TextField(max_length=50, blank=False, null = False)
 
 #skills
 class UserSkills(models.Model):
-    BEGINNER = 'BR'
-    INTERMEDIATE = 'IE'
-    ADVANCED = 'AD'
-
-    PROFICIENCY_CHOICES = (
-    (BEGINNER, 'Beginner'),
-    (INTERMEDIATE, 'Intermediate'),
-    (ADVANCED, 'Advanced'),
-    )
-
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null = False)
-    skill = models.ForeignKey(Skill,on_delete=models.CASCADE,null = False)
-    level = models.CharField(max_length=2,choices=PROFICIENCY_CHOICES,default = BEGINNER,)
+    skill = models.TextField(max_length=50, blank=False, null = False)
 
 #posts
 class Post(models.Model):

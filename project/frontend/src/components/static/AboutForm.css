@@ -12,7 +12,3 @@ label:last-child:not(:first-child):not(.form-group-label) {
 
     font-size: 0.85em;
 }
-
-.inputdiv{
-  margin-top: 20px;
-}

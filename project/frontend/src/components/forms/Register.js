@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import {header} from 'cirrus-ui';
 import {connect} from "react-redux";
 import {auth} from "../../actions";
+import '../static/Home.css';
+
 
 class Register extends Component {
 

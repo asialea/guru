@@ -33,8 +33,9 @@ export default function auth(state=initialState, action) {
         errors: null};
 
     case 'UPDATE_SUCCESSFUL':
-
+      break;
     case 'UPDATE_ERROR':
+      break;
     case 'LOGOUT_SUCCESSFUL':
       localStorage.removeItem("token");
       return {...state, errors: action.data, token: null, user: null,
