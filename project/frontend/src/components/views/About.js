@@ -16,6 +16,7 @@ class About extends Component{
 
   state ={
     csrftoken:getCookie('csrftoken'),
+    isLoading:true,
   }
 
   componentDidMount(){
@@ -38,9 +39,13 @@ class About extends Component{
     this.props.fetchWork();
     this.props.fetchSkills();
     this.props.fetchInterests();
+    this.setState({isLoading:false})
   }
 
   render(){
+    if(this.state.isLoading){
+      return (<div>Loading</div>)
+    }
     return(
     <div className="body">
       <header>

@@ -67,9 +67,9 @@ class Navbar extends Component{
             </IconButton>
           </div>
           <div className="nav-item text-center">
-            <IconButton onClick={this.redirectAbout}>
-              <FaIdCard className="nav-link"/>
-            </IconButton>
+            <Link to="/about"><IconButton>
+              <FaIdCard />
+            </IconButton></Link>
           </div>
           <div className="nav-item text-center">
             <IconButton onClick={this.props.logout}>

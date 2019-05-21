@@ -4,7 +4,7 @@ import {Route, Switch, BrowserRouter, Redirect} from 'react-router-dom';
 
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
-import {auth,aboutUser,education,work,skills,interests} from "../actions";
+import {auth,aboutUser} from "../actions";
 import  guruApp from "../reducers"
 import Home from "./views/Home";
 import NotFound from "./views/NotFound"
