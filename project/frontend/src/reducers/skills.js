@@ -5,6 +5,7 @@ export default function skills(state=initialState, action) {
   let skillList = state.slice();
 
   switch (action.type) {
+
     case 'FETCH_SKILLS':
       return[...state,...action.skills];
 

@@ -22,7 +22,7 @@ export const updateAboutUser = (location,github,linkedin,twitter_handle,bio,csrf
         })
     })
   }
-} 
+}
 
 
 export const fetchAboutUser = () => {

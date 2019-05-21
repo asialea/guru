@@ -46,10 +46,25 @@ export const fetchInterests = () => {
       headers["Authorization"] = `Token ${token}`;
     }
 
-    return fetch(`/api/interests/`, {headers,method:"GET"})
-    .then(res => { return res.json();})
-    .then(interests=>{return dispatch({type:'FETCH_INTERESTS',interests})
-    })
+    return fetch("api/interests/", {headers, })
+         .then(res => {
+             if (res.status < 500) {
+                 return res.json().then(data => {
+                     return {status: res.status, data};
+                 })
+             } else {
+                 console.log("Server Error!");
+                 throw res;
+             }
+         })
+         .then(res => {
+             if (res.status === 200) {
+                 return dispatch({type: 'FETCH_INTERESTS', interests: res.data});
+             } else if (res.status === 401 || res.status === 403) {
+                 dispatch({type: "AUTHENTICATION_ERROR", data: res.data});
+                 throw res.data;
+             }
+         })
   }
 }
 

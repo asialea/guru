@@ -5,6 +5,7 @@ export default function work(state=initialState, action) {
   let workList = state.slice();
 
   switch (action.type) {
+    
     case 'FETCH_WORK':
       return[...state,...action.work];
 

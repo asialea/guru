@@ -21,7 +21,7 @@ export default function aboutUser(state=initialState, action) {
 
             aboutUser.splice(0, 1, aboutToUpdate);
             return aboutUser;
-
+ 
     default:
       return state;
 

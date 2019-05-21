@@ -6,7 +6,18 @@ import aboutUser from "./aboutUser"
 import skills from "./skills"
 import interests from "./interests"
 
-const guruApp = combineReducers({auth,work,education,aboutUser,skills,interests});
+const appReducer = combineReducers({auth,work,education,aboutUser,skills,interests});
+
+const guruApp = (state, action) => {
+  // if (action.type === 'LOGOUT_SUCCESSFUL') {
+  //   state = null
+  // }
+
+  return appReducer(state, action)
+}
+
+
+// const guruApp = combineReducers({auth,work,education,aboutUser,skills,interests});
 
 export default guruApp;
 

@@ -5,6 +5,9 @@ export default function interests(state=initialState, action) {
   let interestList = state.slice();
 
   switch (action.type) {
+    case 'LOGOUT_SUCCESSFUL':
+      return initialState;
+
     case 'FETCH_INTERESTS':
       return[...state,...action.interests];
 

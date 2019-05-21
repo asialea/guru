@@ -5,8 +5,9 @@ export default function education(state=initialState, action) {
   let educationList = state.slice();
 
   switch (action.type) {
+
     case 'FETCH_EDUCATION':
-      return[...state,...action.edu];
+      return[...state,...action.education];
 
     case 'ADD_EDUCATION':
       return[...state, action.edu_obj];
