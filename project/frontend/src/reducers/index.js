@@ -9,9 +9,6 @@ import interests from "./interests"
 const appReducer = combineReducers({auth,work,education,aboutUser,skills,interests});
 
 const guruApp = (state, action) => {
-  // if (action.type === 'LOGOUT_SUCCESSFUL') {
-  //   state = null
-  // }
 
   return appReducer(state, action)
 }

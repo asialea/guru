@@ -9,6 +9,11 @@ class AboutView extends Component{
     super()
     this.state = {
       user:{},
+      aboutUser:{},
+      work:[],
+      education:[],
+      skills:[],
+      interests:[]
     }
   }
 

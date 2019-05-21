@@ -18,10 +18,6 @@ class RootContainerComponent extends Component {
   componentDidMount() {
     this.props.loadUser();
     this.props.fetchAboutUser();
-    this.props.fetchEducation();
-    this.props.fetchWork();
-    this.props.fetchSkills();
-    this.props.fetchInterests();
     localStorage.setItem('isAuthenticated','true');
   }
 
@@ -67,10 +63,6 @@ const mapDispatchToProps = dispatch => {
   return {
     loadUser: () => dispatch(auth.loadUser()),
     fetchAboutUser: () => dispatch(aboutUser.fetchAboutUser()),
-    fetchEducation: () =>dispatch(education.fetchEducation()),
-    fetchWork:() =>dispatch(work.fetchWork()),
-    fetchSkills:() =>dispatch(skills.fetchSkills()),
-    fetchInterests: () => dispatch(interests.fetchInterests()),
   }
 }
 

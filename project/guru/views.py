@@ -204,9 +204,79 @@ class EducationView(generics.GenericAPIView):
         edu = Education.objects.filter(id=edu_id).delete()
         return Response({"success":("Successfully deleted.")})
 
-class ProfileView(generics.RetrieveAPIView):
-    serializer_class = UserSerializer
+# READ ONLY VIEWS
+class ReadInterestsView(generics.RetrieveAPIView):
+    serializer_class = UserInterestsSerializer
+    queryset = UserInterests.objects.all()
+    def get(self, request, username):
+        try:
+            username = str(self.kwargs['username'])
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return Response(None)
 
+        interests = UserInterests.objects.filter(user_id=user.id).all()
+        serializer = UserInterestsSerializer(interests,many=True)
+        return Response(serializer.data)
+
+class ReadSkillsView(generics.RetrieveAPIView):
+    serializer_class = UserSkillsSerializer
+    queryset = UserSkills.objects.all()
+    def get(self, request, username):
+        try:
+            username = str(self.kwargs['username'])
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return Response(None)
+
+        skills = UserSkills.objects.filter(user_id=user.id).all()
+        serializer = UserSkillsSerializer(skills,many=True)
+        return Response(serializer.data)
+
+
+class ReadWorkView(generics.RetrieveAPIView):
+    serializer_class = WorkSerializer
+    queryset = Work.objects.all()
+    def get(self, request, username):
+        try:
+            username = str(self.kwargs['username'])
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return Response(None)
+
+        work = Work.objects.filter(user_id=user.id).all().order_by('end').reverse()
+        serializer = WorkSerializer(work,many=True)
+        return Response(serializer.data)
+
+
+class ReadEducationView(generics.RetrieveAPIView):
+    serializer_class = EducationSerializer
+    queryset = Education.objects.all()
+    def get(self, request, username):
+        try:
+            username = str(self.kwargs['username'])
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return Response(None)
+
+        edu = Education.objects.filter(user_id=user.id).all().order_by('end').reverse()
+        serializer = EducationSerializer(edu,many=True)
+        return Response(serializer.data)
+
+class ReadAboutUserView(generics.RetrieveAPIView):
+    serializer_class = AboutUserSerializer
+    def get_object(self):
+        try:
+            username = str(self.kwargs['username'])
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return None
+        about_user = AboutUser.objects.get(user_id=user.id)
+
+        return about_user
+
+class ReadUserView(generics.RetrieveAPIView):
+    serializer_class = UserSerializer
     def get_object(self):
         try:
             username = str(self.kwargs['username'])

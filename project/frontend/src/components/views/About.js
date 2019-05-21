@@ -33,6 +33,11 @@ class About extends Component{
         }
       });
     }
+
+    this.props.fetchEducation();
+    this.props.fetchWork();
+    this.props.fetchSkills();
+    this.props.fetchInterests();
   }
 
   render(){
