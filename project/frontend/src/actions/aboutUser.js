@@ -1,9 +1,9 @@
 
-export const updateAboutUser = (location,github,linkedin,twitter_handle,bio,csrftoken) => {
+export const updateAboutUser = (location,github,linkedin,twitter_handle,bio,avi_path,csrftoken) => {
   return(dispatch,getState) => {
     dispatch({type: 'USER_LOADING'});
     const token = getState().auth.token;
-    let body = JSON.stringify({location,github,linkedin,twitter_handle,bio});
+    let body = JSON.stringify({location,github,linkedin,twitter_handle,bio,avi_path});
     let headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',

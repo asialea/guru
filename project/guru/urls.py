@@ -19,6 +19,7 @@ urlpatterns = [
     url('^api/education/$',views.EducationView.as_view()),
     url('^api/education/(?P<id>\d+)', views.EducationView.as_view()),
     url('^api/aboutUser/$', views.AboutUserView.as_view()),
+    url('^api/avi/(?P<id>\d+)', views.AviView.as_view()),
     url('^api/skills/$',views.UserSkillsView.as_view()),
     url('^api/skills/(?P<id>\d+)', views.UserSkillsView.as_view()),
     url('^api/interests/$',views.UserInterestsView.as_view()),

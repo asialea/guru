@@ -10,6 +10,16 @@ from django.contrib.auth import authenticate, login, logout
 import json
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+cloudinary.config(
+  cloud_name = "guruapp",
+  api_key = "328295839766139",
+  api_secret = "fw8b85Ig7I0e2bOslPzvRjjaCHM"
+)
+
 
 class UserViewSet(generics.ListCreateAPIView):
     """
@@ -98,7 +108,7 @@ class UpdateUserView(generics.UpdateAPIView):
 
         return Response({"user": user })
 
-class AboutUserView(generics.GenericAPIView):
+class AboutUserView(generics.UpdateAPIView):
     permission_classes = [permissions.IsAuthenticated, ]
     serializer_class = AboutUserSerializer
 
@@ -115,6 +125,23 @@ class AboutUserView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         aboutUser = serializer.save()
         return Response({"aboutUser": aboutUser })
+
+class AviView(generics.UpdateAPIView):
+    serializer_class = AviSerializer
+
+    def get(self,request, **kwargs):
+        avi = Avi.objects.get(user_id=int(self.kwargs['id']))
+        serializer = AviSerializer(avi)
+        print(serializer.data)
+        return Response(serializer.data)
+
+    def post(self,request, **kwargs):
+        result = cloudinary.uploader.destroy(str(self.request.data['user_id']))
+        return Response({"response":("result")})
+
+    def put(self, request, *args, **kwargs):
+        avi = Avi.objects.filter(user_id=int(self.request.data['user_id'])).update(avi_path = self.request.data['avi_path'],)
+        return Response({"success":("Successfully submitted.")})
 
 class WorkView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated, ]

@@ -12,55 +12,62 @@ class AboutView extends Component{
       work:[],
       education:[],
       skills:[],
-      interests:[]
+      interests:[],
+      avi:{}
     }
   }
 
-componentDidMount(){
+componentWillMount(){
 
 
  fetch(`/api/user/${this.props.match.params.username}/`)
    .then(response => { return response.json();}).then(responseData => {return responseData;})
-  .then (json =>this.setState({user: json})).catch(err => {
+  .then (json =>{this.setState({user: json});return json;}).then(user=> fetch(`/api/avi/${user.id}/`)
+      .then(response => { return response.json();}).then(responseData => {return responseData;})
+     .then(json =>this.setState({avi: json})).catch(err => {
+           console.log("fetch error" + err);
+       })).catch(err => {
         console.log("fetch error" + err);
     });
 
 fetch(`/api/aboutUser/${this.props.match.params.username}/`)
-  .then(response => { return response.json();}).then(responseData => {return responseData; console.log(responseData);})
+  .then(response => { return response.json();}).then(responseData => {return responseData; })
  .then (json =>this.setState({aboutUser: json})).catch(err => {
        console.log("fetch error" + err);
-   });
+   })
 
  fetch(`/api/user-work/${this.props.match.params.username}/`)
-   .then(response => { return response.json();}).then(responseData => {return responseData; console.log(responseData);})
+   .then(response => { return response.json();}).then(responseData => {return responseData; })
   .then (json =>this.setState({work: json})).catch(err => {
         console.log("fetch error" + err);
     });
 
 fetch(`/api/user-edu/${this.props.match.params.username}/`)
-  .then(response => { return response.json();}).then(responseData => {return responseData; console.log(responseData);})
+  .then(response => { return response.json();}).then(responseData => {return responseData;})
  .then (json =>this.setState({education: json})).catch(err => {
        console.log("fetch error" + err);
    });
 
 fetch(`/api/user-skills/${this.props.match.params.username}/`)
- .then(response => { return response.json();}).then(responseData => {return responseData; console.log(responseData);})
+ .then(response => { return response.json();}).then(responseData => {return responseData;})
 .then (json =>this.setState({skills: json})).catch(err => {
       console.log("fetch error" + err);
   });
 
   fetch(`/api/user-interests/${this.props.match.params.username}/`)
-   .then(response => { return response.json();}).then(responseData => {return responseData; console.log(responseData);})
+   .then(response => { return response.json();}).then(responseData => {return responseData;})
   .then (json =>this.setState({interests: json})).catch(err => {
         console.log("fetch error" + err);
     });
 
-
   }
 
+
   render(){
+
+    var proPic = {  backgroundImage:'url(' + this.state.avi.avi_path + ')'};
+
     return(
-      console.log(this.state.user),
     <div className="body">
       <header>
         <Navbar/>
@@ -69,7 +76,7 @@ fetch(`/api/user-skills/${this.props.match.params.username}/`)
         <div id="body">
           <section id="aboutUser">
             <div className="flex-box">
-              <div id="pro-pic"><p>Update Profile Pic</p></div>
+              <div id="pro-pic-user"  style={proPic}></div>
             </div>
             <button className="table accordion btn-animated"><h2>About</h2></button>
             <div>

@@ -16,36 +16,47 @@ class About extends Component{
 
   state ={
     csrftoken:getCookie('csrftoken'),
-    isLoading:true,
+    avi:{}
   }
 
-  componentDidMount(){
-    var acc = document.getElementsByClassName("accordion");
-    var i;
 
-    for (i = 0; i < acc.length; i++) {
-      acc[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        var panel = this.nextElementSibling;
-        if (panel.style.display === "block") {
-          panel.style.display = "none";
-        } else {
-          panel.style.display = "block";
-        }
-      });
-    }
+
+  componentDidMount(){
 
     this.props.fetchEducation();
     this.props.fetchWork();
     this.props.fetchSkills();
     this.props.fetchInterests();
-    this.setState({isLoading:false})
+
+
+    fetch(`/api/avi/${this.props.aboutUser.user_id}/`)
+      .then(response => { return response.json();}).then(responseData => {return responseData;})
+     .then (json =>this.setState({avi: json})).catch(err => {
+           console.log("fetch error" + err);
+       });
+
+       var acc = document.getElementsByClassName("accordion");
+       var i;
+
+       for (i = 0; i < acc.length; i++) {
+         acc[i].addEventListener("click", function() {
+           this.classList.toggle("active");
+           var panel = this.nextElementSibling;
+           if (panel.style.display === "block") {
+             panel.style.display = "none";
+           } else {
+             panel.style.display = "block";
+           }
+         });
+       }
+
   }
 
   render(){
-    if(this.state.isLoading){
-      return (<div>Loading</div>)
-    }
+
+
+    var proPic = {  backgroundImage:'url(' + this.state.avi.avi_path + ')'};
+
     return(
     <div className="body">
       <header>
@@ -55,7 +66,7 @@ class About extends Component{
         <div id="body">
           <section id="aboutUser">
             <div className="flex-box">
-              <div id="pro-pic"><p>Update Profile Pic</p></div>
+              <div id="pro-pic" style={proPic}></div>
             </div>
             <button className="table accordion btn-animated"><h2>About<FaPlus className="about-expand"/></h2></button>
             <div className="form">
@@ -148,7 +159,10 @@ class About extends Component{
         </div>
       </div>
       <div>{this.props.children}</div>
+
     </div>
+
+
     );
   }
 }

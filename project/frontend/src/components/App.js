@@ -10,6 +10,9 @@ import Home from "./views/Home";
 import NotFound from "./views/NotFound"
 import About from "./views/About"
 import AboutView from "./views/AboutView"
+import Connect from "./views/Connect"
+
+
 
 let store = createStore(guruApp, applyMiddleware(thunk));
 
@@ -44,6 +47,7 @@ class RootContainerComponent extends Component {
           <Route exact path="/" component={Home} />
           <PrivateRoute exact path="/about" component={About}/>
           <PrivateRoute path="/about/:username" component={AboutView} />
+          <PrivateRoute path="/connect" component={Connect} />
           <Route component={NotFound} />
          </Switch>
       </BrowserRouter>

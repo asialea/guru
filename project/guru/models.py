@@ -27,6 +27,7 @@ class User(AbstractUser):
     type = models.CharField(max_length=2,choices=ACCOUNT_TYPE_CHOICES,default = MENTEE,)
 
 
+
 class AboutUser(models.Model):
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null = False,unique = True)
     location = models.CharField(max_length=30, blank=True,null=False,default="")
@@ -34,6 +35,11 @@ class AboutUser(models.Model):
     github = models.CharField(max_length=200,blank=True,null = False,default="")
     linkedin = models.CharField(max_length=100,blank=True,null = False,default="")
     twitter_handle = models.CharField(max_length=100,blank=True,null = False,default="")
+
+class Avi(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,unique = True)
+    avi_path = models.CharField(max_length=150,blank=True,null = False,default="")
+
 
 #Mentee
 class Mentee(models.Model):

@@ -16,29 +16,16 @@
 }
 
 
-#pro-pic{
+#pro-pic,#pro-pic-user{
   width: 250px;
   height:250px;
-  background-image: url("/../static/asia-resume.jpg");
   border-radius: 50%;
   background-position: center center;
   background-size: cover;
   border:0.5px solid #dee4ed;
 }
 
-#pro-pic p {
-  visibility: hidden;
-}
 
-#pro-pic:hover p {
-  visibility: visible;
-  font-weight: bold;
-  color:black;
-}
-
-#pro-pic:hover {
-  opacity: 0.3;
-}
 
 caption {
     color:#363636;

@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from .models import User, Work, Education, AboutUser, UserSkills, UserInterests
+from .models import User, Work, Education, AboutUser, UserSkills, UserInterests,Avi
 from django.contrib.auth import authenticate
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -35,8 +36,13 @@ class AboutUserSerializer(serializers.ModelSerializer):
     def update(self,instance,validated_data):
         about_user = AboutUser.objects.filter(user_id=instance.id).update(location=validated_data['location'],
         bio=validated_data['bio'],github=validated_data['github'],linkedin = validated_data['linkedin'],
-        twitter_handle=validated_data['twitter_handle'],)
+        twitter_handle=validated_data['twitter_handle'])
         return about_user
+
+class AviSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Avi
+        fields = ('user_id','avi_path',)
 
 class WorkSerializer(serializers.ModelSerializer):
     class Meta:

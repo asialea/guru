@@ -8,15 +8,6 @@ import IconButton from '@material-ui/core/IconButton';
 import {Redirect} from 'react-router-dom';
 
 class Navbar extends Component{
-//
-//   handleLogout = e => {
-//     console.log("logout");
-//     this.props.logout();
-//     return <Redirect to="/" />;
-// }
-// <Link to="/about"><IconButton>
-//   <FaIdCard />
-// </IconButton></Link>
 
   redirectAbout = e =>{
     return <Redirect to="/about" />;
@@ -62,9 +53,9 @@ class Navbar extends Component{
             </IconButton>
           </div>
           <div className="nav-item text-center">
-            <IconButton>
+              <Link to="/connect"><IconButton>
               <FaUsers className="nav-link"/>
-            </IconButton>
+            </IconButton></Link>
           </div>
           <div className="nav-item text-center">
             <Link to="/about"><IconButton>
@@ -72,9 +63,9 @@ class Navbar extends Component{
             </IconButton></Link>
           </div>
           <div className="nav-item text-center">
-            <IconButton onClick={this.props.logout}>
+            <Link to="/"><IconButton onClick={this.props.logout}>
               <FaSignOutAlt className="nav-link"/>
-            </IconButton>
+            </IconButton></Link>
           </div>
 
         </div>
