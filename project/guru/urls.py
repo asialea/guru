@@ -6,8 +6,11 @@ from django.urls import include
 
 app_name = 'guru'
 urlpatterns = [
-    # Authentication
+    #viewsets
     url('^api/users/$', views.UserViewSet.as_view() ),
+    url('^api/aboutUsers/$', views.AboutUserViewSet.as_view() ),
+    url('^api/avis/$', views.AviViewSet.as_view()),
+    # Authentication
     url('^auth/register/$', views.RegistrationView.as_view()),
     url('^auth/login/$', views.LoginView.as_view()),
     url('^auth/user/$', views.UserView.as_view()),

@@ -30,11 +30,11 @@ class User(AbstractUser):
 
 class AboutUser(models.Model):
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null = False,unique = True)
-    location = models.CharField(max_length=30, blank=True,null=False,default="")
-    bio = models.TextField(max_length=500, blank=True,null = False,default="")
-    github = models.CharField(max_length=200,blank=True,null = False,default="")
-    linkedin = models.CharField(max_length=100,blank=True,null = False,default="")
-    twitter_handle = models.CharField(max_length=100,blank=True,null = False,default="")
+    location = models.CharField(max_length=30, blank=True,null=True,default="")
+    bio = models.TextField(max_length=500, blank=True,null = True,default="")
+    github = models.CharField(max_length=200,blank=True,null = True,default="")
+    linkedin = models.CharField(max_length=100,blank=True,null = True,default="")
+    twitter_handle = models.CharField(max_length=100,blank=True,null = True,default="")
 
 class Avi(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,unique = True)

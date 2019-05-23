@@ -22,11 +22,16 @@ cloudinary.config(
 
 
 class UserViewSet(generics.ListCreateAPIView):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = User.objects.all()
+    queryset = User.objects.all().order_by('id')
     serializer_class = UserSerializer
+
+class AboutUserViewSet(generics.ListCreateAPIView):
+    queryset = AboutUser.objects.all().order_by('user_id')
+    serializer_class = AboutUserSerializer
+
+class AviViewSet(generics.ListCreateAPIView):
+    queryset = Avi.objects.all().order_by('user_id')
+    serializer_class = AviSerializer
 
 class RegistrationView(generics.GenericAPIView):
     serializer_class = CreateUserSerializer
@@ -36,8 +41,11 @@ class RegistrationView(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
+        print(user)
         aboutUser = AboutUser.objects.create(user_id=user)
         aboutUser.save()
+        avi = Avi.objects.create(user_id=user.id, avi_path='https://res.cloudinary.com/guruapp/image/upload/c_scale,h_287,w_249/v1558568880/profile-blank_dzejyo.png')
+        avi.save()
         return Response({
             "user": UserSerializer(user, context=self.get_serializer_context()).data,
             "token":Token.objects.get_or_create(user= user)[0].key,
@@ -113,7 +121,11 @@ class AboutUserView(generics.UpdateAPIView):
     serializer_class = AboutUserSerializer
 
     def get(self,request):
-        aboutUser = AboutUser.objects.get(user_id=self.request.user.id)
+        try:
+            aboutUser = AboutUser.objects.get(user_id=self.request.user.id)
+        except AboutUser.DoesNotExist:
+            return Response(None)
+
         serializer = AboutUserSerializer(aboutUser)
         return Response(serializer.data)
 
@@ -132,7 +144,6 @@ class AviView(generics.UpdateAPIView):
     def get(self,request, **kwargs):
         avi = Avi.objects.get(user_id=int(self.kwargs['id']))
         serializer = AviSerializer(avi)
-        print(serializer.data)
         return Response(serializer.data)
 
     def post(self,request, **kwargs):

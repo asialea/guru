@@ -1,4 +1,4 @@
-#body{
+.about-body{
   display: grid;
   grid-template-columns: 1fr 2fr;
   grid-template-rows: repeat(5,20%);
@@ -86,7 +86,13 @@ form{
   margin-bottom: 10px;
   border:0.5px solid rgb(22, 114, 26);
   border:1px solid transparent;
-  background-color:rgb(17, 300, 20,0.1);
+  background-color:rgb(17, 300, 20,0.2);
+  transition: none;
+}
+
+.accordion:hover{
+  background-color:rgb(17, 300, 20,0.4);
+
 }
 
 .form{

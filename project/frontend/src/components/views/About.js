@@ -16,19 +16,21 @@ class About extends Component{
 
   state ={
     csrftoken:getCookie('csrftoken'),
-    avi:{}
+    avi:{},
+    education:null
   }
 
 
 
-  componentDidMount(){
+  componentWillMount(){
 
     this.props.fetchEducation();
     this.props.fetchWork();
     this.props.fetchSkills();
     this.props.fetchInterests();
+}
 
-
+  componentDidMount(){
     fetch(`/api/avi/${this.props.aboutUser.user_id}/`)
       .then(response => { return response.json();}).then(responseData => {return responseData;})
      .then (json =>this.setState({avi: json})).catch(err => {
@@ -54,16 +56,14 @@ class About extends Component{
 
   render(){
 
-
     var proPic = {  backgroundImage:'url(' + this.state.avi.avi_path + ')'};
-
     return(
     <div className="body">
       <header>
         <Navbar/>
       </header>
       <div className="flex-box">
-        <div id="body">
+        <div className="about-body">
           <section id="aboutUser">
             <div className="flex-box">
               <div id="pro-pic" style={proPic}></div>

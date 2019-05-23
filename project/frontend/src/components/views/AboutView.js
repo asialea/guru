@@ -73,7 +73,7 @@ fetch(`/api/user-skills/${this.props.match.params.username}/`)
         <Navbar/>
       </header>
       <div className="flex-box">
-        <div id="body">
+        <div className="about-body">
           <section id="aboutUser">
             <div className="flex-box">
               <div id="pro-pic-user"  style={proPic}></div>

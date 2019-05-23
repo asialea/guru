@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
-import {aboutUser,auth} from "../../actions";
+import {aboutUser} from "../../actions";
 import '../static/AboutForm.css';
 import {getCookie} from './get_csrf.js'
 
@@ -15,6 +15,7 @@ class AboutUser extends Component {
   }
 
   uploadWidget() {
+    //delete existing profile pic from cloud storage
     var delete_data={'user_id':this.props.aboutUser.user_id}
     fetch(`/api/avi/${this.props.aboutUser.user_id}/`,{method:'POST',body: JSON.stringify(delete_data),headers: {"Content-Type": "application/json",'X-CSRFToken':getCookie('csrftoken')},
     credentials: "same-origin"})
@@ -24,9 +25,9 @@ class AboutUser extends Component {
        });
 
     window.cloudinary.openUploadWidget({ cloud_name: 'guruapp', upload_preset: 'pro_pic', api_key:'328295839766139',
-       unsigned: true, public_id:this.props.aboutUser.user_id,return_delete_token:true,},
+       unsigned: true, public_id:this.props.aboutUser.user_id,return_delete_token:true,cropping:true,croppingAspectRatio:0.5,},
             function(error, result) {
-              console.log(result)
+            if(result){
               var data={'avi_path':result[0].url,'user_id':result[0].public_id,};
               fetch(`/api/avi/${result[0].public_id}`, {method: "PUT",body: JSON.stringify(data),
                     headers: {"Content-Type": "application/json",'X-CSRFToken':getCookie('csrftoken')},
@@ -35,6 +36,7 @@ class AboutUser extends Component {
                     return response.text()
                     }, function(error) {
                 })
+              }
             });
     }
 
@@ -59,6 +61,9 @@ class AboutUser extends Component {
   render () {
       return (
 <div>
+<button onClick={this.uploadWidget.bind(this)} className="submit">Pro Pic</button>
+
+
         <form onSubmit={this.aboutSubmit}>
          <div className="form-group">
           <input className="input-small" onChange={e => this.setState({github: e.target.value})} placeholder="Github" type="text"/>
@@ -70,11 +75,6 @@ class AboutUser extends Component {
          <textarea onChange={e => this.setState({bio: e.target.value})} maxLength="500" placeholder="Bio"></textarea>
          <button className = "submit">Submit</button>
         </form>
-
-
-        <button onClick={this.uploadWidget.bind(this)} className="upload-button">
-            Add Image
-        </button>
 
 </div>
       );
