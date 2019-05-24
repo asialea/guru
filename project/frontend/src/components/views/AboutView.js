@@ -18,8 +18,6 @@ class AboutView extends Component{
   }
 
 componentWillMount(){
-
-
  fetch(`/api/user/${this.props.match.params.username}/`)
    .then(response => { return response.json();}).then(responseData => {return responseData;})
   .then (json =>{this.setState({user: json});return json;}).then(user=> fetch(`/api/avi/${user.id}/`)
@@ -62,11 +60,8 @@ fetch(`/api/user-skills/${this.props.match.params.username}/`)
 
   }
 
-
   render(){
-
     var proPic = {  backgroundImage:'url(' + this.state.avi.avi_path + ')'};
-
     return(
     <div className="body">
       <header>
@@ -78,7 +73,7 @@ fetch(`/api/user-skills/${this.props.match.params.username}/`)
             <div className="flex-box">
               <div id="pro-pic-user"  style={proPic}></div>
             </div>
-            <button className="table accordion btn-animated"><h2>About</h2></button>
+            <div className="table accordion btn-animated"><h2>About</h2></div>
             <div>
             <article id="bio">
               <p className="desc res-item">{this.state.aboutUser.bio}</p>
@@ -99,7 +94,7 @@ fetch(`/api/user-skills/${this.props.match.params.username}/`)
           </section>
           <section id="resume">
             <article>
-             <button className="accordion btn-animated"><h2>Experience</h2></button>
+             <div className="accordion btn-animated"><h2>Experience</h2></div>
              <div>
              {this.state.work.map(el => {
                    return <div key={el.id}>
@@ -113,7 +108,7 @@ fetch(`/api/user-skills/${this.props.match.params.username}/`)
             </article>
 
             <article>
-              <button className="accordion btn-animated"><h2>Education</h2></button>
+              <div className="accordion btn-animated"><h2>Education</h2></div>
               <div>
                 {this.state.education.map(el => {
                       return <div key={el.id}>
@@ -126,7 +121,7 @@ fetch(`/api/user-skills/${this.props.match.params.username}/`)
             </article>
 
             <article>
-              <button className="accordion btn-animated"><h2>Skills</h2></button>
+              <div className="accordion btn-animated"><h2>Skills</h2></div>
               <div>
               {this.state.skills.map(el => {
                     return <div className="skill" key={el.id}>
@@ -138,7 +133,7 @@ fetch(`/api/user-skills/${this.props.match.params.username}/`)
             </article>
 
             <article>
-              <button className="accordion btn-animated"><h2>Interests</h2></button>
+              <div className="accordion btn-animated"><h2>Interests</h2></div>
               <div>
               {this.state.interests.map(el => {
                     return <div className="skill" key={el.id}>

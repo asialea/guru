@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Navbar from './Navbar';
 import '../static/Connect.css';
 import {Link} from 'react-router-dom';
+import {connect} from "react-redux";
 
 class Connect extends Component{
 
@@ -32,7 +33,6 @@ class Connect extends Component{
   }
 
   render(){
-     const { users,aboutUsers, avis } = this.state;
     if(this.state.avis===null || this.state.aboutUser===null){
       return<div>Loading</div>
     }
@@ -46,13 +46,13 @@ class Connect extends Component{
 
       <div className="connect-body">
         {
-
-          users.map((el,idx) => {
+          this.state.users.map((el,idx) => {
+            if(el.id!==this.props.user.id){
               return <div className="user-icon" key={el.id}>
-                   <img alt="profile-pic"  className="pro-pic"src={avis[idx].avi_path}/>
+                   <img alt="profile-pic"  className="pro-pic"src={this.state.avis[idx].avi_path}/>
                      <Link to={"/about/"+el.username}><h3 className="username main res-item">@{el.username}</h3></Link>
                    <p className="desc res-item">{el.type}</p>
-                     </div>
+                     </div>}
           })}
 
       </div>
@@ -63,4 +63,12 @@ class Connect extends Component{
   }
 }
 
-export default (Connect);
+
+const mapStateToProps = state => {
+    return {
+        user: state.auth.user,
+    }
+}
+
+
+export default connect(mapStateToProps)(Connect);

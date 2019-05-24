@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
-import {work,education,aboutUser,skills,interests} from "../../actions";
+import {aboutUser,} from "../../actions";
 import Navbar from './Navbar';
 import '../static/About.css';
-import IconButton from '@material-ui/core/IconButton';
-import {FaTimes,FaPlus} from 'react-icons/fa';
+import {FaPlus} from 'react-icons/fa';
 import Skills from '../forms/Skills'
 import Interests from '../forms/Interests'
 import Experience from '../forms/Experience'
@@ -16,27 +15,22 @@ class About extends Component{
 
   state ={
     csrftoken:getCookie('csrftoken'),
-    avi:{},
-    education:null
+    avi:"",
+    education:[],
+    skills:[],
+    interests:[],
   }
 
-
-
   componentWillMount(){
-
-    this.props.fetchEducation();
-    this.props.fetchWork();
-    this.props.fetchSkills();
-    this.props.fetchInterests();
-}
-
-  componentDidMount(){
     fetch(`/api/avi/${this.props.aboutUser.user_id}/`)
       .then(response => { return response.json();}).then(responseData => {return responseData;})
      .then (json =>this.setState({avi: json})).catch(err => {
            console.log("fetch error" + err);
        });
 
+  }
+
+  componentDidMount(){
        var acc = document.getElementsByClassName("accordion");
        var i;
 
@@ -51,11 +45,9 @@ class About extends Component{
            }
          });
        }
-
   }
 
   render(){
-
     var proPic = {  backgroundImage:'url(' + this.state.avi.avi_path + ')'};
     return(
     <div className="body">
@@ -92,104 +84,41 @@ class About extends Component{
           </section>
           <section id="resume">
             <article>
-             <button className="accordion btn-animated"><h2>Experience<FaPlus className="expand"/></h2></button>
-             <div className="form">
               <Experience/>
-             </div>
-             <div>
-             {this.props.work.map(el => {
-                   return <div key={el.id}>
-                        <h3 className="main res-item">{el.company}, </h3><span className="res-item">{el.location} -</span>
-                        <span className="position">{el.position} </span>
-                        <IconButton className="delete" onClick={()=>this.props.deleteWork(el.id,this.state.csrftoken).then(this.props.fetchWork()).then(window.location.reload(true))} ><FaTimes/></IconButton>
-                        <p className="date res-item">{el.start}-{el.end}</p>
-                        <p className="desc res-item">{el.description}</p>
-                   </div>
-               })}
-            </div>
             </article>
 
             <article>
-              <button className="accordion btn-animated"><h2>Education<FaPlus className="expand"/></h2></button>
-              <div className="form">
                 <Education/>
-              </div>
-              <div>
-                {this.props.education.map(el => {
-                      return <div key={el.id}>
-                           <h3 className="main res-item">{el.school}, </h3><span className="res-item">{el.location} -</span>
-                           <span className="position">{el.degree} </span>
-                           <IconButton className="delete" onClick={()=>this.props.deleteEducation(el.id,this.state.csrftoken).then(this.props.fetchEducation()).then(window.location.reload(true))} ><FaTimes/></IconButton>
-                           <p className="date res-item">{el.start}-{el.end}</p>
-                      </div>
-                  })}
-              </div>
             </article>
 
             <article>
-              <button className="accordion btn-animated"><h2>Skills<FaPlus className="expand"/></h2></button>
-              <div className="form">
                 <Skills/>
-              </div>
-              <div>
-              {this.props.skills.map(el => {
-                    return <div className="skill" key={el.id}>
-                         {el.skill} {el.level}<IconButton className="deleteSkill" onClick={()=>this.props.deleteSkill(el.id,this.state.csrftoken).then(this.props.fetchSkills()).then(window.location.reload(true))} ><FaTimes/></IconButton>
-
-                    </div>
-                })}
-              </div>
             </article>
 
             <article>
-              <button className="accordion btn-animated"><h2>Interests<FaPlus className="expand"/></h2></button>
-              <div className="form">
-                <Interests/>
-              </div>
-              <div>
-              {this.props.interests.map(el => {
-                    return <div className="skill" key={el.id}>
-                         {el.interest}<IconButton className="deleteSkill" onClick={()=>this.props.deleteInterest(el.id,this.state.csrftoken).then(this.props.fetchInterests()).then(window.location.reload(true))} ><FaTimes/></IconButton>
-
-                    </div>
-                })}
-              </div>
+              <Interests/>
             </article>
           </section>
         </div>
       </div>
       <div>{this.props.children}</div>
-
     </div>
 
 
     );
   }
 }
-// do this so we can have access to the global state from the store in our component,
 const mapStateToProps = state => {
     return {
         user: state.auth.user,
         token: state.auth.token,
-        work:state.work,
-        education:state.education,
-        aboutUser:state.aboutUser.user,
-        skills:state.skills,
-        interests:state.interests
+        aboutUser: state.aboutUser.user,
     }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchWork: () => dispatch(work.fetchWork()),
-    deleteWork: (id) => dispatch(work.deleteWork(id)),
-    fetchEducation: () => dispatch(education.fetchEducation()),
-    deleteEducation: (id) => dispatch(education.deleteEducation(id)),
     fetchAboutUser: () => dispatch(aboutUser.fetchAboutUser()),
-    fetchSkills: () => dispatch(skills.fetchSkills()),
-    deleteSkill: (id) => dispatch(skills.deleteSkill(id)),
-    fetchInterests: () => dispatch(interests.fetchInterests()),
-    deleteInterest: (id) => dispatch(interests.deleteInterest(id))
   }
 }
 

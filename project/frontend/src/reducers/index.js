@@ -6,7 +6,7 @@ import aboutUser from "./aboutUser"
 import skills from "./skills"
 import interests from "./interests"
 
-const appReducer = combineReducers({auth,work,education,aboutUser,skills,interests});
+const appReducer = combineReducers({auth,aboutUser});
 
 const guruApp = (state, action) => {
 
@@ -19,3 +19,5 @@ const guruApp = (state, action) => {
 export default guruApp;
 
 //combines reduces into a single state and feeds it to the store
+// THE EXISITING REDUCERS ARE MOST LIKELY UNECESSARY AND CAN DELETE, ALSO CAN DELETE THE UNUSED URLS FOR ANYTHINH
+//THAT IS NOT ABOUT USER OR USER

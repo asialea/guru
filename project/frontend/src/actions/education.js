@@ -26,7 +26,7 @@ export const addEducation= (user_id,start,end,school,location,degree,csrftoken) 
           })
           .then(res => {
               if (res.status === 201) {
-                  return dispatch({type: 'ADD_EDUCATION', note: res.data});
+                  return dispatch({type: 'ADD_EDUCATION', edu_obj: res.data});
               } else if (res.status === 401 || res.status === 403) {
                   dispatch({type: "AUTHENTICATION_ERROR", data: res.data});
                   throw res.data;
