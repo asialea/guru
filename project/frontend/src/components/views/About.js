@@ -27,8 +27,7 @@ class About extends Component{
      .then (json =>this.setState({avi: json})).catch(err => {
            console.log("fetch error" + err);
        });
-
-  }
+                      }
 
   componentDidMount(){
        var acc = document.getElementsByClassName("accordion");
@@ -103,8 +102,6 @@ class About extends Component{
       </div>
       <div>{this.props.children}</div>
     </div>
-
-
     );
   }
 }

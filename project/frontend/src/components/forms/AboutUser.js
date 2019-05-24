@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
-import {aboutUser} from "../../actions";
+import {aboutUser} from '../../actions'
 import '../static/AboutForm.css';
-import {getCookie} from './get_csrf.js'
 import {headers,csrftoken,uploadConfig} from './global.js'
 
 
@@ -24,7 +23,7 @@ class AboutUser extends Component {
       .then(response => { return response.json();}).then (json =>this.setState({avi: json}))
       .catch(err => {console.log("fetch error" + err);
        });
-
+    // set new profile pic
     uploadConfig['public_id']=this.props.aboutUser.user_id;
     window.cloudinary.openUploadWidget(uploadConfig,function(error, result) {
             if(result){
@@ -33,7 +32,7 @@ class AboutUser extends Component {
                 .then(function(response) {
                       return response.text()
                     }, function(error) {
-                      console.log(error);})
+                        console.log(error);})
                     }
                   });
                 }
