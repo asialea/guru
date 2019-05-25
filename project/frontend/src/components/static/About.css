@@ -97,7 +97,6 @@ button .accordion:hover{
 }
 
 .form{
-  display: none;
   overflow: hidden;
 }
 
@@ -131,12 +130,6 @@ button .accordion:hover{
   margin-top: 3px;
 }
 
-button.delete{
-  position: absolute;
-  right: 0px;
-  font-size: 1rem;
-  color: transparent;
-}
 
 .delete:hover{
   color:grey;
@@ -182,10 +175,19 @@ button.delete{
   min-width: 2rem;
 }
 
-button.deleteSkill{
-  font-size: 0.8em;
+.deleteSkill{
+  font-size: 0.8rem;
+  margin-left: 1em;
+}
+
+.deleteSkill:hover{
+  cursor: pointer;
 }
 
 label{
   font-size:0.8rem;
+ }
+
+.hidden{
+   display: none;
  }

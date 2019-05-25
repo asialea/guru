@@ -33,24 +33,19 @@ class Navbar extends Component{
 
         <div className="nav-right" >
           <div className="nav-item text-center">
-              <IconButton>
+              <Link><IconButton>
                 <FaEnvelope className="nav-link"/>
-              </IconButton>
+              </IconButton></Link>
           </div>
           <div className="nav-item text-center">
-            <IconButton>
-              <FaCode className="nav-link"/>
-            </IconButton>
-          </div>
-          <div className="nav-item text-center">
-            <IconButton>
+            <Link><IconButton>
               <FaUser className="nav-link"/>
-            </IconButton>
+            </IconButton></Link>
           </div>
           <div className="nav-item text-center">
-            <IconButton>
+            <Link><IconButton>
               <FaNewspaper className="nav-link"/>
-            </IconButton>
+            </IconButton></Link>
           </div>
           <div className="nav-item text-center">
               <Link to="/connect"><IconButton>

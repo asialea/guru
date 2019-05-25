@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
-import {aboutUser,} from "../../actions";
+import {aboutUser} from "../../actions";
 import Navbar from './Navbar';
 import '../static/About.css';
 import {FaPlus} from 'react-icons/fa';
@@ -9,16 +9,15 @@ import Interests from '../forms/Interests'
 import Experience from '../forms/Experience'
 import Education from '../forms/Education'
 import AboutUser from '../forms/AboutUser'
-import {getCookie} from '../forms/get_csrf.js'
 
 class About extends Component{
 
   state ={
-    csrftoken:getCookie('csrftoken'),
     avi:"",
     education:[],
     skills:[],
     interests:[],
+    hidden:true,
   }
 
   componentWillMount(){
@@ -28,22 +27,8 @@ class About extends Component{
            console.log("fetch error" + err);
        });
                       }
-
-  componentDidMount(){
-       var acc = document.getElementsByClassName("accordion");
-       var i;
-
-       for (i = 0; i < acc.length; i++) {
-         acc[i].addEventListener("click", function() {
-           this.classList.toggle("active");
-           var panel = this.nextElementSibling;
-           if (panel.style.display === "block") {
-             panel.style.display = "none";
-           } else {
-             panel.style.display = "block";
-           }
-         });
-       }
+  show = (e) =>{
+    this.setState({hidden:!this.state.hidden})
   }
 
   render(){
@@ -59,8 +44,8 @@ class About extends Component{
             <div className="flex-box">
               <div id="pro-pic" style={proPic}></div>
             </div>
-            <button className="table accordion btn-animated"><h2>About<FaPlus className="about-expand"/></h2></button>
-            <div className="form">
+            <button onClick={this.show} className="table accordion btn-animated"><h2>About<FaPlus onClick={this.show} className="about-expand"/></h2></button>
+            <div className={this.state.hidden ? 'hidden':'form'}>
              <AboutUser/>
             </div>
             <div>
