@@ -59,8 +59,6 @@ caption {
   line-height: normal;
 }
 
-
-
 section p{
   text-align: left;
 }
@@ -91,9 +89,8 @@ form{
   text-transform: uppercase;
 }
 
-button .accordion:hover{
-  background-color:rgb(17, 300, 20,0.1);
-
+#about .accordion:hover{
+ background-color:rgb(17, 300, 20,0.3);
 }
 
 .form{
@@ -130,9 +127,9 @@ button .accordion:hover{
   margin-top: 3px;
 }
 
-
-.delete:hover{
-  color:grey;
+.edu{
+  line-height: normal;
+  margin-top: 3px;
 }
 
 .expand{
@@ -155,6 +152,11 @@ button .accordion:hover{
 
 .table{
   margin-top: 1em;
+}
+
+.edu-ex{
+  border-bottom: 0.5px solid rgb(39, 179, 45,0.2);
+  margin: 5px;
 }
 
 .skill{

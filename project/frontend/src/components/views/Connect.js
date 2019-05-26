@@ -42,20 +42,23 @@ class Connect extends Component{
         <Navbar/>
       </header>
     <div className="flex-box">
-
-
       <div className="connect-body">
+        <div id="Search-bar"><p>Search bar</p></div>
+        <div id="filter"><p>Filters</p></div>
+        <div id="users">
         {
           this.state.users.map((el,idx) => {
-            if(el.id!==this.props.user.id){
+            if(el.id!==this.props.user.id && el.id !== 1){
               return <div className="user-icon" key={el.id}>
+              <div>
                    <img alt="profile-pic"  className="pro-pic"src={this.state.avis[idx].avi_path}/>
                      <Link to={"/about/"+el.username}><h3 className="username main res-item">@{el.username}</h3></Link>
                    <p className="desc res-item">{el.type}</p>
+                   </div>
                      </div>}
               return null
           })}
-
+        </div>
       </div>
       </div>
 

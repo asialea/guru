@@ -97,7 +97,7 @@ fetch(`/api/user-skills/${this.props.match.params.username}/`)
              <div className="accordion btn-animated"><h2>Experience</h2></div>
              <div>
              {this.state.work.map(el => {
-                   return <div key={el.id}>
+                   return <div className="edu-ex" key={el.id}>
                         <h3 className="main res-item">{el.company}, </h3><span className="res-item">{el.location} -</span>
                         <span className="position">{el.position} </span>
                         <p className="date res-item">{el.start}-{el.end}</p>
@@ -111,10 +111,10 @@ fetch(`/api/user-skills/${this.props.match.params.username}/`)
               <div className="accordion btn-animated"><h2>Education</h2></div>
               <div>
                 {this.state.education.map(el => {
-                      return <div key={el.id}>
+                      return <div className="edu-ex" key={el.id}>
                            <h3 className="main res-item">{el.school}, </h3><span className="res-item">{el.location} -</span>
                            <span className="position">{el.degree} </span>
-                           <p className="date res-item">{el.start}-{el.end}</p>
+                           <p className="edu res-item">{el.start}-{el.end}</p>
                       </div>
                   })}
               </div>

@@ -10,20 +10,9 @@ import AboutUser from '../forms/AboutUser'
 
 class About extends Component{
 
-  state ={
-    education:[],
-    skills:[],
-    interests:[],
-  }
-
-
-  componentWillMount(){
-
-          }
-
   render(){
     return(
-    <div className="body">
+    <div className="body" id="about">
       <header>
         <Navbar/>
       </header>

@@ -90,11 +90,11 @@ class Education extends Component{
 
         <div>
           {this.state.education.map((el,idx) => {
-                return <div key={el.id}>
+                return <div className="edu-ex" key={el.id}>
                      <h3 className="main res-item">{el.school}, </h3><span className="res-item">{el.location} -</span>
                      <span className="position">{el.degree} </span>
                       <FaTimes className={this.state.hidden ? 'hidden':'deleteSkill'} onClick={(e) => {this.deleteEducation(el.id);}}/>
-                     <p className="date res-item">{el.start} to {el.end}</p>
+                     <p className="edu res-item">{el.start} to {el.end}</p>
                 </div>
             })}
         </div>

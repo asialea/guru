@@ -94,7 +94,7 @@ class Experience extends Component{
         </div>
         <div>
         {this.state.work.map(el => {
-              return <div key={el.id}>
+              return <div className="edu-ex" key={el.id}>
                    <h3 className="main res-item">{el.company}, </h3><span className="res-item">{el.location} -</span>
                    <span className="position">{el.position} </span>
                    <FaTimes className={this.state.hidden ? 'hidden':'deleteSkill'} onClick={(e) => {this.deleteWork(el.id);}} />
