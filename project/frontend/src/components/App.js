@@ -4,7 +4,7 @@ import {Route, Switch, BrowserRouter, Redirect} from 'react-router-dom';
 
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
-import {auth,aboutUser} from "../actions";
+import {auth} from "../actions";
 import  guruApp from "../reducers"
 import Home from "./views/Home";
 import NotFound from "./views/NotFound"
@@ -20,13 +20,12 @@ class RootContainerComponent extends Component {
 
   componentDidMount() {
     this.props.loadUser();
-    this.props.fetchAboutUser();
     localStorage.setItem('isAuthenticated','true');
   }
 
   PrivateRoute = ({component: ChildComponent, ...rest}) => {
     return <Route {...rest} render={props => {
-      if (this.props.auth.isLoading || this.props.aboutUser.isLoading) {
+      if (this.props.auth.isLoading ) {
         return <em>Loading...</em>;
       } else if (!this.props.auth.isAuthenticated) {
         return <Redirect to="/" />;
@@ -59,14 +58,12 @@ class RootContainerComponent extends Component {
 const mapStateToProps = state => {
   return {
     auth: state.auth,
-    aboutUser: state.aboutUser,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     loadUser: () => dispatch(auth.loadUser()),
-    fetchAboutUser: () => dispatch(aboutUser.fetchAboutUser()),
   }
 }
 

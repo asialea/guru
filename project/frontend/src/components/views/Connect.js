@@ -53,6 +53,7 @@ class Connect extends Component{
                      <Link to={"/about/"+el.username}><h3 className="username main res-item">@{el.username}</h3></Link>
                    <p className="desc res-item">{el.type}</p>
                      </div>}
+              return null
           })}
 
       </div>

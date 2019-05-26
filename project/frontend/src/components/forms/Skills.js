@@ -1,59 +1,59 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
-import IconButton from '@material-ui/core/IconButton';
 import {FaTimes,FaPlus} from 'react-icons/fa';
-import {headers} from './global.js'
+import {headers,findAndRemove} from './global.js'
 
 class Skills extends Component{
 
   state ={
-    skill:"",
+    skill:null,
     skills:[],
-    new_skills:[],
     hidden:true,
+    new_skill:null
   }
 
   show = (e) =>{
     this.setState({hidden:!this.state.hidden})
   }
 
-  new_skillSubmit = e => {
+  new_skillSubmit(e){
     e.preventDefault();
-    var newArray = this.state.new_skills.slice();
-    newArray.push(this.state.skill);
-    this.setState({new_skills:newArray});
-    this.refs.skill.value ="";
+    this.addSkill(this.props.user.id,this.state.skill)
   }
 
-  saveSkills=(e)=>{
-    this.state.new_skills.map(x=>{this.addSkill(this.props.user.id,x)})
-    this.fetchSkills()
-    this.show()
+  addSkill_cb = () =>{
+    var newArray = this.state.skills;
+    newArray.push(this.state.new_skill);
+    this.setState({skills:newArray},()=>{this.refs.skill.value ="";});
   }
 
+  addSkill(user_id,skill){
+      let body = JSON.stringify({user_id,skill});
+      headers["Authorization"] = `Token ${this.props.token}`;
+      fetch("/api/skills/", {headers,body,method:"POST"}).then(res => {return res.json();})
+        .then(responseData => {return responseData;})
+        .then(json =>{this.setState({new_skill: json},this.addSkill_cb)})
+        .catch(err => {console.log("fetch error" + err)})
+    }
 
-addSkill(user_id,skill){
-    let body = JSON.stringify({user_id,skill});
-    fetch("/api/skills/", {headers,body,method:"POST"}).then(res => {return res.json();})
-      .catch(err => {console.log("fetch error" + err)})
+  deleteSkill_cb = (id)=>{
+    var newArray = this.state.skills;
+    findAndRemove(newArray,'id',id)
+    this.setState({skills:newArray})
   }
 
-delete_newSkill = (e)=>{
-  var newArray = this.state.new_skills.slice(0, -1);
-  this.setState({new_skills:newArray})
-}
-
-deleteSkill= (id) =>{
-  let body = JSON.stringify({id});
-  fetch(`/api/skills/${id}/`, {headers,body,method:"DELETE"})
-  .then(res => {return res.json();}).catch(err => {
-            console.log("fetch error" + err)})
-}
+  deleteSkill= (id) => {
+    let body = JSON.stringify({id});
+    fetch(`/api/skills/${id}/`, {headers,body,method:"DELETE"}).then(this.deleteSkill_cb(id))
+    .then(res => {return res.json();}).catch(err => {
+              console.log("fetch error" + err)})
+  }
 
   fetchSkills(){
-    fetch(`/api/user-skills/${this.props.user.username}/`)
-     .then(response => { return response.json();}).then(responseData => {return responseData;})
-     .then (json =>this.setState({skills: json})).catch(err => {console.log("fetch error" + err);
+    return fetch(`/api/user-skills/${this.props.user.username}/`)
+     .then(response => {return response.json();}).then(responseData => {return responseData;})
+     .then(json =>{this.setState({skills: json})})
+     .catch(err => {console.log("fetch error" + err);
       });
   }
 
@@ -68,23 +68,16 @@ deleteSkill= (id) =>{
         <div className={this.state.hidden ? 'hidden':'form'}>
          <div className="form-group">
           <input className="input-small group-1" ref="skill" onChange={e => this.setState({skill: e.target.value})} placeholder="Skill" type="text"/>
-          <button className = "submit"  onClick={this.new_skillSubmit}>Submit</button>
-          <button className = "submit"  onClick={this.saveSkills}>Save</button>
+          <button className = "submit"  onClick={this.new_skillSubmit.bind(this)}>Submit</button>
          </div>
         </div>
         <div>
-        {this.state.skills.map(el => {
-              return <div className="skill" key={el.id}>
-                   <span>{el.skill}<FaTimes className={this.state.hidden ? 'hidden':'deleteSkill'} onClick={(e) => {this.deleteSkill(el.id);}}/></span>
+        {this.state.skills.map((el,idx) => {
+              return <div className="skill" key={idx}>
+                   <span>{el.skill}<FaTimes className={this.state.hidden ? 'hidden':'deleteSkill'} onClick={(e) => {this.deleteSkill(el.id)}}/></span>
 
               </div>
           })}
-          {this.state.new_skills.map((el,idx) => {
-                return <div className="skill" key={idx}>
-                     <span>{el}<FaTimes onClick={this.delete_newSkill} className={this.state.hidden ? 'hidden':'deleteSkill'}/></span>
-
-                </div>
-            })}
         </div>
       </div>
       );
@@ -93,6 +86,7 @@ deleteSkill= (id) =>{
 
 const mapStateToProps = state => {
     return {
+      token:state.auth.token,
         user: state.auth.user,
     }
 }

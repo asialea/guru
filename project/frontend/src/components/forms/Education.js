@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
-import IconButton from '@material-ui/core/IconButton';
 import {FaTimes,FaPlus} from 'react-icons/fa';
-import {headers} from './global.js'
+import {headers,findAndRemove} from './global.js'
 
 class Education extends Component{
   state ={
@@ -11,47 +10,50 @@ class Education extends Component{
     location:"",
     start:"",
     end:null,
-    education:[],
 
-    new_edus:[],
+    education:[],
     hidden:true,
   }
   show = (e) =>{
     this.setState({hidden:!this.state.hidden})
   }
 
-  new_eduSubmit = e => {
+  new_eduSubmit(e){
     e.preventDefault();
-    var newArray = this.state.new_edus.slice();
+    var edu = {"user_id":this.props.user.id,"start":this.state.start,"end":this.state.end,"school":this.state.school,
+    "location":this.state.location,"degree":this.state.degree};
+    this.addEducation(edu);
+      }
+
+  addEdu_cb = () =>{
+    var newArray = this.state.education;
     var edu = {"user_id":this.props.user.id,"start":this.state.start,"end":this.state.end,"school":this.state.school,
     "location":this.state.location,"degree":this.state.degree};
     newArray.push(edu);
-    this.setState({new_edus:newArray})
-      }
-
-  saveEdus=(e)=>{
-    this.state.new_edus.map(x=>{this.addEducation(x)});
-    this.fetchEducation();
-    this.show();
+    this.setState({education:newArray});
   }
 
   addEducation(edu){
     let body = JSON.stringify(edu);
-    console.log(body);
-    fetch(`api/education/`,{headers,body,method:"POST",}).then(res => {return res.json();}).catch(err => {
-              console.log("fetch error" + err)});
+    headers["Authorization"] = `Token ${this.props.token}`;
+    fetch(`api/education/`,{headers,body,method:"POST",}).then(res => {return res.json();})
+    .then(this.addEdu_cb)
+    .catch(err => {console.log("fetch error" + err)});
   }
 
-  delete_newEdu = (e)=>{
-    var newArray = this.state.new_edus.slice(0, -1);
-    this.setState({new_edus:newArray})
-  }
+  deleteEdu_cb =(id)=>{
+    var newArray = this.state.education;
+    findAndRemove(newArray,'id',id);
+    this.setState({education:newArray});
+    }
 
 
   deleteEducation = (id) =>{
        let body = JSON.stringify({id});
-       fetch(`api/education/${id}/`, {headers,body,method:"DELETE"})
-        .then(res => {return res.json();}).catch(err => {console.log("fetch error" + err)}).then(this.fetchEducation());
+       headers["Authorization"] = `Token ${this.props.token}`;
+       fetch(`api/education/${id}/`, {headers,body,method:"DELETE"}).then(res => {return res.json();})
+       .then(this.deleteEdu_cb(id))
+       .catch(err => {console.log("fetch error" + err)})
       }
 
   fetchEducation(){
@@ -78,8 +80,7 @@ class Education extends Component{
         <input className="input-small group-2" onChange={e => this.setState({end: e.target.value})} id="end" type="date"/>
        </div>
        <div className="form-group">
-         <button className = "submit"  onClick={this.new_eduSubmit}>Submit</button>
-         <button className = "submit"  onClick={this.saveEdus}>Save</button>
+         <button className = "submit"  onClick={this.new_eduSubmit.bind(this)}>Submit</button>
        </div>
       </div>
 
@@ -92,15 +93,6 @@ class Education extends Component{
                      <p className="date res-item">{el.start} to {el.end}</p>
                 </div>
             })}
-            {this.state.new_edus.map((el,idx) => {
-                  return <div key={idx}>
-                       <h3 className="main res-item">{el.school}, </h3><span className="res-item">{el.location} -</span>
-                       <span className="position">{el.degree} </span>
-                       <FaTimes className={this.state.hidden ? 'hidden':'deleteSkill'} onClick={this.delete_newEdu} />
-                       <p className="date res-item">{el.start} to {el.end}</p>
-                  </div>
-              })}
-
         </div>
     </div>
       );
@@ -109,6 +101,7 @@ class Education extends Component{
 
 const mapStateToProps = state => {
     return {
+      token:state.auth.token,
         user: state.auth.user,
     }
 }

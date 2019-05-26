@@ -1,12 +1,8 @@
 import auth from "./auth";
 import { combineReducers } from 'redux';
-// import work from "./work";
-// import education from "./education"
-import aboutUser from "./aboutUser"
-// import skills from "./skills"
-// import interests from "./interests"
 
-const appReducer = combineReducers({auth,aboutUser});
+
+const appReducer = combineReducers({auth});
 
 const guruApp = (state, action) => {
 

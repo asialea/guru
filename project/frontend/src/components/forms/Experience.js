@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
-import IconButton from '@material-ui/core/IconButton';
 import {FaTimes,FaPlus} from 'react-icons/fa';
-import {headers} from './global.js'
+import {headers,findAndRemove} from './global.js'
 
 
 class Experience extends Component{
@@ -14,9 +13,8 @@ class Experience extends Component{
     start:"",
     end:null,
     description:"",
-    work:[],
 
-    new_work:[],
+    work:[],
     hidden:true,
   }
 
@@ -24,36 +22,40 @@ class Experience extends Component{
     this.setState({hidden:!this.state.hidden})
   }
 
-  new_workSubmit = e => {
-    e.preventDefault();
-    var newArray = this.state.new_work.slice();
-    var work = {"user_id":this.props.user.id,"company":this.state.company,"start":this.state.start,"end":this.state.end,
-      "location":this.state.location,"description":this.state.description,"position":this.state.position};
-    newArray.push(work);
-    this.setState({new_work:newArray})
-      }
+  new_workSubmit(e){
+      e.preventDefault();
+      var work = {"user_id":this.props.user.id,"company":this.state.company,"start":this.state.start,"end":this.state.end,
+        "location":this.state.location,"description":this.state.description,"position":this.state.position};
+      this.addWork(work);
+    }
 
-  saveWork=(e)=>{
-    this.state.new_work.map(x=>{this.addWork(x)})
-    this.fetchWork();
-    this.show()
-  }
+    addWork_cb = () =>{
+        var newArray = this.state.work;
+        var work = {"user_id":this.props.user.id,"company":this.state.company,"start":this.state.start,"end":this.state.end,
+          "location":this.state.location,"description":this.state.description,"position":this.state.position};
+        newArray.push(work);
+        this.setState({work:newArray});
+      }
 
 
   addWork(work){
     let body = JSON.stringify(work);
-    fetch(`api/work/`,{headers,body,method:"POST",}).then(res => {return res.json();}).catch(err => {
-              console.log("fetch error" + err)})
+    headers["Authorization"] = `Token ${this.props.token}`;
+    fetch(`api/work/`,{headers,body,method:"POST",}).then(res => {return res.json();})
+    .then(this.addWork_cb)
+    .catch(err => {console.log("fetch error" + err)})
     }
 
-  delete_newWork = (e)=>{
-    var newArray = this.state.new_work.slice(0, -1);
-    this.setState({new_work:newArray})
-  }
+  deleteWork_cb =(id)=>{
+    var newArray = this.state.work;
+    findAndRemove(newArray,'id',id);
+    this.setState({work:newArray});
+    }
 
   deleteWork=(id)=>{
       let body = JSON.stringify({id});
-     fetch(`api/work/${id}/`, {headers,body,method:"DELETE"})
+      headers["Authorization"] = `Token ${this.props.token}`;
+     fetch(`api/work/${id}/`, {headers,body,method:"DELETE"}).then(this.deleteWork_cb(id))
       .then(res => {return res.json();}).catch(err => {console.log("fetch error" + err)});
       }
 
@@ -85,8 +87,7 @@ class Experience extends Component{
          </div>
           <textarea onChange={e => this.setState({description: e.target.value})} maxLength="300" placeholder="Description"></textarea>
           <div className="form-group">
-            <button className = "submit"  onClick={this.new_workSubmit}>Submit</button>
-            <button className = "submit"  onClick={this.saveWork}>Save</button>
+            <button className = "submit"  onClick={this.new_workSubmit.bind(this)}>Submit</button>
           </div>
         </div>
         <div>
@@ -99,15 +100,7 @@ class Experience extends Component{
                    <p className="desc res-item">{el.description}</p>
               </div>
           })}
-          {this.state.new_work.map((el,idx) => {
-                return <div key={idx}>
-                     <h3 className="main res-item">{el.company}, </h3><span className="res-item">{el.location} -</span>
-                     <span className="position">{el.position} </span>
-                     <FaTimes onClick={this.delete_newWork} className={this.state.hidden ? 'hidden':'deleteSkill'}/>
-                     <p className="date res-item">{el.start} to {el.end}</p>
-                     <p className="desc res-item">{el.description}</p>
-                </div>
-            })}
+
        </div>
       </div>
       );
@@ -116,7 +109,8 @@ class Experience extends Component{
 
 const mapStateToProps = state => {
     return {
-        user: state.auth.user,
+      token:state.auth.token,
+      user: state.auth.user,
     }
 }
 

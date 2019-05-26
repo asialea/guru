@@ -12,16 +12,15 @@ export default function aboutUser(state=initialState, action) {
       return {...state,user:action.aboutUser,isLoading:false};
 
     case 'UPDATE_ABOUTUSER':
-    let aboutToUpdate = aboutUser
+    let aboutToUpdate = state.user
             aboutToUpdate.location = action.aboutUser.location;
             aboutToUpdate.github = action.aboutUser.github;
             aboutToUpdate.twitter_handle = action.aboutUser.twitter_handle;
             aboutToUpdate.linkedin = action.aboutUser.linkedin;
             aboutToUpdate.bio = action.aboutUser.bio;
+            aboutUser = aboutToUpdate;
+            return {user:aboutUser,isLoading:false};
 
-            aboutUser.splice(0, 1, aboutToUpdate);
-            return aboutUser;
- 
     default:
       return state;
 

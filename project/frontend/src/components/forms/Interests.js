@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
-import IconButton from '@material-ui/core/IconButton';
 import {FaTimes,FaPlus} from 'react-icons/fa';
-import {headers} from './global.js'
+import {headers,findAndRemove} from './global.js'
 
 
 class Interests extends Component{
 
   state ={
-    interest:"",
+    interest:null,
     interests:[],
-    new_interests:[],
     hidden:true,
+    new_interest:null,
   }
 
 
@@ -19,45 +18,43 @@ class Interests extends Component{
     this.setState({hidden:!this.state.hidden})
   }
 
-  new_interestSubmit = (e) => {
+  new_interestSubmit(e){
       e.preventDefault();
-      var newArray = this.state.new_interests.slice();
-      newArray.push(this.state.interest);
-      this.setState({new_interests:newArray});
-      this.refs.interest.value ="";
+      this.addInterest(this.props.user.id,this.state.interest)
     }
 
-  saveInterests=(e)=>{
-    this.state.new_interests.map(x=>{this.addInterest(this.props.user.id,x)})
-    this.fetchInterests()
-    this.show()
-  }
+  addInterest_cb = () =>{
+      var newArray = this.state.interests;
+      newArray.push(this.state.new_interest);
+      this.setState({interests:newArray},()=>{this.refs.interest.value =""});
+    }
 
   addInterest(user_id,interest){
     let body = JSON.stringify({user_id,interest});
-    fetch("/api/interests/", {headers,body,method:"POST"}).then(res => {return res.json();}).catch(err => {
-              console.log("fetch error" + err)})
+    headers["Authorization"] = `Token ${this.props.token}`;
+    fetch("/api/interests/", {headers,body,method:"POST"}).then(res => {return res.json();})
+    .then(json =>{this.setState({new_interest: json},this.addInterest_cb)})
+    .catch(err => {console.log("fetch error" + err)})
       }
 
-  delete_newInterest = (e)=>{
-    var newArray = this.state.new_interests.slice(0, -1);
-    this.setState({new_interests:newArray})
+  deleteInterest_cb = (id)=>{
+    var newArray = this.state.interests;
+    findAndRemove(newArray,'id',id);
+    this.setState({interests:newArray});
   }
-
-
 
   deleteInterest = (id) => {
       let body = JSON.stringify({id});
-      fetch(`/api/interests/${id}/`, {headers,body,method:"DELETE"})
+      fetch(`/api/interests/${id}/`, {headers,body,method:"DELETE"}).then(this.deleteInterest_cb(id))
       .then(res => {return res.json();}).catch(err => {
-                console.log("fetch error" + err)}).then(this.fetchInterests())
+                console.log("fetch error" + err)})
         }
 
   fetchInterests(){
-      fetch(`/api/user-interests/${this.props.user.username}/`)
+      return fetch(`/api/user-interests/${this.props.user.username}/`)
        .then(response => { return response.json();}).then(responseData => {return responseData;})
-      .then (json =>this.setState({interests: json})).catch(err => {
-            console.log("fetch error" + err);
+      .then (json =>this.setState({interests: json}))
+      .catch(err => {console.log("fetch error" + err);
                     });
             }
 
@@ -72,21 +69,14 @@ class Interests extends Component{
         <div className={this.state.hidden ? 'hidden':'form'}>
          <div className="form-group">
           <input className="input-small group-1" ref="interest" onChange={e => this.setState({interest: e.target.value})} placeholder="Interest" type="text"/>
-          <button className = "submit"  onClick={this.new_interestSubmit}>Submit</button>
-          <button className = "submit"  onClick={this.saveInterests}>Save</button>
+          <button className = "submit"  onClick={this.new_interestSubmit.bind(this)}>Submit</button>
          </div>
         </div>
         <div>
-        {this.state.interests.map(el => {
-              return <div className="skill" key={el.id}>
+        {this.state.interests.map((el,idx) => {
+              return <div className="skill" key={idx}>
                    <span>{el.interest}<FaTimes onClick={(e) => {this.deleteInterest(el.id);}}
                    className={this.state.hidden ? 'hidden':'deleteSkill'}/></span>
-
-              </div>
-          })}
-        {this.state.new_interests.map((el,idx) => {
-              return <div className="skill" key={idx}>
-                   <span>{el}<FaTimes onClick={this.delete_newInterest} className={this.state.hidden ? 'hidden':'deleteSkill'}/></span>
 
               </div>
           })}
@@ -98,6 +88,7 @@ class Interests extends Component{
 
 const mapStateToProps = state => {
     return {
+      token:state.auth.token,
         user: state.auth.user,
     }
 }

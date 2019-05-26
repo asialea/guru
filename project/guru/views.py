@@ -169,7 +169,7 @@ class WorkView(generics.GenericAPIView):
         serializer = self.get_serializer(data=self.request.data)
         serializer.is_valid(raise_exception=True)
         work = serializer.save()
-        return  Response({"success":("Successfully submitted.")})
+        return Response(WorkSerializer(work, context=self.get_serializer_context()).data)
 
     def delete(self,request, *args, **kwargs):
         work_id = self.kwargs['id']
@@ -190,13 +190,13 @@ class UserSkillsView(generics.GenericAPIView):
     def post(self,request, *args, **kwargs):
         serializer = self.get_serializer(data=self.request.data)
         serializer.is_valid(raise_exception=True)
-        work = serializer.save()
-        return  Response({"success":("Successfully submitted.")})
+        skill = serializer.save()
+        return Response(UserSkillsSerializer(skill, context=self.get_serializer_context()).data)
 
     def delete(self,request, *args, **kwargs):
         skill_id = self.kwargs['id']
         skill = UserSkills.objects.filter(id=skill_id).delete()
-        return Response({"success":("Successfully deleted.")})
+        return Response({"id":skill_id})
 
 
 class UserInterestsView(generics.GenericAPIView):
@@ -213,7 +213,7 @@ class UserInterestsView(generics.GenericAPIView):
         serializer = self.get_serializer(data=self.request.data)
         serializer.is_valid(raise_exception=True)
         interest = serializer.save()
-        return  Response({"success":("Successfully submitted.")})
+        return Response(UserInterestsSerializer(interest, context=self.get_serializer_context()).data)
 
     def delete(self,request, *args, **kwargs):
         interest_id = self.kwargs['id']
@@ -235,7 +235,7 @@ class EducationView(generics.GenericAPIView):
         serializer = self.get_serializer(data=self.request.data)
         serializer.is_valid(raise_exception=True)
         edu = serializer.save()
-        return  Response({"success":("Successfully submitted.")})
+        return Response(EducationSerializer(edu, context=self.get_serializer_context()).data)
 
     def delete(self,request, *args, **kwargs):
         edu_id = self.kwargs['id']

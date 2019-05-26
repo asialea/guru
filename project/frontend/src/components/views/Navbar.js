@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {auth} from "../../actions";
 import '../static/Home.css';
 import {Link} from 'react-router-dom';
-import { FaEnvelope,FaCode,FaUser,FaNewspaper,FaIdCard,FaUsers,FaSignOutAlt} from 'react-icons/fa';
+import {FaEnvelope,FaCode,FaUser,FaNewspaper,FaIdCard,FaUsers,FaSignOutAlt} from 'react-icons/fa';
 import IconButton from '@material-ui/core/IconButton';
 import {Redirect} from 'react-router-dom';
 
@@ -27,23 +27,23 @@ class Navbar extends Component{
       <div className="header header-fill header-fixed">
         <div className="header-brand">
           <div className="nav-item no-hover">
-              <Link to="/dashboard"><h1 className="title">Guru</h1></Link>
+            <Link to="/dashboard"><h1 className="title"><FaCode/> Guru</h1></Link>
           </div>
         </div>
 
         <div className="nav-right" >
           <div className="nav-item text-center">
-              <Link><IconButton>
+              <Link to="/about"><IconButton>
                 <FaEnvelope className="nav-link"/>
               </IconButton></Link>
           </div>
           <div className="nav-item text-center">
-            <Link><IconButton>
+            <Link to="/about"><IconButton>
               <FaUser className="nav-link"/>
             </IconButton></Link>
           </div>
           <div className="nav-item text-center">
-            <Link><IconButton>
+            <Link to="/about"><IconButton>
               <FaNewspaper className="nav-link"/>
             </IconButton></Link>
           </div>
