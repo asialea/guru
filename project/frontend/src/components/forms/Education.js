@@ -11,6 +11,7 @@ class Education extends Component{
     start:"",
     end:null,
 
+    new_edu:null,
     education:[],
     hidden:true,
   }
@@ -22,7 +23,10 @@ class Education extends Component{
     e.preventDefault();
     var edu = {"user_id":this.props.user.id,"start":this.state.start,"end":this.state.end,"school":this.state.school,
     "location":this.state.location,"degree":this.state.degree};
-    this.addEducation(edu);
+    this.setState({new_edu:edu},()=>this.addEducation(this.state.new_edu));
+    this.refs.location.value =""; this.refs.start.value ="";
+    this.refs.school.value =""; this.refs.end.value ="";
+    this.refs.degree.value ="";
       }
 
   addEdu_cb = () =>{
@@ -72,12 +76,12 @@ class Education extends Component{
       <button onClick={this.show} className="accordion btn-animated"><h2>Education<FaPlus onClick={this.show} className="expand"/></h2></button>
       <div className={this.state.hidden ? 'hidden':'form'}>
        <div className="form-group">
-        <input className="input-small group-1" onChange={e => this.setState({school: e.target.value})} placeholder="School" type="text" required/>
-        <input className="input-small group-1" onChange={e => this.setState({degree: e.target.value})} placeholder="Degree" type="text" required/>
-        <input className="input-small group-1" onChange={e => this.setState({location: e.target.value})} placeholder="Location" type="text" required/>
-        <input className="input-small group-2" onChange={e => this.setState({start: e.target.value})} id="start" type="date"/>
+        <input className="input-small group-1" ref="school" onChange={e => this.setState({school: e.target.value})} placeholder="School" type="text" required/>
+        <input className="input-small group-1" ref="degree" onChange={e => this.setState({degree: e.target.value})} placeholder="Degree" type="text" required/>
+        <input className="input-small group-1" ref="location" onChange={e => this.setState({location: e.target.value})} placeholder="Location" type="text" required/>
+        <input className="input-small group-2" ref="start" onChange={e => this.setState({start: e.target.value})} id="start" type="date"/>
         <label>to</label>
-        <input className="input-small group-2" onChange={e => this.setState({end: e.target.value})} id="end" type="date"/>
+        <input className="input-small group-2" ref="end" onChange={e => this.setState({end: e.target.value})} id="end" type="date"/>
        </div>
        <div className="form-group">
          <button className = "submit"  onClick={this.new_eduSubmit.bind(this)}>Submit</button>

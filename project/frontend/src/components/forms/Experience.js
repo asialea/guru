@@ -14,6 +14,7 @@ class Experience extends Component{
     end:null,
     description:"",
 
+    new_work:null,
     work:[],
     hidden:true,
   }
@@ -26,14 +27,15 @@ class Experience extends Component{
       e.preventDefault();
       var work = {"user_id":this.props.user.id,"company":this.state.company,"start":this.state.start,"end":this.state.end,
         "location":this.state.location,"description":this.state.description,"position":this.state.position};
-      this.addWork(work);
+      this.setState({new_work:work},()=>this.addWork(this.state.new_work));
+      this.refs.location.value =""; this.refs.start.value ="";
+      this.refs.position.value =""; this.refs.end.value ="";
+      this.refs.company.value ="";
     }
 
     addWork_cb = () =>{
         var newArray = this.state.work;
-        var work = {"user_id":this.props.user.id,"company":this.state.company,"start":this.state.start,"end":this.state.end,
-          "location":this.state.location,"description":this.state.description,"position":this.state.position};
-        newArray.push(work);
+        newArray.push(this.state.new_work);
         this.setState({work:newArray});
       }
 
@@ -78,12 +80,12 @@ class Experience extends Component{
       <button onClick={this.show} className="accordion btn-animated"><h2>Experience<FaPlus onClick={this.show} className="expand"/></h2></button>
       <div className={this.state.hidden ? 'hidden':'form'}>
          <div className="form-group">
-          <input className="input-small group-1" onChange={e => this.setState({company: e.target.value})} placeholder="Company" type="text"/>
-          <input className="input-small group-1" onChange={e => this.setState({position: e.target.value})} placeholder="Position" type="text"/>
-          <input className="input-small group-1" onChange={e => this.setState({location: e.target.value})} placeholder="Location" type="text"/>
-          <input className="input-small group-2" onChange={e => this.setState({start: e.target.value})} id="start" type="date"/>
+          <input className="input-small group-1" ref="company" onChange={e => this.setState({company: e.target.value})} placeholder="Company" type="text"/>
+          <input className="input-small group-1" ref="position" onChange={e => this.setState({position: e.target.value})} placeholder="Position" type="text"/>
+          <input className="input-small group-1" ref="location" onChange={e => this.setState({location: e.target.value})} placeholder="Location" type="text"/>
+          <input className="input-small group-2" ref="start" onChange={e => this.setState({start: e.target.value})} id="start" type="date"/>
           <label>to</label>
-          <input className="input-small group-2" onChange={e => this.setState({end: e.target.value})} id="end" type="date" />
+          <input className="input-small group-2" ref="end" onChange={e => this.setState({end: e.target.value})} id="end" type="date" />
          </div>
           <textarea onChange={e => this.setState({description: e.target.value})} maxLength="300" placeholder="Description"></textarea>
           <div className="form-group">
