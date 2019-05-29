@@ -3,39 +3,51 @@ import Navbar from './Navbar';
 import '../static/Connect.css';
 import {Link} from 'react-router-dom';
 import {connect} from "react-redux";
+import {FaSearch} from 'react-icons/fa';
+import {Tabs,TabLink,TabContent} from 'react-tabs-redux'
+import {headers} from '../forms/global.js'
+import SearchResult from './SearchResult'
 
 class Connect extends Component{
 
   state ={
     users:[],
-    aboutUsers:null,
-    avis:null,
+    query:null,
+    hidden:false,
+    user_query:null
   }
 
   componentWillMount(){
     fetch(`/api/users/`)
       .then(response => { return response.json();}).then(responseData => {return responseData;})
-     .then (json =>this.setState({users: json})).catch(err => {
-           console.log("fetch error" + err);
+      .then (json =>this.setState({users: json}))
+      .catch(err => {console.log("fetch error" + err);
        });
+  }
 
-   fetch(`/api/aboutUsers/`)
-     .then(response => { return response.json();}).then(responseData => {return responseData;})
-    .then (json =>this.setState({aboutUsers: json})).catch(err => {
-          console.log("fetch error" + err);
-      });
+  search = (e) =>{
+    e.preventDefault();
+    this.refs.query.value="";
+    let query = this.state.query
+    let body = JSON.stringify({query});
+    headers["Authorization"] = `Token ${this.props.token}`;
+    fetch("/api/filter/", {headers,body,method:"POST"}).then(res => {return res.json();})
+      .then(json =>{this.setState({user_query:json})}).then(this.hidden_cb)
+      .catch(err => {console.log("fetch error" + err)})
+  }
 
-  fetch(`/api/avis/`)
-    .then(response => { return response.json();}).then(responseData => {return responseData;})
-   .then (json =>this.setState({avis: json})).catch(err => {
-         console.log("fetch error" + err);
-     });
+  hidden_cb = (e) =>{
+    this.setState({hidden:true});
+  }
+
+  reset = (e) =>{
+    e.preventDefault();
+    this.setState({hidden:false},);
+    this.setState({query:null})
+    this.refs.query.value="";
   }
 
   render(){
-    if(this.state.avis===null || this.state.aboutUser===null){
-      return<div>Loading</div>
-    }
     return(
     <div id="connect">
       <header>
@@ -43,25 +55,56 @@ class Connect extends Component{
       </header>
     <div className="flex-box">
       <div className="connect-body">
-        <div id="Search-bar"><p>Search bar</p></div>
-        <div id="filter"><p>Filters</p></div>
-        <div id="users">
-        {
-          this.state.users.map((el,idx) => {
-            if(el.id!==this.props.user.id && el.id !== 1){
-              return <div className="user-icon" key={el.id}>
-              <div>
-                   <img alt="profile-pic"  className="pro-pic"src={this.state.avis[idx].avi_path}/>
-                     <Link to={"/about/"+el.username}><h3 className="username main res-item">@{el.username}</h3></Link>
-                   <p className="desc res-item">{el.type}</p>
-                   </div>
-                     </div>}
-              return null
-          })}
+
+          <div id="search-bar"><input ref="query" type="text" placeholder="Search..." onChange={e =>this.setState({query:e.target.value})}/>
+          <FaSearch onClick={this.search.bind(this)}id="search-icon"/><button id="reset" className={!this.state.hidden ? 'hidden':'submit'}
+          onClick={this.reset.bind(this)}>RESET</button></div>
+
+          <div className="search-label"><span className={!this.state.hidden ? 'hidden':'reset'}>RESULTS FOR: "{this.state.query}"</span>
+          <span className={this.state.hidden ? 'hidden':'reset'}>ALL USERS</span></div>
+
+
+          <SearchResult users={this.state.users} hidden={this.state.hidden}/>
+
+          <Tabs>
+            <TabLink className={!this.state.hidden ? 'hidden':'tablink'} to="tab1" default>All ({this.state.user_query ? this.state.user_query.all.length :null})</TabLink>
+            <TabLink className={!this.state.hidden ? 'hidden':'tablink'} to="tab2">People ({this.state.user_query ? this.state.user_query.name.length :null})</TabLink>
+            <TabLink className={!this.state.hidden ? 'hidden':'tablink'} to="tab3">Company ({this.state.user_query ? this.state.user_query.company.length :null})</TabLink>
+            <TabLink className={!this.state.hidden ? 'hidden':'tablink'} to="tab4">Location ({this.state.user_query ? this.state.user_query.location.length :null})</TabLink>
+            <TabLink className={!this.state.hidden ? 'hidden':'tablink'} to="tab5">Skill ({this.state.user_query ? this.state.user_query.skill.length :null})</TabLink>
+            <TabLink className={!this.state.hidden ? 'hidden':'tablink'} to="tab6">Interest ({this.state.user_query ? this.state.user_query.interest.length :null})</TabLink>
+            <TabLink className={!this.state.hidden ? 'hidden':'tablink'} to="tab7">School ({this.state.user_query ? this.state.user_query.school.length :null})</TabLink>
+
+            <TabContent className={!this.state.hidden ? 'hidden':''} for="tab1">
+              <SearchResult users={this.state.user_query ? this.state.user_query.all:[]} hidden={!this.state.hidden}/>
+            </TabContent>
+
+            <TabContent className={!this.state.hidden ? 'hidden':''} for="tab2">
+              <SearchResult users={this.state.user_query ? this.state.user_query.name:[]} hidden={!this.state.hidden}/>
+            </TabContent>
+
+            <TabContent className={!this.state.hidden ? 'hidden':''} for="tab3">
+              <SearchResult users={this.state.user_query ? this.state.user_query.company:[]} hidden={!this.state.hidden}/>
+            </TabContent>
+
+            <TabContent className={!this.state.hidden ? 'hidden':''} for="tab4">
+              <SearchResult users={this.state.user_query ? this.state.user_query.location:[]} hidden={!this.state.hidden}/>
+            </TabContent>
+
+            <TabContent className={!this.state.hidden ? 'hidden':''} for="tab5">
+              <SearchResult users={this.state.user_query ? this.state.user_query.skill:[]} hidden={!this.state.hidden}/>
+            </TabContent>
+
+            <TabContent className={!this.state.hidden ? 'hidden':''} for="tab6">
+              <SearchResult users={this.state.user_query ? this.state.user_query.interest:[]} hidden={!this.state.hidden}/>
+            </TabContent>
+
+            <TabContent className={!this.state.hidden ? 'hidden':''} for="tab7">
+              <SearchResult users={this.state.user_query ? this.state.user_query.school:[]} hidden={!this.state.hidden}/>
+            </TabContent>
+          </Tabs>
         </div>
       </div>
-      </div>
-
     </div>
     );
   }
@@ -70,6 +113,7 @@ class Connect extends Component{
 
 const mapStateToProps = state => {
     return {
+      token:state.auth.token,
         user: state.auth.user,
     }
 }

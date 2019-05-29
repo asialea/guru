@@ -7,12 +7,13 @@ from rest_framework.views import APIView
 from django.core.exceptions import ObjectDoesNotExist
 from guru.serializers import *
 from django.contrib.auth import authenticate, login, logout
-import json
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+from django.db.models import Q
+
 
 cloudinary.config(
   cloud_name = "guruapp",
@@ -22,16 +23,9 @@ cloudinary.config(
 
 
 class UserViewSet(generics.ListCreateAPIView):
-    queryset = User.objects.all().order_by('id')
-    serializer_class = UserSerializer
+    queryset = User.objects.values('avi__avi_path','id','username','type').all()
+    serializer_class = FilterSerializer
 
-class AboutUserViewSet(generics.ListCreateAPIView):
-    queryset = AboutUser.objects.all().order_by('user_id')
-    serializer_class = AboutUserSerializer
-
-class AviViewSet(generics.ListCreateAPIView):
-    queryset = Avi.objects.all().order_by('user_id')
-    serializer_class = AviSerializer
 
 class RegistrationView(generics.GenericAPIView):
     serializer_class = CreateUserSerializer
@@ -44,7 +38,8 @@ class RegistrationView(generics.GenericAPIView):
         print(user)
         aboutUser = AboutUser.objects.create(user_id=user)
         aboutUser.save()
-        avi = Avi.objects.create(user_id=user.id, avi_path='https://res.cloudinary.com/guruapp/image/upload/c_scale,h_287,w_249/v1558568880/profile-blank_dzejyo.png')
+        default ='https://res.cloudinary.com/guruapp/image/upload/c_scale,h_287,w_249/v1558568880/profile-blank_dzejyo.png'
+        avi = Avi.objects.create(user_id=user.id, avi_path=default)
         avi.save()
         return Response({
             "user": UserSerializer(user, context=self.get_serializer_context()).data,
@@ -55,8 +50,6 @@ class RegistrationView(generics.GenericAPIView):
 # curl -X POST http://localhost:8000/auth/login/ -d "password=1110asia&username=asialea8@gmail.com"
 class LoginView(generics.GenericAPIView):
     serializer_class = LoginUserSerializer
-
-
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -120,15 +113,6 @@ class AboutUserView(generics.UpdateAPIView):
     permission_classes = [permissions.IsAuthenticated, ]
     serializer_class = AboutUserSerializer
 
-    def get(self,request):
-        try:
-            aboutUser = AboutUser.objects.get(user_id=self.request.user.id)
-        except AboutUser.DoesNotExist:
-            return Response(None)
-
-        serializer = AboutUserSerializer(aboutUser)
-        return Response(serializer.data)
-
     def post(self, request, *args, **kwargs):
         return self.update(self, request, *args, **kwargs)
 
@@ -159,12 +143,6 @@ class WorkView(generics.GenericAPIView):
     queryset = Work.objects.all()
     serializer_class = WorkSerializer
 
-    @method_decorator(ensure_csrf_cookie)
-    def get(self,request):
-        work = Work.objects.filter(user_id=self.request.user.id).all().order_by('end').reverse()
-        serializer = WorkSerializer(work,many=True)
-        return Response(serializer.data)
-
     def post(self,request, *args, **kwargs):
         serializer = self.get_serializer(data=self.request.data)
         serializer.is_valid(raise_exception=True)
@@ -181,11 +159,6 @@ class UserSkillsView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated, ]
     queryset = UserSkills.objects.all()
     serializer_class = UserSkillsSerializer
-
-    def get(self,request):
-        skills = UserSkills.objects.filter(user_id=self.request.user.id).all()
-        serializer = UserSkillsSerializer(skills,many=True)
-        return Response(serializer.data)
 
     def post(self,request, *args, **kwargs):
         serializer = self.get_serializer(data=self.request.data)
@@ -204,10 +177,6 @@ class UserInterestsView(generics.GenericAPIView):
     queryset = UserInterests.objects.all()
     serializer_class = UserInterestsSerializer
 
-    def get(self,request):
-        interests = UserInterests.objects.filter(user_id=self.request.user.id).all()
-        serializer = UserInterestsSerializer(interests,many=True)
-        return Response(serializer.data)
 
     def post(self,request, *args, **kwargs):
         serializer = self.get_serializer(data=self.request.data)
@@ -225,11 +194,6 @@ class EducationView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated, ]
     queryset = Education.objects.all()
     serializer_class = EducationSerializer
-
-    def get(self,request,*args, **kwargs):
-        edu = Education.objects.filter(user_id=self.request.user.id).all().order_by('end').reverse()
-        serializer = EducationSerializer(edu,many=True)
-        return Response(serializer.data)
 
     def post(self,request, *args, **kwargs):
         serializer = self.get_serializer(data=self.request.data)
@@ -284,6 +248,7 @@ class ReadWorkView(generics.RetrieveAPIView):
 
         work = Work.objects.filter(user_id=user.id).all().order_by('end').reverse()
         serializer = WorkSerializer(work,many=True)
+        print(serializer.data)
         return Response(serializer.data)
 
 
@@ -322,3 +287,34 @@ class ReadUserView(generics.RetrieveAPIView):
         except User.DoesNotExist:
             user = None
         return user
+
+from itertools import chain
+
+class FilterUserView(generics.GenericAPIView):
+    serializer_class = FilterSerializer
+    queryset = User.objects.all()
+    def post(self,request,**kwargs):
+        query = self.request.data['query'].strip()
+
+        school = User.objects.filter(education__school__icontains=query).values('avi__avi_path','id','username','type').distinct()
+        company = User.objects.filter(work__company__icontains=query).values('avi__avi_path','id','username','type').distinct()
+        location = User.objects.filter(aboutuser__location__icontains=query).values('avi__avi_path','id','username','type').distinct()
+        skill = User.objects.filter(userskills__skill__icontains=query).values('avi__avi_path','id','username','type').distinct()
+        interest = User.objects.filter(userinterests__interest__icontains=query).values('avi__avi_path','id','username','type').distinct()
+        name = User.objects.filter(Q(username__icontains=query)|Q(first_name__icontains=query)|Q(last_name__icontains=query)).values('avi__avi_path','id',
+        'username','type').distinct()
+
+        all = User.objects.filter(Q(username__icontains=query)|Q(first_name__icontains=query)|Q(last_name__icontains=query)
+        |Q(education__school__icontains=query)|Q(work__company__icontains=query)|Q(aboutuser__location__icontains=query)|
+        Q(userskills__skill__icontains=query)|Q(userinterests__interest__icontains=query)).values('avi__avi_path','id','username','type').distinct()
+
+        school_ser = FilterSerializer(school,many=True)
+        company_ser = FilterSerializer(company,many=True)
+        location_ser = FilterSerializer(location,many=True)
+        skill_ser = FilterSerializer(skill,many=True)
+        interest_ser = FilterSerializer(interest,many=True)
+        name_ser = FilterSerializer(name,many=True)
+        all_ser = FilterSerializer(all,many=True)
+
+        return Response({"school":school_ser.data,"company":company_ser.data,"location":location_ser.data,
+        "skill":skill_ser.data,"interest":interest_ser.data,"name":name_ser.data,"all":all_ser.data})

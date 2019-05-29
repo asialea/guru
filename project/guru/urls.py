@@ -8,8 +8,6 @@ app_name = 'guru'
 urlpatterns = [
     #viewsets
     url('^api/users/$', views.UserViewSet.as_view() ),
-    url('^api/aboutUsers/$', views.AboutUserViewSet.as_view() ),
-    url('^api/avis/$', views.AviViewSet.as_view()),
     # Authentication
     url('^auth/register/$', views.RegistrationView.as_view()),
     url('^auth/login/$', views.LoginView.as_view()),
@@ -35,6 +33,6 @@ urlpatterns = [
     url('^api/user-skills/(?P<username>[a-zA-Z0-9_.-s]+)/$',views.ReadSkillsView.as_view()),
     url('^api/user-interests/(?P<username>[a-zA-Z0-9_.-s]+)/$',views.ReadInterestsView.as_view()),
     # Search     url('^api/search/(?P<param>[a-zA-Z0-9_.-s]+)/(?P<term>[a-zA-Z0-9_.-s]+)/$',views.SearchView.as_view()),
-
+    url('^api/filter/$',views.FilterUserView.as_view()),
 
 ]

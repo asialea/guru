@@ -8,7 +8,6 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = '__all__'
 
-
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -95,7 +94,9 @@ class LoginUserSerializer(serializers.Serializer):
         raise serializers.ValidationError("Unable to log in with provided credentials.")
 
 class TokenSerializer(serializers.Serializer):
-    """
-    This serializer serializes the token data
-    """
     token = serializers.CharField(max_length=255)
+
+class FilterSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    type = serializers.CharField()
+    avi__avi_path = serializers.CharField()
