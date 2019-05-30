@@ -6,6 +6,8 @@ import {Link} from 'react-router-dom';
 import {FaEnvelope,FaUser,FaNewspaper,FaIdCard,FaUsers,FaSignOutAlt} from 'react-icons/fa';
 import IconButton from '@material-ui/core/IconButton';
 import {Redirect} from 'react-router-dom';
+import head from './head-color.svg'
+
 
 class Navbar extends Component{
 
@@ -27,7 +29,9 @@ class Navbar extends Component{
       <div className="header header-fill header-fixed">
         <div className="header-brand">
           <div className="nav-item no-hover">
-            <Link to="/dashboard"><h1 className="title">Guru</h1></Link>
+            <Link to="/about"><h1 className="title">
+            <img className="logo" src={head} alt="lotus"/>Guru</h1>
+            </Link>
           </div>
         </div>
 

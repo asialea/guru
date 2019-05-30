@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import {connect} from "react-redux";
 import '../static/AboutForm.css';
 import {headers,uploadConfig} from './global.js'
-import {FaPlus} from 'react-icons/fa';
-
+import {FaPlus,FaGithub,FaLinkedin,FaTwitter} from 'react-icons/fa';
 
 class AboutUser extends Component {
 
@@ -43,6 +42,10 @@ class AboutUser extends Component {
     headers["Authorization"] = `Token ${this.props.token}`;
     fetch("/api/aboutUser/", {headers,body,method:"PUT",mode:"same-origin"})
       .then(res => res.json())
+  }
+
+  parse_type(type){
+    return (type ==='MR' ? 'Mentor' : 'Mentee')
   }
 
   aboutSave = (e) => {
@@ -85,7 +88,7 @@ class AboutUser extends Component {
 
         <button onClick={this.show} className="table accordion btn-animated"><h2>About<FaPlus onClick={this.show} className="about-expand"/></h2></button>
         <div className={this.state.hidden ? 'hidden':'form'}>
-        <button onClick={this.uploadWidget} className="submit">Pro Pic</button>
+        <button onClick={this.uploadWidget} id="pro-upload" className="submit">Pro Pic</button>
             <div>
              <div className="form-group">
               <input className="input-small" onChange={e => this.handleChange("github",e.target.value)} placeholder="Github" type="text"/>
@@ -108,13 +111,15 @@ class AboutUser extends Component {
                 </thead>
                 <tbody>
                   <tr><th>Name</th><td>{this.props.user.first_name} {this.props.user.last_name}</td></tr>
+                  <tr><th>Type</th><td>{this.parse_type(this.props.user.type)}</td></tr>
                   <tr><th>Location</th><td>{this.state.aboutUser.location}</td></tr>
-                  <tr><th>Email</th><td>{this.props.user.email}</td></tr>
-                  <tr><th>Github</th><td>{this.state.aboutUser.github}</td></tr>
-                  <tr><th>LinkedIn</th><td>{this.state.aboutUser.linkedin}</td></tr>
-                  <tr><th>Twitter</th><td>{this.state.aboutUser.twitter_handle}</td></tr>
                 </tbody>
               </table>
+            <div  id="contact">
+              <a href={this.state.aboutUser.github}><FaGithub className="social"/></a>
+              <a href={this.state.aboutUser.linkedin}><FaLinkedin className="social"/></a>
+              <a href={this.state.aboutUser.twitter_handle}><FaTwitter className="social"/></a>
+            </div>
             </div>
         </div>
       );

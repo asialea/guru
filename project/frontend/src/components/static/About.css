@@ -47,7 +47,7 @@ caption {
 
 #aboutUser{
   margin-top: 2em;
-  grid-row-start: 1;
+  grid-row: 1/7;
 }
 
 #about-edit{
@@ -153,6 +153,14 @@ form{
 .table{
   margin-top: 1em;
 }
+.table.accordion{
+  margin-bottom: 1em;
+
+}
+
+#aboutUser .form-group input.input-small{
+  margin-right: 4px;
+}
 
 .edu-ex{
   border-bottom: 0.5px solid rgb(39, 179, 45,0.2);
@@ -193,3 +201,15 @@ label{
 .hidden{
    display: none;
  }
+
+.social{
+  font-size: 2em;
+  margin: 1em;
+  color: #374054;
+}
+
+#pro-upload{
+  color:  rgba(57,63,72,0.5);
+  border: 0.5px solid rgba(57,63,72,.2);
+  background-color: transparent;
+}

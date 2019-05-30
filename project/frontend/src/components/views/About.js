@@ -20,6 +20,7 @@ class About extends Component{
         <div className="about-body">
           <section id="aboutUser">
              <AboutUser/>
+
           </section>
           <section id="resume">
             <article>

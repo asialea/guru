@@ -4,7 +4,7 @@ import Register from '../forms/Register';
 import {Link,Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {auth} from "../../actions";
-
+import head from './head-color.svg'
 
 class Home extends Component {
 
@@ -31,7 +31,7 @@ class Home extends Component {
       <div className="header header-fill header-fixed">
         <div className="header-brand">
           <div className="nav-item no-hover">
-              <h1 className="title">Guru</h1>
+              <h1 className="title"><img className="logo" src={head} alt="lotus"/>Guru</h1>
 
           </div>
         </div>

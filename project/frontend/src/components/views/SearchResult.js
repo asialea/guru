@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
-import {auth} from "../../actions";
 import '../static/Home.css';
 import {Link} from 'react-router-dom';
 
 
 class SearchResult extends Component{
-
-  constructor() {
-    super()
-
-  }
 
   parse_type(type){
     return (type ==='MR' ? 'Mentor' : 'Mentee')
@@ -21,7 +15,7 @@ class SearchResult extends Component{
       <div id="users">
       {
         this.props.users.map((el,idx) => {
-          if(el.id!==this.props.user.id){
+          if(el.id!==this.props.user.id && (this.props.type).includes(el.type)){
             return <div  className={!this.props.hidden ? 'user-icon':'hidden'} key={idx}>
             <div>
                  <Link to={"/about/"+el.username}><img alt="profile-pic"  className="pro-pic"src={el.avi__avi_path}/>

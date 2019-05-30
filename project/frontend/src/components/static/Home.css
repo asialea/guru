@@ -1,5 +1,10 @@
 /* HOME and NAV */
 
+body{
+  background-color: rgba(244, 249, 246,0.2);
+  font-family:sans-serif;
+}
+
 .nav-link{
   color: #374054;
 }
@@ -8,7 +13,7 @@
 div.header{
   height: 55px;
   display: flex;
-  box-shadow: 0 3px 15px rgba(57,63,72,.6)
+  box-shadow: 0 3px 15px rgba(57,63,72,.6);
 }
 
 div.header{
@@ -16,13 +21,10 @@ div.header{
 }
 
 h1.title{
-  color: white;
   font-size: 40px;
-
-}
-
-#home h1.title{
   color: white;
+  /* color: rgb(244, 249, 246); */
+  text-align: left;
 }
 
 div#home{
@@ -125,6 +127,7 @@ div.nav-item{
   color: #346D2F;
 }
 
+
 .nav-right{
   position: absolute;
   right: 0px;
@@ -132,4 +135,10 @@ div.nav-item{
 
 #register-div input, .inputdiv{
   margin-bottom: 10px;
+}
+
+.logo{
+  margin-top: 4px;
+  margin-right: 7px;
+  max-height:0.9em;
 }

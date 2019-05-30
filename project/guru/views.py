@@ -35,7 +35,6 @@ class RegistrationView(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
-        print(user)
         aboutUser = AboutUser.objects.create(user_id=user)
         aboutUser.save()
         default ='https://res.cloudinary.com/guruapp/image/upload/c_scale,h_287,w_249/v1558568880/profile-blank_dzejyo.png'
@@ -47,7 +46,6 @@ class RegistrationView(generics.GenericAPIView):
         })
 
 
-# curl -X POST http://localhost:8000/auth/login/ -d "password=1110asia&username=asialea8@gmail.com"
 class LoginView(generics.GenericAPIView):
     serializer_class = LoginUserSerializer
     def post(self, request, *args, **kwargs):
@@ -61,7 +59,6 @@ class LoginView(generics.GenericAPIView):
 
         })
 
-# curl http://127.0.0.1:8000/auth/logout/  -H 'Authorization: Token 16a4856a35530a18f6fbb2d694251163ffd07b72'
 class LogoutView(APIView):
     def post(self, request):
         return self.logout(request)
@@ -78,7 +75,6 @@ class LogoutView(APIView):
 
         return Response({"success":("Successfully logged out.")},status=status.HTTP_204_NO_CONTENT)
 
-#curl http://127.0.0.1:8000/auth/user/  -H 'Authorization: Token 6818f44df21d2b35c3ff8c0c15e3b451b9d172c7'
 class UserView(generics.RetrieveAPIView):
     permission_classes = [permissions.IsAuthenticated, ]
     serializer_class = UserSerializer
@@ -122,7 +118,7 @@ class AboutUserView(generics.UpdateAPIView):
         aboutUser = serializer.save()
         return Response({"aboutUser": aboutUser })
 
-class AviView(generics.UpdateAPIView):
+class AviView(generics.GenericAPIView):
     serializer_class = AviSerializer
 
     def get(self,request, **kwargs):
@@ -248,7 +244,6 @@ class ReadWorkView(generics.RetrieveAPIView):
 
         work = Work.objects.filter(user_id=user.id).all().order_by('end').reverse()
         serializer = WorkSerializer(work,many=True)
-        print(serializer.data)
         return Response(serializer.data)
 
 
@@ -278,17 +273,18 @@ class ReadAboutUserView(generics.RetrieveAPIView):
 
         return about_user
 
-class ReadUserView(generics.RetrieveAPIView):
-    serializer_class = UserSerializer
-    def get_object(self):
+class ReadUserView(generics.GenericAPIView):
+    serializer_class = UserViewSerializer
+    queryset = User.objects.all()
+    def get(self,request,**kwargs):
         try:
             username = str(self.kwargs['username'])
-            user = User.objects.get(username=username)
+            user = User.objects.filter(username=username).values('avi__avi_path','id','type','username','first_name','last_name')
+            user_ser = UserViewSerializer(user,many=True)
+            return Response(user_ser.data)
         except User.DoesNotExist:
             user = None
         return user
-
-from itertools import chain
 
 class FilterUserView(generics.GenericAPIView):
     serializer_class = FilterSerializer

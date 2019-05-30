@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import Navbar from './Navbar';
 import '../static/Connect.css';
-import {Link} from 'react-router-dom';
 import {connect} from "react-redux";
 import {FaSearch} from 'react-icons/fa';
 import {Tabs,TabLink,TabContent} from 'react-tabs-redux'
 import {headers} from '../forms/global.js'
 import SearchResult from './SearchResult'
+
 
 class Connect extends Component{
 
@@ -14,7 +14,8 @@ class Connect extends Component{
     users:[],
     query:null,
     hidden:false,
-    user_query:null
+    user_query:null,
+    type:['MR','ME'],
   }
 
   componentWillMount(){
@@ -53,18 +54,32 @@ class Connect extends Component{
       <header>
         <Navbar/>
       </header>
-    <div className="flex-box">
-      <div className="connect-body">
+      <div className="flex-box">
+        <div className="connect-body">
+          <div id="search-bar">
+          <form onSubmit={this.search.bind(this)}>
+            <FaSearch id="search-icon"/>
+            <input ref="query" type="text" placeholder="Search..." onChange={e =>this.setState({query:e.target.value})}/>
+          </form>
 
-          <div id="search-bar"><input ref="query" type="text" placeholder="Search..." onChange={e =>this.setState({query:e.target.value})}/>
-          <FaSearch onClick={this.search.bind(this)}id="search-icon"/><button id="reset" className={!this.state.hidden ? 'hidden':'submit'}
-          onClick={this.reset.bind(this)}>RESET</button></div>
+           <select placeholder="Account Type"  onChange={e => this.setState({type: e.target.value})}>
+             <option value="['MR','ME']" selected>ALL</option>
+             <option value="ME">Mentee</option>
+             <option value="MR">Mentor</option>
+           </select>
+          </div>
 
-          <div className="search-label"><span className={!this.state.hidden ? 'hidden':'reset'}>RESULTS FOR: "{this.state.query}"</span>
-          <span className={this.state.hidden ? 'hidden':'reset'}>ALL USERS</span></div>
 
 
-          <SearchResult users={this.state.users} hidden={this.state.hidden}/>
+          <div className="search-label">
+            <button id="reset" className={!this.state.hidden ? 'hidden':'inline-block'}onClick={this.reset.bind(this)}>RESET</button>
+            <span className={!this.state.hidden ? 'hidden':'reset'}>
+            RESULTS FOR: "{this.state.query}"
+            </span>
+          </div>
+
+
+          <SearchResult users={this.state.users} hidden={this.state.hidden} type={this.state.type}/>
 
           <Tabs>
             <TabLink className={!this.state.hidden ? 'hidden':'tablink'} to="tab1" default>All ({this.state.user_query ? this.state.user_query.all.length :null})</TabLink>
@@ -76,31 +91,31 @@ class Connect extends Component{
             <TabLink className={!this.state.hidden ? 'hidden':'tablink'} to="tab7">School ({this.state.user_query ? this.state.user_query.school.length :null})</TabLink>
 
             <TabContent className={!this.state.hidden ? 'hidden':''} for="tab1">
-              <SearchResult users={this.state.user_query ? this.state.user_query.all:[]} hidden={!this.state.hidden}/>
+              <SearchResult users={this.state.user_query ? this.state.user_query.all:[]} hidden={!this.state.hidden} type={this.state.type}/>
             </TabContent>
 
             <TabContent className={!this.state.hidden ? 'hidden':''} for="tab2">
-              <SearchResult users={this.state.user_query ? this.state.user_query.name:[]} hidden={!this.state.hidden}/>
+              <SearchResult users={this.state.user_query ? this.state.user_query.name:[]} hidden={!this.state.hidden} type={this.state.type}/>
             </TabContent>
 
             <TabContent className={!this.state.hidden ? 'hidden':''} for="tab3">
-              <SearchResult users={this.state.user_query ? this.state.user_query.company:[]} hidden={!this.state.hidden}/>
+              <SearchResult users={this.state.user_query ? this.state.user_query.company:[]} hidden={!this.state.hidden} type={this.state.type}/>
             </TabContent>
 
             <TabContent className={!this.state.hidden ? 'hidden':''} for="tab4">
-              <SearchResult users={this.state.user_query ? this.state.user_query.location:[]} hidden={!this.state.hidden}/>
+              <SearchResult users={this.state.user_query ? this.state.user_query.location:[]} hidden={!this.state.hidden} type={this.state.type}/>
             </TabContent>
 
             <TabContent className={!this.state.hidden ? 'hidden':''} for="tab5">
-              <SearchResult users={this.state.user_query ? this.state.user_query.skill:[]} hidden={!this.state.hidden}/>
+              <SearchResult users={this.state.user_query ? this.state.user_query.skill:[]} hidden={!this.state.hidden} type={this.state.type}/>
             </TabContent>
 
             <TabContent className={!this.state.hidden ? 'hidden':''} for="tab6">
-              <SearchResult users={this.state.user_query ? this.state.user_query.interest:[]} hidden={!this.state.hidden}/>
+              <SearchResult users={this.state.user_query ? this.state.user_query.interest:[]} hidden={!this.state.hidden} type={this.state.type}/>
             </TabContent>
 
             <TabContent className={!this.state.hidden ? 'hidden':''} for="tab7">
-              <SearchResult users={this.state.user_query ? this.state.user_query.school:[]} hidden={!this.state.hidden}/>
+              <SearchResult users={this.state.user_query ? this.state.user_query.school:[]} hidden={!this.state.hidden} type={this.state.type}/>
             </TabContent>
           </Tabs>
         </div>

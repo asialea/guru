@@ -31,12 +31,11 @@ class AboutUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = AboutUser
         fields = '__all__'
-
     def update(self,instance,validated_data):
         about_user = AboutUser.objects.filter(user_id=instance.id).update(location=validated_data['location'],
         bio=validated_data['bio'],github=validated_data['github'],linkedin = validated_data['linkedin'],
         twitter_handle=validated_data['twitter_handle'])
-        return about_user
+        return about_user    
 
 class AviSerializer(serializers.ModelSerializer):
     class Meta:
@@ -100,3 +99,10 @@ class FilterSerializer(serializers.Serializer):
     username = serializers.CharField()
     type = serializers.CharField()
     avi__avi_path = serializers.CharField()
+
+class UserViewSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    type = serializers.CharField()
+    avi__avi_path = serializers.CharField()
+    first_name = serializers.CharField()
+    last_name = serializers.CharField()

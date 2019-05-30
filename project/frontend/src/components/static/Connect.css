@@ -1,4 +1,5 @@
 
+
 .connect-body{
   align-items: center;
   margin: 0 auto;
@@ -40,6 +41,7 @@ button.tab-link-active{
   background-color: transparent;
   border: none;
   font-size: 0.8em;
+  font-family: Montserrat,sans-serif;
 }
 
 
@@ -53,6 +55,8 @@ button.tab-link-active{
   text-align: center;
   box-shadow: 0 3px 15px rgba(57,63,72,.1);
   transition: box-shadow 0.7s;
+  background-color: white;
+  border-radius: 5px;
 }
 
 #search-bar{
@@ -62,10 +66,15 @@ button.tab-link-active{
 }
 
 #search-bar input{
+  color:rgb(186, 186, 186);
   position: relative;
   max-width:50%;
   height: 85%;
-  border-radius: 25px;
+  background-color: rgba(0,0,0,0);
+  box-shadow: none;
+  border: none;
+  font-size: 3em;
+  font-family: arial;
 }
 
 .user-icon a{
@@ -73,16 +82,12 @@ button.tab-link-active{
  color: #374054;
 }
 
-.user-icon a:hover{
- color: black;
-}
-
 .user-icon:hover{
   box-shadow: 0 3px 15px rgba(57,63,72,.5);
 }
 
 #search-icon{
-  color: rgb(39, 179, 45,0.5);
+  color:rgb(186, 186, 186);
   font-size: 2.2em;
   display: inline-block;
   position: relative;
@@ -90,32 +95,49 @@ button.tab-link-active{
   margin-top: 3px;
 }
 
-#search-icon:hover{
-  cursor: pointer;
+#connect form{
+  display: flex;
+  align-items: center;
 }
 
-#reset{
-  font-family: 'Nunito Sans';
-  height: 10%;
-  margin-left: 2em;
-  color:  rgba(57,63,72,.4);
-  border: 0.5px solid rgba(57,63,72,.2);
-  background-color: transparent;
-  margin-top: 4px;
+
+#connect select{
+  width: auto;
+  position: absolute;
+  bottom: 2em;
+  right: 0;
+  background-color: rgba(244, 249, 246,0.2);
+  font-family: arial;
 }
 
 .reset{
     font-size:0.9em;
     color:  rgba(57,63,72,.6);
     display: inline-block;
-    font-family: 'Nunito Sans';
     text-transform: uppercase;
 }
 
 .search-label{
-  padding-top: 1em;
   padding-bottom: 1em;
 
 }
 
-.username{ display: block;}
+.username{
+  display: block;
+}
+
+#reset{
+  margin-right: 2em;
+  color:  rgba(57,63,72,.4);
+  border: 0.5px solid rgba(57,63,72,.2);
+  background-color: transparent;
+  padding: 0 1.5em;
+  font-family: arial
+
+}
+
+.inline-block{
+  display: inline-block;
+  margin: 0 auto;
+  height: 33px;
+}

@@ -13,7 +13,6 @@ class Interests extends Component{
     new_interest:null,
   }
 
-
   show = (e) =>{
     this.setState({hidden:!this.state.hidden})
   }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Navbar from './Navbar';
 import '../static/About.css';
+import {FaGithub,FaLinkedin,FaTwitter} from 'react-icons/fa';
 
 
 class AboutView extends Component{
@@ -19,13 +20,9 @@ class AboutView extends Component{
 
 componentWillMount(){
  fetch(`/api/user/${this.props.match.params.username}/`)
-   .then(response => { return response.json();}).then(responseData => {return responseData;})
-  .then (json =>{this.setState({user: json});return json;}).then(user=> fetch(`/api/avi/${user.id}/`)
-      .then(response => { return response.json();}).then(responseData => {return responseData;})
-     .then(json =>this.setState({avi: json})).catch(err => {
-           console.log("fetch error" + err);
-       })).catch(err => {
-        console.log("fetch error" + err);
+  .then(response => { return response.json();}).then(responseData => {return responseData;})
+  .then (json =>{this.setState({user: json[0]});})
+  .catch(err => {console.log("fetch error" + err);
     });
 
 fetch(`/api/aboutUser/${this.props.match.params.username}/`)
@@ -57,11 +54,14 @@ fetch(`/api/user-skills/${this.props.match.params.username}/`)
   .then (json =>this.setState({interests: json})).catch(err => {
         console.log("fetch error" + err);
     });
+  }
 
+  parse_type(type){
+    return (type ==='MR' ? 'Mentor' : 'Mentee')
   }
 
   render(){
-    var proPic = {  backgroundImage:'url(' + this.state.avi.avi_path + ')'};
+    var proPic = {  backgroundImage:'url(' + this.state.user.avi__avi_path + ')'};
     return(
     <div className="body">
       <header>
@@ -84,12 +84,14 @@ fetch(`/api/user-skills/${this.props.match.params.username}/`)
                 <tbody>
                   <tr><th>Name</th><td>{this.state.user.first_name} {this.state.user.last_name}</td></tr>
                   <tr><th>Location</th><td>{this.state.aboutUser.location}</td></tr>
-                  <tr><th>Email</th><td>{this.state.user.email}</td></tr>
-                  <tr><th>Github</th><td>{this.state.aboutUser.github}</td></tr>
-                  <tr><th>LinkedIn</th><td>{this.state.aboutUser.linkedin}</td></tr>
-                  <tr><th>Twitter</th><td>{this.state.aboutUser.twitter_handle}</td></tr>
+                  <tr><th>Type</th><td>{this.parse_type(this.state.user.type)}</td></tr>
                 </tbody>
               </table>
+              <div  id="contact">
+                <a href={this.state.aboutUser.github}><FaGithub className="social"/></a>
+                <a href={this.state.aboutUser.linkedin}><FaLinkedin className="social"/></a>
+                <a href={this.state.aboutUser.twitter_handle}><FaTwitter className="social"/></a>
+              </div>
             </div>
           </section>
           <section id="resume">
@@ -138,7 +140,6 @@ fetch(`/api/user-skills/${this.props.match.params.username}/`)
               {this.state.interests.map(el => {
                     return <div className="skill" key={el.id}>
                          {el.interest}
-
                     </div>
                 })}
               </div>
