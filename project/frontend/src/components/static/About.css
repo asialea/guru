@@ -202,10 +202,16 @@ label{
    display: none;
  }
 
+
 .social{
   font-size: 2em;
-  margin: 1em;
   color: #374054;
+  margin: 0.7em;
+}
+
+#about .social{
+  margin: 1em;
+
 }
 
 #pro-upload{

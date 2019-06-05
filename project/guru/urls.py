@@ -12,7 +12,6 @@ urlpatterns = [
     url('^auth/register/$', views.RegistrationView.as_view()),
     url('^auth/login/$', views.LoginView.as_view()),
     url('^auth/user/$', views.UserView.as_view()),
-    url('^auth/user/update/$',views.UpdateUserView.as_view()),
     url('^auth/logout/$', views.LogoutView.as_view()),
     # Edit user profile
     url('^api/work/$',views.WorkView.as_view()),
@@ -32,7 +31,12 @@ urlpatterns = [
     url('^api/user-work/(?P<username>[a-zA-Z0-9_.-s]+)/$',views.ReadWorkView.as_view()),
     url('^api/user-skills/(?P<username>[a-zA-Z0-9_.-s]+)/$',views.ReadSkillsView.as_view()),
     url('^api/user-interests/(?P<username>[a-zA-Z0-9_.-s]+)/$',views.ReadInterestsView.as_view()),
-    # Search     url('^api/search/(?P<param>[a-zA-Z0-9_.-s]+)/(?P<term>[a-zA-Z0-9_.-s]+)/$',views.SearchView.as_view()),
+    # Search
     url('^api/filter/$',views.FilterUserView.as_view()),
+    # Forum
+    url('^api/category/$',views.CategoryView.as_view()),
+    url('^api/topic/(?P<cat_id>\d+)',views.TopicView.as_view()),
+    url('^api/post/(?P<top_id>\d+)',views.PostView.as_view()),
+    # url('^api/replies/(?P<id>\d+)', views.get_replies),
 
 ]

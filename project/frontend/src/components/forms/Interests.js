@@ -51,10 +51,10 @@ class Interests extends Component{
 
   fetchInterests(){
       return fetch(`/api/user-interests/${this.props.user.username}/`)
-       .then(response => { return response.json();}).then(responseData => {return responseData;})
-      .then (json =>this.setState({interests: json}))
-      .catch(err => {console.log("fetch error" + err);
-                    });
+        .then(response => { return response.json();}).then(responseData => {return responseData;})
+        .then (json =>this.setState({interests: json}))
+        .catch(err => {console.log("fetch error" + err);
+              });
             }
 
   componentWillMount(){

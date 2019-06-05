@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Navbar from './Navbar';
 import '../static/About.css';
-import {FaGithub,FaLinkedin,FaTwitter} from 'react-icons/fa';
+import {FaGithub,FaLinkedin,FaTwitter,FaEnvelope} from 'react-icons/fa';
 
 
 class AboutView extends Component{
@@ -88,6 +88,7 @@ fetch(`/api/user-skills/${this.props.match.params.username}/`)
                 </tbody>
               </table>
               <div  id="contact">
+                <FaEnvelope className="social"/>
                 <a href={this.state.aboutUser.github}><FaGithub className="social"/></a>
                 <a href={this.state.aboutUser.linkedin}><FaLinkedin className="social"/></a>
                 <a href={this.state.aboutUser.twitter_handle}><FaTwitter className="social"/></a>

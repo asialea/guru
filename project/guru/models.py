@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.forms import ModelForm
 from django.contrib.auth.models import AbstractUser
-
+import django.utils
 
 class IntegerRangeField(models.IntegerField):
     def __init__(self, verbose_name=None, name=None, min_value=None, max_value=None, **kwargs):
@@ -40,33 +40,6 @@ class Avi(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,unique = True)
     avi_path = models.CharField(max_length=150,blank=True,null = False,default="")
 
-
-#Mentee
-class Mentee(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, null = False)
-
-#Mentor
-class Mentor(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
-    mentees = models.ManyToManyField(Mentee)
-
-
-class Connection(models.Model):
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null = False, related_name='userid_user')
-    # second party id
-    sec_id = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null = False, related_name='secid_user')
-    status = models.CharField(max_length = 6)  # sent_request, accepted, request_pending
-    time_status = models.DateTimeField()
-
-
-class Review(models.Model):
-    author_id = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null = False, related_name='author_user')
-    about_id = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null = False, related_name='about_user')
-    rating = IntegerRangeField(min_value=1, max_value=5)
-    create_time = models.DateTimeField()
-    review_text = models.TextField(max_length=300, blank=True)
-
-
 #work experience
 class Work(models.Model):
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null = False)
@@ -95,20 +68,22 @@ class UserSkills(models.Model):
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null = False)
     skill = models.TextField(max_length=50, blank=False, null = False)
 
-#posts
+# FORUM
+
+class Category(models.Model):
+    name = models.CharField(max_length=50, blank=True,null = True)
+
+class Topic(models.Model):
+    category = models.ForeignKey(Category,on_delete=models.CASCADE,null = True)
+    timestamp = models.DateTimeField(auto_now=True)
+    name = models.CharField(max_length=50, blank=True,null = True)
+    created_by = models.IntegerField()
+
 class Post(models.Model):
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null = False)
-    create_time = models.DateTimeField()
-
-class PostLike(models.Model):
-    post = models.ForeignKey(Post,on_delete=models.CASCADE,null = False)
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null = False)
-
-class PostComment(models.Model):
-    post = models.ForeignKey(Post,on_delete=models.CASCADE,null = False)
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null = False)
-    text = models.TextField(max_length=500, blank=True)
-
-class CommentLike(models.Model):
-    comment = models.ForeignKey(PostComment,on_delete=models.CASCADE,null = False)
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null = False)
+    topic = models.ForeignKey(Topic,on_delete=models.CASCADE,null = True)
+    category = models.ForeignKey(Category,on_delete=models.CASCADE,null = False,default=1)
+    timestamp = models.DateTimeField(auto_now=True)
+    text = models.TextField(max_length=500, blank=False,null = False,default="")
+    reply_to = models.ForeignKey('self',on_delete=models.SET_NULL,null=True)
+    likes = models.IntegerField(null = False,blank=False,default=0)
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null = True)

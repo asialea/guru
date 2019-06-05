@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {auth} from "../../actions";
 import '../static/Home.css';
 import {Link} from 'react-router-dom';
-import {FaEnvelope,FaUser,FaNewspaper,FaIdCard,FaUsers,FaSignOutAlt} from 'react-icons/fa';
+import {FaUser,FaNewspaper,FaIdCard,FaUsers,FaSignOutAlt} from 'react-icons/fa';
 import IconButton from '@material-ui/core/IconButton';
 import {Redirect} from 'react-router-dom';
 import head from './head-color.svg'
@@ -37,17 +37,12 @@ class Navbar extends Component{
 
         <div className="nav-right" >
           <div className="nav-item text-center">
-              <Link to="/about"><IconButton>
-                <FaEnvelope className="nav-link"/>
-              </IconButton></Link>
-          </div>
-          <div className="nav-item text-center">
             <Link to="/about"><IconButton>
               <FaUser className="nav-link"/>
             </IconButton></Link>
           </div>
           <div className="nav-item text-center">
-            <Link to="/about"><IconButton>
+            <Link to="/forums"><IconButton>
               <FaNewspaper className="nav-link"/>
             </IconButton></Link>
           </div>

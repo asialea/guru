@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from .models import User, Work, Education, AboutUser, UserSkills, UserInterests,Avi
+from .models import *
 from django.contrib.auth import authenticate
+import datetime
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -35,7 +36,7 @@ class AboutUserSerializer(serializers.ModelSerializer):
         about_user = AboutUser.objects.filter(user_id=instance.id).update(location=validated_data['location'],
         bio=validated_data['bio'],github=validated_data['github'],linkedin = validated_data['linkedin'],
         twitter_handle=validated_data['twitter_handle'])
-        return about_user    
+        return about_user
 
 class AviSerializer(serializers.ModelSerializer):
     class Meta:
@@ -47,20 +48,11 @@ class WorkSerializer(serializers.ModelSerializer):
         model = Work
         fields = '__all__'
 
-    def create(self,validated_data):
-        work = Work.objects.create(user_id=validated_data['user_id'], start= validated_data['start'],end=validated_data['end'], company=validated_data['company'],
-        location=validated_data['location'], position=validated_data['position'], description=validated_data['description'])
-        return work
-
 
 class UserSkillsSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSkills
         fields = '__all__'
-
-    def create(self,validated_data):
-        skill = UserSkills.objects.create(user_id=validated_data['user_id'],skill=validated_data['skill'])
-        return skill
 
 
 class UserInterestsSerializer(serializers.ModelSerializer):
@@ -68,19 +60,10 @@ class UserInterestsSerializer(serializers.ModelSerializer):
         model = UserInterests
         fields = '__all__'
 
-    def create(self,validated_data):
-        interest = UserInterests.objects.create(user_id=validated_data['user_id'],interest=validated_data['interest'])
-        return interest
-
 class EducationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Education
         fields = '__all__'
-
-    def create(self,validated_data):
-        edu = Education.objects.create(user_id=validated_data['user_id'], start= validated_data['start'],end=validated_data['end'],
-        school=validated_data['school'],location=validated_data['location'],degree=validated_data['degree'])
-        return edu
 
 class LoginUserSerializer(serializers.Serializer):
     username = serializers.CharField()
@@ -106,3 +89,18 @@ class UserViewSerializer(serializers.Serializer):
     avi__avi_path = serializers.CharField()
     first_name = serializers.CharField()
     last_name = serializers.CharField()
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = '__all__'
+
+class TopicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Topic
+        fields = '__all__'
+
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = '__all__'

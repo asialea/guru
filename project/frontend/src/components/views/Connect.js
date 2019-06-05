@@ -63,18 +63,18 @@ class Connect extends Component{
           </form>
 
            <select placeholder="Account Type"  onChange={e => this.setState({type: e.target.value})}>
-             <option value="['MR','ME']" selected>ALL</option>
+             <option value="" disabled selected>Filter</option>
+             <option value="['MR','ME']">All</option>
              <option value="ME">Mentee</option>
              <option value="MR">Mentor</option>
            </select>
           </div>
 
-
-
           <div className="search-label">
+          <span className={this.state.hidden ? 'hidden':'reset'}>ALL {this.state.users.length} USERS</span>
             <button id="reset" className={!this.state.hidden ? 'hidden':'inline-block'}onClick={this.reset.bind(this)}>RESET</button>
             <span className={!this.state.hidden ? 'hidden':'reset'}>
-            RESULTS FOR: "{this.state.query}"
+            ({this.state.user_query ? this.state.user_query.all.length :null})  RESULTS FOR: "{this.state.query}"
             </span>
           </div>
 

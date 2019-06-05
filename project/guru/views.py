@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import User,Work, Education, AboutUser, UserSkills,UserInterests
+from .models import *
 from rest_framework.response import Response
 from rest_framework import permissions,status, generics,viewsets
 from rest_framework.authtoken.models import Token
@@ -86,23 +86,6 @@ class UserView(generics.RetrieveAPIView):
         serializer = self.get_serializer(self.request.user, data=self.request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
-        return Response({"user": user })
-
-class UpdateUserView(generics.UpdateAPIView):
-    permission_classes = [permissions.IsAuthenticated, ]
-    serializer_class = CreateUserSerializer
-
-    def get_object(self, queryset=None):
-        return self.request.user
-
-    def post(self, request, *args, **kwargs):
-        return self.update(self, request, *args, **kwargs)
-
-    def update(self, request, *args, **kwargs):
-        serializer = self.get_serializer(self.request.user, data=self.request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-
         return Response({"user": user })
 
 class AboutUserView(generics.UpdateAPIView):
@@ -279,12 +262,15 @@ class ReadUserView(generics.GenericAPIView):
     def get(self,request,**kwargs):
         try:
             username = str(self.kwargs['username'])
-            user = User.objects.filter(username=username).values('avi__avi_path','id','type','username','first_name','last_name')
+            user = User.objects.filter(username=username).values('avi__avi_path','id','type','username',
+            'first_name','last_name')
             user_ser = UserViewSerializer(user,many=True)
             return Response(user_ser.data)
         except User.DoesNotExist:
             user = None
         return user
+
+#SEARCH
 
 class FilterUserView(generics.GenericAPIView):
     serializer_class = FilterSerializer
@@ -292,17 +278,23 @@ class FilterUserView(generics.GenericAPIView):
     def post(self,request,**kwargs):
         query = self.request.data['query'].strip()
 
-        school = User.objects.filter(education__school__icontains=query).values('avi__avi_path','id','username','type').distinct()
-        company = User.objects.filter(work__company__icontains=query).values('avi__avi_path','id','username','type').distinct()
-        location = User.objects.filter(aboutuser__location__icontains=query).values('avi__avi_path','id','username','type').distinct()
-        skill = User.objects.filter(userskills__skill__icontains=query).values('avi__avi_path','id','username','type').distinct()
-        interest = User.objects.filter(userinterests__interest__icontains=query).values('avi__avi_path','id','username','type').distinct()
+        school = User.objects.filter(education__school__icontains=query).values('avi__avi_path','id','username',
+        'type').distinct()
+        company = User.objects.filter(work__company__icontains=query).values('avi__avi_path','id','username',
+        'type').distinct()
+        location = User.objects.filter(aboutuser__location__icontains=query).values('avi__avi_path','id','username',
+        'type').distinct()
+        skill = User.objects.filter(userskills__skill__icontains=query).values('avi__avi_path','id','username',
+        'type').distinct()
+        interest = User.objects.filter(userinterests__interest__icontains=query).values('avi__avi_path','id','username',
+        'type').distinct()
         name = User.objects.filter(Q(username__icontains=query)|Q(first_name__icontains=query)|Q(last_name__icontains=query)).values('avi__avi_path','id',
         'username','type').distinct()
 
         all = User.objects.filter(Q(username__icontains=query)|Q(first_name__icontains=query)|Q(last_name__icontains=query)
         |Q(education__school__icontains=query)|Q(work__company__icontains=query)|Q(aboutuser__location__icontains=query)|
-        Q(userskills__skill__icontains=query)|Q(userinterests__interest__icontains=query)).values('avi__avi_path','id','username','type').distinct()
+        Q(userskills__skill__icontains=query)|Q(userinterests__interest__icontains=query)).values('avi__avi_path','id','username'
+        ,'type').distinct()
 
         school_ser = FilterSerializer(school,many=True)
         company_ser = FilterSerializer(company,many=True)
@@ -314,3 +306,110 @@ class FilterUserView(generics.GenericAPIView):
 
         return Response({"school":school_ser.data,"company":company_ser.data,"location":location_ser.data,
         "skill":skill_ser.data,"interest":interest_ser.data,"name":name_ser.data,"all":all_ser.data})
+
+
+class CategoryView(generics.GenericAPIView):
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
+
+    def post(self,request, *args, **kwargs):
+        serializer = self.get_serializer(data=self.request.data)
+        serializer.is_valid(raise_exception=True)
+        category = serializer.save()
+        return Response(CategorySerializer(category, context=self.get_serializer_context()).data)
+
+    def get(self,request):
+        categories = Category.objects.all().order_by('name')
+        cat_ser = CategorySerializer(categories,many=True)
+        data = cat_ser.data
+
+        for x in data:
+            x['topics']=Topic.objects.filter(category=x['id']).count()
+            x['posts']=Post.objects.filter(category=x['id']).count()
+
+        return Response(data)
+
+class TopicView(generics.GenericAPIView):
+    serializer_class = TopicSerializer
+    queryset = Topic.objects.all()
+
+    def post(self,request, *args, **kwargs):
+        serializer = self.get_serializer(data=self.request.data)
+        serializer.is_valid(raise_exception=True)
+        topic = serializer.save()
+        return Response(TopicSerializer(topic, context=self.get_serializer_context()).data)
+
+    def get(self,request,**kwargs): #get all topics of category
+        id = self.kwargs['cat_id']
+        topics = Topic.objects.filter(category=id)
+        category = Category.objects.get(id=id).name
+        topic_ser = TopicSerializer(topics,many=True)
+        data = topic_ser.data
+        for x in data:
+            x['posts']=Post.objects.filter(topic=x['id']).count()
+        return Response({'data':data,'category':category})
+
+    def delete(self,request,**kwargs):
+        id = self.request.data['id']
+        topic = Topic.objects.filter(id=id).delete()
+        return Response({"Topic deleted"})
+
+
+
+
+
+class PostView(generics.GenericAPIView):
+    serializer_class = PostSerializer
+    queryset = Post.objects.all()
+
+
+    def post(self,request, *args, **kwargs):
+        serializer = self.get_serializer(data=self.request.data)
+        serializer.is_valid(raise_exception=True)
+        post = serializer.save()
+        return Response(PostSerializer(post, context=self.get_serializer_context()).data)
+
+    def get(self,request,**kwargs):
+
+        def getChildren(id):
+            posts = Post.objects.filter(reply_to_id=id).reverse()
+            post_ser = PostSerializer(posts,many=True)
+            post_ser = PostSerializer(posts,many=True)
+            data = post_ser.data
+            return data
+
+        def comments_to_dicts(comments):
+            results = []  # create list for results
+            for comment in comments:  # iterate over comments
+                item = {
+                    "id": comment['id'],
+                    "text": comment['text'],
+                    "reply_to":comment['reply_to'],
+                    "user_id":comment['user_id']
+                }  # create dict from comment
+                replies = getChildren(comment['id'])
+                if len(replies) > 0:
+                    item["replies"] = comments_to_dicts(replies)  # convert replies using the same function
+                results.append(item)  # add converted item to results
+            return results  # return all converted comments
+        id = self.kwargs['top_id']
+        posts = Post.objects.filter(topic=id,reply_to__isnull=True).order_by('id').reverse()
+        topic = Topic.objects.get(id=id).name
+        post_ser = PostSerializer(posts,many=True)
+        data = post_ser.data
+
+        meta={}
+        user_ids = Post.objects.filter(topic=id).values('user_id').distinct()
+        for x in user_ids:
+            id = x['user_id']
+            meta[id]={}
+            meta[id]['avi_path']= Avi.objects.filter(user_id=id).values('avi_path')[0]['avi_path']
+            meta[id]['username']= User.objects.filter(id=id).values('username')[0]['username'] #create unique key dict for avi and username and pass that to response
+
+        data=comments_to_dicts(data)
+        return Response({'data':data,'topic':topic,'meta':meta})
+
+    def delete(self,request,**kwargs):
+        id = self.request.data['id']
+        post = Post.objects.filter(id=id).delete()
+        return Response({"Post deleted"})
