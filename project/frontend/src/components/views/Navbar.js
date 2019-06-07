@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {auth} from "../../actions";
 import '../static/Home.css';
 import {Link} from 'react-router-dom';
-import {FaUser,FaNewspaper,FaIdCard,FaUsers,FaSignOutAlt} from 'react-icons/fa';
+import {FaUser,FaNewspaper,FaIdCard,FaUsers,FaSignOutAlt,FaArrowLeft} from 'react-icons/fa';
 import IconButton from '@material-ui/core/IconButton';
 import {Redirect} from 'react-router-dom';
 import head from './head-color.svg'
@@ -28,6 +28,9 @@ class Navbar extends Component{
 
       <div className="header header-fill header-fixed">
         <div className="header-brand">
+          <div className="nav-item text-center">
+            <IconButton id="back" onClick={e=> this.props.history.goBack()}><FaArrowLeft/></IconButton>
+          </div>
           <div className="nav-item no-hover">
             <Link to="/about"><h1 className="title">
             <img className="logo" src={head} alt="lotus"/>Guru</h1>

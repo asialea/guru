@@ -52,7 +52,7 @@ class Connect extends Component{
     return(
     <div id="connect">
       <header>
-        <Navbar/>
+        <Navbar history={this.props.history}/>
       </header>
       <div className="flex-box">
         <div className="connect-body">

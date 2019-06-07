@@ -124,8 +124,12 @@ p{
 div.nav-item{
   display: inline-flex;
   color: #346D2F;
+  padding: 0;
 }
 
+.header{
+  padding: 0;
+}
 
 .nav-right{
   position: absolute;

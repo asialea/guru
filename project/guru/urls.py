@@ -37,6 +37,7 @@ urlpatterns = [
     url('^api/category/$',views.CategoryView.as_view()),
     url('^api/topic/(?P<cat_id>\d+)',views.TopicView.as_view()),
     url('^api/post/(?P<top_id>\d+)',views.PostView.as_view()),
-    # url('^api/replies/(?P<id>\d+)', views.get_replies),
+    url('^api/user_topics/$', views.UserTopicView.as_view()),
+    url('^api/recent_topics/$', views.RecentTopicView.as_view()),
 
 ]

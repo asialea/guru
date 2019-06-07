@@ -271,7 +271,6 @@ class ReadUserView(generics.GenericAPIView):
         return user
 
 #SEARCH
-
 class FilterUserView(generics.GenericAPIView):
     serializer_class = FilterSerializer
     queryset = User.objects.all()
@@ -349,19 +348,12 @@ class TopicView(generics.GenericAPIView):
             x['posts']=Post.objects.filter(topic=x['id']).count()
         return Response({'data':data,'category':category})
 
-    def delete(self,request,**kwargs):
-        id = self.request.data['id']
-        topic = Topic.objects.filter(id=id).delete()
-        return Response({"Topic deleted"})
-
-
-
 
 
 class PostView(generics.GenericAPIView):
     serializer_class = PostSerializer
     queryset = Post.objects.all()
-
+    permission_classes = [permissions.IsAuthenticated, ]
 
     def post(self,request, *args, **kwargs):
         serializer = self.get_serializer(data=self.request.data)
@@ -404,12 +396,43 @@ class PostView(generics.GenericAPIView):
             id = x['user_id']
             meta[id]={}
             meta[id]['avi_path']= Avi.objects.filter(user_id=id).values('avi_path')[0]['avi_path']
-            meta[id]['username']= User.objects.filter(id=id).values('username')[0]['username'] #create unique key dict for avi and username and pass that to response
+            meta[id]['username']= User.objects.filter(id=id).values('username')[0]['username']
 
+        user_avi = User.objects.filter(id=self.request.user.id).values('avi__avi_path')[0]['avi__avi_path']
         data=comments_to_dicts(data)
-        return Response({'data':data,'topic':topic,'meta':meta})
+        return Response({'data':data,'topic':topic,'meta':meta,'user_avi':user_avi})
 
     def delete(self,request,**kwargs):
         id = self.request.data['id']
+        assert (self.request.user.id == Post.objects.filter(id=id).values('user_id')[0]['user_id'])
         post = Post.objects.filter(id=id).delete()
         return Response({"Post deleted"})
+
+from django.http import HttpResponse
+
+class RecentTopicView(generics.GenericAPIView):
+    serializer_class = TopicSerializer
+    queryset = Topic.objects.all()
+
+    def get(self,request,**kwargs):
+        topics = Topic.objects.all().order_by('-id')[:10]
+        serializer = TopicSerializer(topics,many=True)
+        return Response(serializer.data)
+
+
+
+class UserTopicView(generics.GenericAPIView):
+    serializer_class = TopicSerializer
+    queryset = Topic.objects.all()
+    permission_classes = [permissions.IsAuthenticated, ]
+
+    def get(self,request,**kwargs):
+        topics = Topic.objects.filter(created_by=self.request.user.id)
+        serializer = TopicSerializer(topics,many=True)
+        return Response(serializer.data)
+
+    def delete(self,request,**kwargs):
+        id = self.request.data['id']
+        assert (self.request.user.id == Topic.objects.filter(id=id).values('created_by')[0]['created_by'])
+        topic = Topic.objects.filter(id=id).delete()
+        return Response({"Topic deleted"})

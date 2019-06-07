@@ -14,7 +14,7 @@ class About extends Component{
     return(
     <div className="body" id="about">
       <header>
-        <Navbar/>
+        <Navbar history={this.props.history}/>
       </header>
       <div className="flex-box">
         <div className="about-body">

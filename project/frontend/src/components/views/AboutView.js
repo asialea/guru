@@ -65,7 +65,7 @@ fetch(`/api/user-skills/${this.props.match.params.username}/`)
     return(
     <div className="body">
       <header>
-        <Navbar/>
+        <Navbar history={this.props.history}/>
       </header>
       <div className="flex-box">
         <div className="about-body">
