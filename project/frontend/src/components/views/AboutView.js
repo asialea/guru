@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Navbar from './Navbar';
 import '../static/About.css';
-import {FaGithub,FaLinkedin,FaTwitter,FaEnvelope} from 'react-icons/fa';
+import {FaGithub,FaLinkedin,FaTwitter,FaEnvelope,FaHome,FaUser,FaCode} from 'react-icons/fa';
 
 
 class AboutView extends Component{
@@ -73,20 +73,16 @@ fetch(`/api/user-skills/${this.props.match.params.username}/`)
             <div className="flex-box">
               <div id="pro-pic-user"  style={proPic}></div>
             </div>
-            <div className="table accordion btn-animated"><h2>About</h2></div>
             <div>
+            <h1 id="name">{this.state.user.first_name} {this.state.user.last_name}</h1>
+            <p className="caption">
+              <span><FaUser/>@{this.state.user.username}</span>
+              <span><FaHome className="left"/>{this.state.aboutUser.location}</span>
+              <span><FaCode className="left"/>{this.parse_type(this.state.user.type)}</span>
+            </p>
             <article id="bio">
               <p className="desc res-item">{this.state.aboutUser.bio}</p>
             </article>
-              <table className="table" id="about-me">
-                <thead>
-                </thead>
-                <tbody>
-                  <tr><th>Name</th><td>{this.state.user.first_name} {this.state.user.last_name}</td></tr>
-                  <tr><th>Location</th><td>{this.state.aboutUser.location}</td></tr>
-                  <tr><th>Type</th><td>{this.parse_type(this.state.user.type)}</td></tr>
-                </tbody>
-              </table>
               <div  id="contact">
                 <FaEnvelope className="social"/>
                 <a href={this.state.aboutUser.github}><FaGithub className="social"/></a>

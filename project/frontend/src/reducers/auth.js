@@ -22,6 +22,8 @@ export default function auth(state=initialState, action) {
       return {...state, ...action.data, isAuthenticated: true, isLoading: false, errors: null};
 
     case 'REGISTRATION_FAILED':
+      return {...state, ...action.data, isAuthenticated: false, isLoading: false,
+        errors: null};
     case 'LOGIN_SUCCESSFUL':
       localStorage.setItem("token", action.data.token);
       return {...state, ...action.data, isAuthenticated: true, isLoading: false,
@@ -32,10 +34,6 @@ export default function auth(state=initialState, action) {
       return {...state, ...action.data, isAuthenticated: false, isLoading: false,
         errors: null};
 
-    case 'UPDATE_SUCCESSFUL':
-      break;
-    case 'UPDATE_ERROR':
-      break;
     case 'LOGOUT_SUCCESSFUL':
       localStorage.removeItem("token");
       return {...state, errors: action.data, token: null, user: null,

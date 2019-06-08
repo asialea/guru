@@ -165,7 +165,6 @@ export const logout = () => {
             .then(res => {
                 if (res.status === 204) {
                     dispatch({type: 'LOGOUT_SUCCESSFUL'});
-                    console.log("logout success" );
                     return res.data;
                 } else if (res.status === 403 || res.status === 401) {
                     dispatch({type: "AUTHENTICATION_ERROR", data: res.data});

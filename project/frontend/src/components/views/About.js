@@ -18,10 +18,11 @@ class About extends Component{
       </header>
       <div className="flex-box">
         <div className="about-body">
-          <section id="aboutUser">
-             <AboutUser/>
 
+          <section id="aboutUser">
+            <AboutUser/>
           </section>
+
           <section id="resume">
             <article>
               <Experience/>

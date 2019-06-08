@@ -26,10 +26,9 @@
 }
 
 
-
 caption {
-    color:#363636;
-    font-weight: bold;
+  color:#363636;
+  font-weight: bold;
 }
 
 #about-me{
@@ -45,19 +44,11 @@ caption {
 
 }
 
-#aboutUser{
-  margin-top: 2em;
-  grid-row: 1/7;
-}
 
 #about-edit{
   font-size: 1em;
 }
 
-#bio h1{
-  text-align: center;
-  line-height: normal;
-}
 
 section p{
   text-align: left;
@@ -77,6 +68,12 @@ form{
   margin-left:6px;
 }
 
+#aboutUser{
+  margin-top: 2em;
+  grid-row: 1/7;
+}
+
+
 .accordion{
   padding: 13px;
   width: 100%;
@@ -95,11 +92,37 @@ form{
 
 .form{
   overflow: hidden;
+  margin: 1em;
 }
 
 .accordion h2{
   font-size: 1.5rem;
   color: #374054;
+}
+
+.caption{
+  line-height: normal;
+  margin-top:1em;
+  text-align: left;
+}
+
+.left{
+  margin-left: 1em;
+}
+span svg{
+  margin-right:3px;
+}
+
+
+
+#name{
+  margin-top:0.5em;
+  font-size: 2rem;
+  color: #374054;
+  text-transform:uppercase;
+  letter-spacing: normal;
+  line-height: normal;
+  border-bottom: 1px solid rgb(17, 300, 20,0.2);
 }
 
 .main{
@@ -140,14 +163,10 @@ form{
   margin-top: 0.5em;
 }
 
-
 .about-expand{
-  display: inline-flex;
-  color: #374054;
-  float: right;
+  color:rgba(55, 64, 84,0.9);
   font-size: 1rem;
-  margin-top: 0.5em;
-  margin-right: 1em;
+  padding: 0;
 }
 
 .table{
@@ -205,13 +224,12 @@ label{
 
 .social{
   font-size: 2em;
-  color: #374054;
   margin: 0.7em;
+  color: #374054;
 }
 
 #about .social{
   margin: 1em;
-
 }
 
 #pro-upload{

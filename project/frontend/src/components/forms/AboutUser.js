@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {connect} from "react-redux";
 import '../static/AboutForm.css';
 import {headers,uploadConfig} from './global.js'
-import {FaPlus,FaGithub,FaLinkedin,FaTwitter} from 'react-icons/fa';
+import {FaPlus,FaGithub,FaLinkedin,FaTwitter,FaEdit,FaCode,FaUser,FaHome} from 'react-icons/fa';
+import IconButton from '@material-ui/core/IconButton';
 
 class AboutUser extends Component {
 
@@ -85,8 +86,6 @@ class AboutUser extends Component {
         <div className="flex-box">
           <div id="pro-pic" style={proPic}></div>
         </div>
-
-        <button onClick={this.show} className="table accordion btn-animated"><h2>About<FaPlus onClick={this.show} className="about-expand"/></h2></button>
         <div className={this.state.hidden ? 'hidden':'form'}>
         <button onClick={this.uploadWidget} id="pro-upload" className="submit">Pro Pic</button>
             <div>
@@ -101,20 +100,19 @@ class AboutUser extends Component {
              <button className ="submit" onClick={this.aboutSave}>Save</button>
             </div>
             </div>
-
+            <h1 id="name">{this.props.user.first_name} {this.props.user.last_name}
+              <IconButton onClick={this.show}><FaEdit  className="about-expand"/></IconButton>
+            </h1>
+            <p className="caption">
+              <span><FaUser/>@{this.props.user.username}</span>
+              <span><FaHome className="left"/>{this.state.aboutUser.location}</span>
+              <span><FaCode className="left"/>{this.parse_type(this.props.user.type)}</span>
+            </p>
             <div>
             <article id="bio">
               <p className="desc res-item">{this.state.aboutUser.bio}</p>
             </article>
-              <table className="table" id="about-me">
-                <thead>
-                </thead>
-                <tbody>
-                  <tr><th>Name</th><td>{this.props.user.first_name} {this.props.user.last_name}</td></tr>
-                  <tr><th>Type</th><td>{this.parse_type(this.props.user.type)}</td></tr>
-                  <tr><th>Location</th><td>{this.state.aboutUser.location}</td></tr>
-                </tbody>
-              </table>
+
             <div  id="contact">
               <a href={this.state.aboutUser.github}><FaGithub className="social"/></a>
               <a href={this.state.aboutUser.linkedin}><FaLinkedin className="social"/></a>
