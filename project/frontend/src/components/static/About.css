@@ -204,12 +204,12 @@ span svg{
   min-width: 2rem;
 }
 
-.deleteSkill{
+.delete{
   font-size: 0.8rem;
   margin-left: 1em;
 }
 
-.deleteSkill:hover{
+.delete:hover{
   cursor: pointer;
 }
 

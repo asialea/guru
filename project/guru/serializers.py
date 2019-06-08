@@ -15,18 +15,12 @@ class CreateUserSerializer(serializers.ModelSerializer):
         fields = ('id','username','email','first_name','last_name','password','type')
         extra_kwargs = {'password': {'write_only': True}}
 
-
     def create(self, validated_data):
         user = User.objects.create_user(username=validated_data['username'],email=validated_data['email'],
         first_name = validated_data['first_name'],last_name=validated_data['last_name'],
         password = validated_data['password'],type=validated_data['type'],)
         return user
 
-    def update(self,instance,validated_data):
-        user = User.objects.filter(pk=instance.id).update(username=validated_data['username'],
-        first_name = validated_data['first_name'],last_name=validated_data['last_name'],
-        password = validated_data['password'],email=validated_data['email'],)
-        return user
 
 class AboutUserSerializer(serializers.ModelSerializer):
     class Meta:

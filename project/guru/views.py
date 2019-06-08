@@ -59,14 +59,8 @@ class LoginView(generics.GenericAPIView):
 
         })
 
-class LogoutView(APIView):
+class LogoutView(generics.GenericAPIView):
     def post(self, request):
-        return self.logout(request)
-
-    def get(self, request):
-        return self.logout(request)
-
-    def logout(self, request):
         try:
             request.user.auth_token.delete()
 
@@ -82,11 +76,6 @@ class UserView(generics.RetrieveAPIView):
     def get_object(self):
         return self.request.user
 
-    def update(self, request, *args, **kwargs):
-        serializer = self.get_serializer(self.request.user, data=self.request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        return Response({"user": user })
 
 class AboutUserView(generics.UpdateAPIView):
     permission_classes = [permissions.IsAuthenticated, ]

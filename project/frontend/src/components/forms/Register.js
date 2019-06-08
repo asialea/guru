@@ -42,7 +42,7 @@ class Register extends Component {
 
           <div className = "row">
             <div className="inputdiv col-12">
-              <input className = ""  type="text" placeholder="Username" maxLength="30" pattern="^[a-zA-Z]+$"
+              <input className = ""  type="text" placeholder="Username" maxLength="30" pattern="^[a-zA-Z0-9]+$"
               onChange={e => this.setState({username: e.target.value})} required/>
             </div>
 
@@ -101,7 +101,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    register: (username,email,first_name,last_name,password,type) => dispatch(auth.register(username,email,first_name,last_name,password,type)),
+    register: (username,email,first_name,last_name,password,type) =>
+    dispatch(auth.register(username,email,first_name,last_name,password,type)),
   };
 }
 

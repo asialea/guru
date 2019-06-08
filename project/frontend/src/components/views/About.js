@@ -24,6 +24,7 @@ class About extends Component{
           </section>
 
           <section id="resume">
+
             <article>
               <Experience/>
             </article>

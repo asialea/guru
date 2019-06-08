@@ -8,7 +8,7 @@ import head from './head-color.svg'
 
 class Home extends Component {
 
-    state = {
+  state = {
    username: "",
    password: "",
   }
@@ -24,69 +24,58 @@ class Home extends Component {
     if (this.props.isAuthenticated) {
       return <Redirect to="/about" />;
     }
-      return (
 
-<div id="home">
-
+  return (
+    <div id="home">
       <div className="header header-fill header-fixed">
         <div className="header-brand">
           <div className="nav-item no-hover">
               <h1 className="title"><img className="logo" src={head} alt="lotus"/>Guru</h1>
-
           </div>
         </div>
-
-
-
-          <form id="login-form">
-            <div className="form-group">
-              <input className = "login-input"  type="text"
-               placeholder="Username" onChange={e => this.setState({username: e.target.value})}/>
-
-
-              <input className = "login-input"  type="password"
-               placeholder="Password" onChange={e => this.setState({password: e.target.value})}/>
-
-              <button className ='submit' onClick={this.onSubmit} id='login-submit'>Login</button>
-
-            {this.props.errors.length > 0 && (
-              <ul>
-                {this.props.errors.map(error => (
-                  <li key={error.field}>{error.message}</li>
-                ))}
-              </ul>
-            )}
-            </div>
-          </form>
-
-
-      </div>
-
-        <div className= "row">
-             <div id = "register-div">
-                <p id = "banner"> Join the tech community </p>
-                <p id = "banner2"> Get started - it's free </p>
-                <Register/>
-                <p>
-                  <Link to="/contact">Click Here</Link> to contact us!
-                </p>
-            </div>
-
+        <div className="nav-item no-hover">
+        {this.props.errors.length > 0 && (
+          <ul>
+            {this.props.errors.map(error => (
+              <li key={error.field}>{error.message}</li>
+            ))}
+          </ul>
+        )}
         </div>
 
-         <div>{this.props.children}</div>
-</div>
+        <form id="login-form">
+          <div className="form-group">
+            <input className = "login-input"  type="text"
+             placeholder="Username" onChange={e => this.setState({username: e.target.value})}/>
+            <input className = "login-input"  type="password"
+             placeholder="Password" onChange={e => this.setState({password: e.target.value})}/>
+            <button className ='submit' onClick={this.onSubmit} id='login-submit'>Login</button>
+          </div>
+        </form>
+      </div>
+
+      <div className= "row">
+        <div id = "register-div">
+          <p id = "banner"> Join the tech community </p>
+          <p id = "banner2"> Get started - it's free </p>
+          <Register/>
+          <p>
+            <Link to="/contact">Click Here</Link> to contact us!
+          </p>
+        </div>
+      </div>
+      <div>{this.props.children}</div>
+    </div>
 
       );
    }
 }
 
-
 const mapStateToProps = state => {
   let errors = [];
-  if (state.auth.errors) {
-    errors = Object.keys(state.auth.errors).map(field => {
-      return {field, message: state.auth.errors[field]};
+  if (state.auth.login_errors) {
+    errors = Object.keys(state.auth.login_errors).map(field => {
+      return {field, message: state.auth.login_errors[field]};
     });
   }
   return {

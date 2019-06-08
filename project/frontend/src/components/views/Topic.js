@@ -17,7 +17,7 @@ class Topic extends Component{
       avi:null,
     }
 
-    fetchPosts=()=>{
+    fetchPosts =()=>{
       headers["Authorization"] = `Token ${this.props.token}`;
       fetch(`/api/post/${this.props.match.params.topic_id}/`,{headers,method:"GET"})
         .then(response => { return response.json();}).then(responseData => {return responseData;})

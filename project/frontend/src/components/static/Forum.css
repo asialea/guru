@@ -160,3 +160,12 @@ div.text{
 .table tbody td,.table thead th{
   text-align: left;
 }
+
+
+tr:hover td, tr:hover th{
+  background:rgb(236, 255, 234);
+}
+
+#forum .table tr,#about .table tr,#aboutUser .table tr{
+  transition: none;
+}

@@ -63,7 +63,7 @@ class Connect extends Component{
           </form>
 
            <select placeholder="Account Type"  onChange={e => this.setState({type: e.target.value})}>
-             <option value="" disabled selected>Filter</option>
+             <option value="['MR','ME']">Filter</option>
              <option value="['MR','ME']">All</option>
              <option value="ME">Mentee</option>
              <option value="MR">Mentor</option>
@@ -129,7 +129,7 @@ class Connect extends Component{
 const mapStateToProps = state => {
     return {
       token:state.auth.token,
-        user: state.auth.user,
+      user: state.auth.user,
     }
 }
 

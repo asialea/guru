@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {connect} from "react-redux";
 import '../static/AboutForm.css';
 import {headers,uploadConfig} from './global.js'
-import {FaPlus,FaGithub,FaLinkedin,FaTwitter,FaEdit,FaCode,FaUser,FaHome} from 'react-icons/fa';
+import {FaGithub,FaLinkedin,FaTwitter,FaEdit,FaCode,FaUser,FaHome} from 'react-icons/fa';
 import IconButton from '@material-ui/core/IconButton';
 
 class AboutUser extends Component {
@@ -50,7 +50,8 @@ class AboutUser extends Component {
   }
 
   aboutSave = (e) => {
-    this.fetchAvi()
+    e.preventDefault();
+    this.fetchAvi();
     delete this.state.aboutUser['user_id']
     this.updateAboutUser(this.state.aboutUser)
     this.show();
@@ -88,18 +89,22 @@ class AboutUser extends Component {
         </div>
         <div className={this.state.hidden ? 'hidden':'form'}>
         <button onClick={this.uploadWidget} id="pro-upload" className="submit">Pro Pic</button>
-            <div>
-             <div className="form-group">
-              <input className="input-small" onChange={e => this.handleChange("github",e.target.value)} placeholder="Github" type="text"/>
-              <input className="input-small " onChange={e => this.handleChange("linkedin",e.target.value)} placeholder="LinkedIn" type="text"/>
-              <input className="input-small " onChange={e => this.handleChange("twitter_handle",e.target.value)} placeholder="Twitter" type="text"/>
-             </div>
-             <input className="input-small" onChange={e => this.handleChange("location",e.target.value)} placeholder="Location" type="text"/>
+            <form  onSubmit={this.aboutSave}>
+               <div className="form-group">
+                <input className="input-small" onChange={e => this.handleChange("github",e.target.value)}
+                maxLength="200" placeholder="Github Url" type="url"/>
+                <input className="input-small " onChange={e => this.handleChange("linkedin",e.target.value)}
+                maxLength="100" placeholder="Linkedin Url" type="url"/>
+                <input className="input-small " onChange={e => this.handleChange("twitter_handle",e.target.value)}
+                maxLength="100" placeholder="Twitter Url" type="url"/>
+               </div>
+               <input className="input-small" onChange={e => this.handleChange("location",e.target.value)}
+               maxLength="30" placeholder="Location" type="text"/>
 
-             <textarea onChange={e => this.handleChange("bio",e.target.value)} maxLength="500" placeholder="Bio"></textarea>
-             <button className ="submit" onClick={this.aboutSave}>Save</button>
-            </div>
-            </div>
+               <textarea onChange={e => this.handleChange("bio",e.target.value)} maxLength="500" placeholder="Bio"></textarea>
+               <button className ="submit">Save</button>
+            </form>
+        </div>
             <h1 id="name">{this.props.user.first_name} {this.props.user.last_name}
               <IconButton onClick={this.show}><FaEdit  className="about-expand"/></IconButton>
             </h1>

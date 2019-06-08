@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import {FaTimes,FaPlus} from 'react-icons/fa';
-import {headers,findAndRemove} from './global.js'
+import {headers} from './global.js'
 
 class Skills extends Component{
 
@@ -9,7 +9,6 @@ class Skills extends Component{
     skill:null,
     skills:[],
     hidden:true,
-    new_skill:null
   }
 
   show = (e) =>{
@@ -21,36 +20,25 @@ class Skills extends Component{
     this.addSkill(this.props.user.id,this.state.skill)
   }
 
-  addSkill_cb = () =>{
-    var newArray = this.state.skills;
-    newArray.push(this.state.new_skill);
-    this.setState({skills:newArray},()=>{this.refs.skill.value ="";});
-  }
-
-  addSkill(user_id,skill){
+  addSkill=(user_id,skill)=>{
       let body = JSON.stringify({user_id,skill});
       headers["Authorization"] = `Token ${this.props.token}`;
       fetch("/api/skills/", {headers,body,method:"POST"}).then(res => {return res.json();})
         .then(responseData => {return responseData;})
-        .then(json =>{this.setState({new_skill: json},this.addSkill_cb)})
+        .then(this.refs.skill.value ="").then(()=>this.fetchSkills())
         .catch(err => {console.log("fetch error" + err)})
     }
 
-  deleteSkill_cb = (id)=>{
-    var newArray = this.state.skills;
-    findAndRemove(newArray,'id',id)
-    this.setState({skills:newArray})
-  }
-
   deleteSkill= (id) => {
     let body = JSON.stringify({id});
-    fetch(`/api/skills/${id}/`, {headers,body,method:"DELETE"}).then(this.deleteSkill_cb(id))
+    headers["Authorization"] = `Token ${this.props.token}`;
+    fetch(`/api/skills/${id}/`, {headers,body,method:"DELETE"}).then(()=>this.fetchSkills())
     .then(res => {return res.json();}).catch(err => {
               console.log("fetch error" + err)})
   }
 
   fetchSkills(){
-    return fetch(`/api/user-skills/${this.props.user.username}/`)
+    fetch(`/api/user-skills/${this.props.user.username}/`)
      .then(response => {return response.json();}).then(responseData => {return responseData;})
      .then(json =>{this.setState({skills: json})})
      .catch(err => {console.log("fetch error" + err);
@@ -67,14 +55,14 @@ class Skills extends Component{
       <button onClick={this.show} className="accordion btn-animated"><h2>Skills<FaPlus onClick={this.show} className="expand"/></h2></button>
         <div className={this.state.hidden ? 'hidden':'form'}>
          <div className="form-group">
-          <input className="input-small group-1" ref="skill" onChange={e => this.setState({skill: e.target.value})} placeholder="Skill" type="text"/>
+          <input className="input-small group-1" ref="skill" onChange={e => this.setState({skill: e.target.value})} maxLength="50" placeholder="Skill" type="text"/>
           <button className = "submit"  onClick={this.new_skillSubmit.bind(this)}>Submit</button>
          </div>
         </div>
         <div>
         {this.state.skills.map((el,idx) => {
               return <div className="skill" key={idx}>
-                   <span>{el.skill}<FaTimes className={this.state.hidden ? 'hidden':'deleteSkill'} onClick={(e) => {this.deleteSkill(el.id)}}/></span>
+                   <span>{el.skill}<FaTimes className={this.state.hidden ? 'hidden':'delete'} onClick={(e) => {this.deleteSkill(el.id)}}/></span>
 
               </div>
           })}
