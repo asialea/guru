@@ -77,18 +77,18 @@ class UserView(generics.RetrieveAPIView):
         return self.request.user
 
 
-class AboutUserView(generics.UpdateAPIView):
+class AboutUserView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated, ]
     serializer_class = AboutUserSerializer
 
-    def post(self, request, *args, **kwargs):
-        return self.update(self, request, *args, **kwargs)
-
     def put(self, request, *args, **kwargs):
-        serializer = self.get_serializer(self.request.user, data=self.request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        aboutUser = serializer.save()
-        return Response({"aboutUser": aboutUser })
+        print(self.request.data)
+        AboutUser.objects.filter(user_id=self.request.user.id).update(github=self.request.data['github'],location=self.request.data['location'],
+        linkedin=self.request.data['linkedin'],twitter_handle=self.request.data['twitter_handle'],bio=self.request.data['bio'])
+        return Response({"aboutUser": "updated" })
+
+
+
 
 class AviView(generics.GenericAPIView):
     serializer_class = AviSerializer

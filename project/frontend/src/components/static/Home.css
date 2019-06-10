@@ -1,11 +1,11 @@
 /* HOME and NAV */
 
 body{
-  background-color: rgba(244, 249, 246,0.2);
+  background-color: rgba(237, 234, 229,0.1);
   font-family:sans-serif;
 }
 
-.nav-link{
+.nav-link,.nav-item li{
   color: #374054;
 }
 
@@ -13,7 +13,7 @@ div.header{
   height: 55px;
   display: flex;
   box-shadow: 0 3px 15px rgba(57,63,72,.6);
-  background-color:  #27B32D;
+  background-color:  #41b3a3;
 }
 
 h1.title{
@@ -45,8 +45,8 @@ h1.title{
 
 #login-submit,button.submit{
   display:inline;
-  background-color: #346D2F;
-  border-color: #346D2F;
+  background-color: #374054;
+  border-color: #374054;
   padding: 0;
   height: 2.8em;
   width: 7em;
@@ -57,7 +57,6 @@ h1.title{
 
 button.submit{
    margin: 0 auto;
-   background-color:#346D2F;
    color:white;
    font-family: sans-serif;
    display: block;

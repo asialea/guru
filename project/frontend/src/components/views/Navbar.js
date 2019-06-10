@@ -41,17 +41,17 @@ class Navbar extends Component{
         <div className="nav-right" >
           <div className="nav-item text-center">
             <Link to="/about"><IconButton>
-              <FaUser className="nav-link"/>
+              <FaUser/>
             </IconButton></Link>
           </div>
           <div className="nav-item text-center">
             <Link to="/forums"><IconButton>
-              <FaNewspaper className="nav-link"/>
+              <FaNewspaper />
             </IconButton></Link>
           </div>
           <div className="nav-item text-center">
               <Link to="/connect"><IconButton>
-              <FaUsers className="nav-link"/>
+              <FaUsers />
             </IconButton></Link>
           </div>
           <div className="nav-item text-center">
@@ -61,7 +61,7 @@ class Navbar extends Component{
           </div>
           <div className="nav-item text-center">
             <Link to="/"><IconButton onClick={this.props.logout}>
-              <FaSignOutAlt className="nav-link"/>
+              <FaSignOutAlt/>
             </IconButton></Link>
           </div>
 

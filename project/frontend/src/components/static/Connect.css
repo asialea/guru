@@ -26,7 +26,7 @@
 }
 
 button.tab-link-active{
-  border-bottom: 2px solid rgb(39, 179, 45,0.1);
+  border-bottom: 2px solid #e27d60;;
   background-color: transparent;
 }
 
@@ -40,6 +40,8 @@ button.tab-link-active{
   border: none;
   font-size: 0.8em;
   font-family: Montserrat,sans-serif;
+  border-radius: 0;
+  margin-bottom: 1em;
 }
 
 
@@ -96,7 +98,7 @@ button.tab-link-active{
 #connect form{
   display: flex;
   align-items: center;
-  border-bottom: 0.5px solid rgb(39, 179, 45,0.3);
+  border-bottom: 0.5px solid rgb(226, 125, 96);
   margin-bottom: 1em;
 }
 

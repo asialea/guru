@@ -43,7 +43,7 @@ ul li{
   font-size: 2vw;
   font-weight: normal;
   align-self: left;
-  border-bottom: 2px solid rgb(39, 179, 45,0.1);
+  border-bottom: 2px solid rgba(226, 125, 96,0.2);
 }
 
 #topic-list,#category-list{
@@ -58,7 +58,7 @@ h1.forum-h1{
   font-size: 3vw;
   font-weight: normal;
   text-align: left;
-  border-bottom:2px solid rgb(39, 179, 45,0.1);
+  border-bottom: 2px solid rgba(226, 125, 96,0.2);
   margin-bottom: 0.5em;
 }
 
@@ -163,7 +163,7 @@ div.text{
 
 
 tr:hover td, tr:hover th{
-  background:rgb(236, 255, 234);
+  background:#edeae5;
 }
 
 #forum .table tr,#about .table tr,#aboutUser .table tr{

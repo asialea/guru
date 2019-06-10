@@ -26,11 +26,11 @@ class AboutUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = AboutUser
         fields = '__all__'
-    def update(self,instance,validated_data):
-        about_user = AboutUser.objects.filter(user_id=instance.id).update(location=validated_data['location'],
-        bio=validated_data['bio'],github=validated_data['github'],linkedin = validated_data['linkedin'],
-        twitter_handle=validated_data['twitter_handle'])
-        return about_user
+    # def update(self,instance,validated_data):
+    #     about_user = AboutUser.objects.filter(user_id=instance.id).update(location=validated_data['location'],
+    #     bio=validated_data['bio'],github=validated_data['github'],linkedin = validated_data['linkedin'],
+    #     twitter_handle=validated_data['twitter_handle'])
+    #     return about_user
 
 class AviSerializer(serializers.ModelSerializer):
     class Meta:

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../static/Home.css';
 import Register from '../forms/Register';
-import {Link,Redirect} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {auth} from "../../actions";
 import head from './head-color.svg'
@@ -33,7 +33,7 @@ class Home extends Component {
               <h1 className="title"><img className="logo" src={head} alt="lotus"/>Guru</h1>
           </div>
         </div>
-        <div className="nav-item no-hover">
+        <div className="nav-item">
         {this.props.errors.length > 0 && (
           <ul>
             {this.props.errors.map(error => (
@@ -59,9 +59,6 @@ class Home extends Component {
           <p id = "banner"> Join the tech community </p>
           <p id = "banner2"> Get started - it's free </p>
           <Register/>
-          <p>
-            <Link to="/contact">Click Here</Link> to contact us!
-          </p>
         </div>
       </div>
       <div>{this.props.children}</div>

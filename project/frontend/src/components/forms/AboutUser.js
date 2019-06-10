@@ -2,19 +2,13 @@ import React, { Component } from 'react';
 import {connect} from "react-redux";
 import '../static/AboutForm.css';
 import {headers,uploadConfig} from './global.js'
-import {FaGithub,FaLinkedin,FaTwitter,FaEdit,FaCode,FaUser,FaHome} from 'react-icons/fa';
-import IconButton from '@material-ui/core/IconButton';
+import {FaGithub,FaLinkedin,FaTwitter} from 'react-icons/fa';
 
 class AboutUser extends Component {
 
   state = {
     aboutUser:{},
     avi:{},
-    hidden:true,
-  }
-
-  show = (e) =>{
-    this.setState({hidden:!this.state.hidden});
   }
 
   uploadWidget=(e)=> {
@@ -42,11 +36,13 @@ class AboutUser extends Component {
     let body = JSON.stringify(user);
     headers["Authorization"] = `Token ${this.props.token}`;
     fetch("/api/aboutUser/", {headers,body,method:"PUT",mode:"same-origin"})
-      .then(res => res.json())
+      .then(()=>this.props.fetchAboutUser())
   }
 
-  parse_type(type){
-    return (type ==='MR' ? 'Mentor' : 'Mentee')
+  fetchAboutUser = ()=>{
+    fetch(`/api/aboutUser/${this.props.user.username}/`)
+      .then(response => { return response.json();}).then(json =>this.setState({aboutUser: json}))
+      .catch(err => {console.log("fetch error" + err);})
   }
 
   aboutSave = (e) => {
@@ -54,7 +50,6 @@ class AboutUser extends Component {
     this.fetchAvi();
     delete this.state.aboutUser['user_id']
     this.updateAboutUser(this.state.aboutUser)
-    this.show();
   }
 
   fetchAvi(){
@@ -62,12 +57,6 @@ class AboutUser extends Component {
       .then(response => { return response.json();}).then(json =>this.setState({avi: json}))
       .catch(err => {console.log("fetch error" + err);});
             }
-
-  fetchAboutUser(){
-    fetch(`/api/aboutUser/${this.props.user.username}/`)
-      .then(response => { return response.json();}).then(json =>this.setState({aboutUser: json}))
-      .catch(err => {console.log("fetch error" + err);})
-  }
 
   handleChange(param,value){
     let updatedUser = this.state.aboutUser;
@@ -81,50 +70,42 @@ class AboutUser extends Component {
     }
 
   render () {
-    var proPic = {backgroundImage:'url(' + this.state.avi.avi_path + ')'};
+    var aboutUser=this.props.aboutUser;
+    console.log(aboutUser)
       return (
         <div>
         <div className="flex-box">
-          <div id="pro-pic" style={proPic}></div>
+          <img id="pro-pic" alt="user avi" src={this.state.avi.avi_path}/>
         </div>
-        <div className={this.state.hidden ? 'hidden':'form'}>
+        <div className={this.props.hidden ? 'hidden':'form'}>
         <button onClick={this.uploadWidget} id="pro-upload" className="submit">Pro Pic</button>
             <form  onSubmit={this.aboutSave}>
                <div className="form-group">
-                <input className="input-small" onChange={e => this.handleChange("github",e.target.value)}
+                <input defaultValue={aboutUser.github} className="input-small" onChange={e => this.handleChange("github",e.target.value)}
                 maxLength="200" placeholder="Github Url" type="url"/>
-                <input className="input-small " onChange={e => this.handleChange("linkedin",e.target.value)}
+                <input defaultValue={aboutUser.linkedin} className="input-small " onChange={e => this.handleChange("linkedin",e.target.value)}
                 maxLength="100" placeholder="Linkedin Url" type="url"/>
-                <input className="input-small " onChange={e => this.handleChange("twitter_handle",e.target.value)}
+                <input defaultValue={aboutUser.twitter_handle} className="input-small " onChange={e => this.handleChange("twitter_handle",e.target.value)}
                 maxLength="100" placeholder="Twitter Url" type="url"/>
                </div>
-               <input className="input-small" onChange={e => this.handleChange("location",e.target.value)}
+               <input defaultValue={aboutUser.location} className="input-small" onChange={e => this.handleChange("location",e.target.value)}
                maxLength="30" placeholder="Location" type="text"/>
 
-               <textarea onChange={e => this.handleChange("bio",e.target.value)} maxLength="500" placeholder="Bio"></textarea>
+               <textarea defaultValue={aboutUser.bio} onChange={e => this.handleChange("bio",e.target.value)} maxLength="500" placeholder="Bio"></textarea>
                <button className ="submit">Save</button>
             </form>
         </div>
-            <h1 id="name">{this.props.user.first_name} {this.props.user.last_name}
-              <IconButton onClick={this.show}><FaEdit  className="about-expand"/></IconButton>
-            </h1>
-            <p className="caption">
-              <span><FaUser/>@{this.props.user.username}</span>
-              <span><FaHome className="left"/>{this.state.aboutUser.location}</span>
-              <span><FaCode className="left"/>{this.parse_type(this.props.user.type)}</span>
-            </p>
-            <div>
-            <article id="bio">
-              <p className="desc res-item">{this.state.aboutUser.bio}</p>
-            </article>
-
-            <div  id="contact">
-              <a href={this.state.aboutUser.github}><FaGithub className="social"/></a>
-              <a href={this.state.aboutUser.linkedin}><FaLinkedin className="social"/></a>
-              <a href={this.state.aboutUser.twitter_handle}><FaTwitter className="social"/></a>
-            </div>
-            </div>
+        <div>
+          <span className="social">
+            <a href={this.props.aboutUser.github}><FaGithub className="social-icon"/></a>
+            <a href={this.props.aboutUser.linkedin}><FaLinkedin className="social-icon"/></a>
+            <a href={this.props.aboutUser.twitter_handle}><FaTwitter className="social-icon"/></a>
+          </span>
+          <article id="bio">
+            <p className="desc res-item">{this.props.aboutUser.bio}</p>
+          </article>
         </div>
+      </div>
       );
     }
     }
