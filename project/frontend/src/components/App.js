@@ -14,6 +14,7 @@ import Connect from "./views/Connect"
 import Forum from "./views/Forum"
 import Category from "./views/Category"
 import Topic from "./views/Topic"
+import UserSettings from "./views/UserSettings"
 
 
 let store = createStore(guruApp, applyMiddleware(thunk));
@@ -49,6 +50,7 @@ class RootContainerComponent extends Component {
           <PrivateRoute exact path="/about" component={About}/>
           <PrivateRoute path="/about/:username" component={AboutView} />
           <PrivateRoute path="/connect" component={Connect} />
+          <PrivateRoute path="/settings" component={UserSettings} />
           <PrivateRoute exact path="/forums" component={Forum} />
           <PrivateRoute exact path="/forums/:category_id" component={Category} />
           <PrivateRoute path="/forums/:category_id/:topic_id" component={Topic} />

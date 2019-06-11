@@ -21,16 +21,23 @@ class CreateUserSerializer(serializers.ModelSerializer):
         password = validated_data['password'],type=validated_data['type'],)
         return user
 
+def update_attrs(instance, data):
+    instance_pk = instance.pk
+    for key, value in data.items():
+        if hasattr(instance, key):
+            setattr(instance, key, value)
+        else:
+            raise KeyError("Failed to update non existing attribute {}.{}".format(
+                instance.__class__.__name__, key
+            ))
+        instance.save()
+    return instance.__class__.objects.get(pk=instance_pk)
+
 
 class AboutUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = AboutUser
         fields = '__all__'
-    # def update(self,instance,validated_data):
-    #     about_user = AboutUser.objects.filter(user_id=instance.id).update(location=validated_data['location'],
-    #     bio=validated_data['bio'],github=validated_data['github'],linkedin = validated_data['linkedin'],
-    #     twitter_handle=validated_data['twitter_handle'])
-    #     return about_user
 
 class AviSerializer(serializers.ModelSerializer):
     class Meta:

@@ -51,6 +51,12 @@ class About extends Component{
 
           <section id="bio-contact">
             <AboutUser hidden={this.state.hidden} fetchAboutUser={this.fetchAboutUser} aboutUser={this.state.aboutUser}/>
+            <article>
+              <Skills/>
+            </article>
+            <article>
+              <Interests/>
+            </article>
           </section>
 
           <section id="about-user">
@@ -71,13 +77,6 @@ class About extends Component{
               <Education/>
             </article>
 
-            <article>
-              <Skills/>
-            </article>
-
-            <article>
-              <Interests/>
-            </article>
           </section>
         </div>
       </div>

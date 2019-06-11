@@ -40,7 +40,7 @@ class Navbar extends Component{
 
         <div className="nav-right" >
           <div className="nav-item text-center">
-            <Link to="/about"><IconButton>
+            <Link to="/settings"><IconButton>
               <FaUser/>
             </IconButton></Link>
           </div>

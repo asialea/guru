@@ -54,13 +54,9 @@ class Home extends Component {
         </form>
       </div>
 
-      <div className= "row">
-        <div id = "register-div">
-          <p id = "banner"> Join the tech community </p>
-          <p id = "banner2"> Get started - it's free </p>
+        <div id = "user-div">
           <Register/>
         </div>
-      </div>
       <div>{this.props.children}</div>
     </div>
 

@@ -27,7 +27,9 @@ class Register extends Component {
 
   render () {
       return (
-
+    <div className="form-container">
+      <p id = "banner"> Join the tech community </p>
+      <p id = "banner2"> Get started - it's free </p>
         <form onSubmit={this.registerSubmit}>
           <div className="row ">
             <div className="col-6">
@@ -81,6 +83,7 @@ class Register extends Component {
                </ul>
              )}
         </form>
+      </div>
 
       );
    }

@@ -69,12 +69,45 @@ class LogoutView(generics.GenericAPIView):
 
         return Response({"success":("Successfully logged out.")},status=status.HTTP_204_NO_CONTENT)
 
-class UserView(generics.RetrieveAPIView):
+def update_attrs(instance, data):
+    instance_pk = instance.pk
+    for key, value in data.items():
+        if hasattr(instance, key):
+            setattr(instance, key, value)
+        else:
+            raise KeyError("Failed to update non existing attribute {}.{}".format(
+                instance.__class__.__name__, key
+            ))
+        instance.save()
+    return instance.__class__.objects.get(pk=instance_pk)
+
+class UpdateUserView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated, ]
+    serializer_class = UserSerializer
+    def patch(self, request):
+        try:
+            user = update_attrs(self.request.user,self.request.data['user'])
+            return Response(UserSerializer(user, context=self.get_serializer_context()).data)
+        except Exception as e:
+            return Response(e.args)
+
+class UserView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated, ]
     serializer_class = UserSerializer
 
-    def get_object(self):
-        return self.request.user
+    def get(self, request):
+        serializer = UserSerializer(self.request.user)
+        return Response(serializer.data)
+
+    def delete(self, request, *args, **kwargs):
+        # the Post object
+        self.object = self.get_object()
+        if self.object.User == self.request.data['user']:
+            self.object.delete()
+            return Response({"success":("Successfully deleted.")})
+        else:
+            return Response("Unsuccessful")
+
 
 
 class AboutUserView(generics.GenericAPIView):
@@ -82,7 +115,6 @@ class AboutUserView(generics.GenericAPIView):
     serializer_class = AboutUserSerializer
 
     def put(self, request, *args, **kwargs):
-        print(self.request.data)
         AboutUser.objects.filter(user_id=self.request.user.id).update(github=self.request.data['github'],location=self.request.data['location'],
         linkedin=self.request.data['linkedin'],twitter_handle=self.request.data['twitter_handle'],bio=self.request.data['bio'])
         return Response({"aboutUser": "updated" })

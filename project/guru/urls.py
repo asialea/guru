@@ -13,6 +13,8 @@ urlpatterns = [
     url('^auth/login/$', views.LoginView.as_view()),
     url('^auth/user/$', views.UserView.as_view()),
     url('^auth/logout/$', views.LogoutView.as_view()),
+    url('^auth/update/$', views.UpdateUserView.as_view()),
+
     # Edit user profile
     url('^api/work/$',views.WorkView.as_view()),
     url('^api/work/(?P<id>\d+)', views.WorkView.as_view()),

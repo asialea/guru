@@ -34,11 +34,45 @@ export const loadUser = () => {
   }
 }
 
-export const updateUser = (username,email,first_name,last_name,password,github,linkedin,twitter_handle,csrftoken) => {
+export const deleteUser = (user) => {
+  return (dispatch, getState) => {
+    const token = getState().auth.token;
+    let body = JSON.stringify({user});
+    let headers = {
+      "Content-Type": "application/json",
+    };
+
+    if (token) {
+      headers["Authorization"] = `Token ${token}`;
+    }
+    return fetch("/auth/user/", {headers,body,method:"DELETE" })
+      .then(res => {
+        if (res.status < 500) {
+          return res.json().then(data => {
+            return {status: res.status, data};
+          })
+        } else {
+          console.log("Server Error!");
+          throw res;
+        }
+      })
+      .then(res => {
+        if (res.status === 200) {
+          dispatch({type: 'LOGOUT_SUCCESSFUL'});
+          return res.data;
+        } else if (res.status >= 400 && res.status < 500) {
+          dispatch({type: "AUTHENTICATION_ERROR", data: res.data});
+          throw res.data;
+        }
+      })
+  }
+}
+
+export const updateUser = (user,csrftoken) => {
   return(dispatch,getState) => {
     dispatch({type: 'USER_LOADING'});
     const token = getState().auth.token;
-    let body = JSON.stringify({username,email,first_name,last_name,password,github,linkedin,twitter_handle});
+    let body = JSON.stringify({user});
     let headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -49,7 +83,7 @@ export const updateUser = (username,email,first_name,last_name,password,github,l
       headers["Authorization"] = `Token ${token}`;
     }
 
-    return fetch("/auth/user/update/", {headers,body,method:"POST",mode:"same-origin"})
+    return fetch("/auth/update/", {headers,body,method:"PATCH",mode:"same-origin"})
       .then(res => {
         if (res.status < 500) {
           return res.json().then(data => {
@@ -65,7 +99,7 @@ export const updateUser = (username,email,first_name,last_name,password,github,l
           dispatch({type: 'UPDATE_SUCCESSFUL', user: res.data });
           return res.data;
         } else if (res.status >= 400 && res.status < 500) {
-          dispatch({type: "UPDATE_ERROR", data: res.data});
+          dispatch({type: "UPDATE_FAILED", data: res.data});
           throw res.data;
         }
       })

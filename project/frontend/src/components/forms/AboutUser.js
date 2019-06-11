@@ -71,7 +71,6 @@ class AboutUser extends Component {
 
   render () {
     var aboutUser=this.props.aboutUser;
-    console.log(aboutUser)
       return (
         <div>
         <div className="flex-box">

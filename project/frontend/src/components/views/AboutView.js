@@ -82,6 +82,29 @@ fetch(`/api/user-skills/${this.props.match.params.username}/`)
           <article id="bio">
             <p className="desc res-item">{this.state.aboutUser.bio}</p>
           </article>
+
+          <article>
+            <div className="accordion btn-animated"><h2>Skills</h2></div>
+            <div>
+            {this.state.skills.map(el => {
+                  return <div className="skill" key={el.id}>
+                       {el.skill} {el.level}
+
+                  </div>
+              })}
+            </div>
+          </article>
+
+          <article>
+            <div className="accordion btn-animated"><h2>Interests</h2></div>
+            <div>
+            {this.state.interests.map(el => {
+                  return <div className="skill" key={el.id}>
+                       {el.interest}
+                  </div>
+              })}
+            </div>
+          </article>
         </section>
 
         <section id="about-user">
@@ -118,29 +141,6 @@ fetch(`/api/user-skills/${this.props.match.params.username}/`)
                          <p className="edu res-item">{el.start}-{el.end}</p>
                     </div>
                 })}
-            </div>
-          </article>
-
-          <article>
-            <div className="accordion btn-animated"><h2>Skills</h2></div>
-            <div>
-            {this.state.skills.map(el => {
-                  return <div className="skill" key={el.id}>
-                       {el.skill} {el.level}
-
-                  </div>
-              })}
-            </div>
-          </article>
-
-          <article>
-            <div className="accordion btn-animated"><h2>Interests</h2></div>
-            <div>
-            {this.state.interests.map(el => {
-                  return <div className="skill" key={el.id}>
-                       {el.interest}
-                  </div>
-              })}
             </div>
           </article>
         </section>
