@@ -75,7 +75,6 @@ class Category(models.Model):
 
 class Topic(models.Model):
     category = models.ForeignKey(Category,on_delete=models.CASCADE,null = True)
-    timestamp = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=50, blank=True,null = True)
     created_by = models.IntegerField()
 
@@ -85,5 +84,10 @@ class Post(models.Model):
     timestamp = models.DateTimeField(auto_now=True)
     text = models.TextField(max_length=500, blank=False,null = False,default="")
     reply_to = models.ForeignKey('self',on_delete=models.SET_NULL,null=True)
-    likes = models.IntegerField(null = False,blank=False,default=0)
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null = True)
+
+class Likes(models.Model):
+    class Meta:
+        unique_together = (('post', 'user_id'),)
+    post = models.ForeignKey(Post,on_delete=models.CASCADE,null = True)
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null = True)

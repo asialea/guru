@@ -35,15 +35,10 @@ class AboutUser extends Component {
   updateAboutUser(user){
     let body = JSON.stringify(user);
     headers["Authorization"] = `Token ${this.props.token}`;
-    fetch("/api/aboutUser/", {headers,body,method:"PUT",mode:"same-origin"})
+    fetch("/api/aboutUser/", {headers,body,method:"PATCH",mode:"same-origin"})
       .then(()=>this.props.fetchAboutUser())
   }
 
-  fetchAboutUser = ()=>{
-    fetch(`/api/aboutUser/${this.props.user.username}/`)
-      .then(response => { return response.json();}).then(json =>this.setState({aboutUser: json}))
-      .catch(err => {console.log("fetch error" + err);})
-  }
 
   aboutSave = (e) => {
     e.preventDefault();
@@ -66,7 +61,6 @@ class AboutUser extends Component {
 
   componentWillMount(){
       this.fetchAvi();
-      this.fetchAboutUser();
     }
 
   render () {

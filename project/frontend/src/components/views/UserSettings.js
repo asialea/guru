@@ -8,16 +8,8 @@ class UserSettings extends Component {
 
   state = {
     user:{},
-    showPopup: false,
    };
 
-
-  togglePopup= e => {
-    e.preventDefault();
-    this.setState({
-     showPopup: !this.state.showPopup
-    });
-  }
 
   onSubmit = e => {
     e.preventDefault();

@@ -6,7 +6,7 @@ import '../static/Forum.css';
 import TextareaAutosize from 'react-textarea-autosize';
 import {headers} from '../forms/global.js'
 import {Link} from 'react-router-dom';
-import {FaComment,FaTrash} from 'react-icons/fa';
+import {FaComment,FaTrash,FaThumbsUp} from 'react-icons/fa';
 import IconButton from '@material-ui/core/IconButton';
 
 
@@ -17,6 +17,14 @@ class Comment extends Component{
     hidden:true,
     reply_hidden:true,
     reply:"",
+    likes:[],
+    liked:null,
+  }
+
+  parseDate(timestamp){
+    var t = timestamp.split(/[-:T]/)
+    var d = new Date(Date.UTC(t[0],t[1]-1,t[2],t[3],t[4]));
+    return d.toString().slice(4,21)
   }
 
   show = () =>{
@@ -38,6 +46,41 @@ class Comment extends Component{
     .catch(err => {console.log("fetch error" + err)})
   }
 
+  getLikes(post){
+    fetch(`/api/likes/${post}`, {headers,method:"GET"})
+    .then(res => {return res.json();})
+    .then(json=>{this.setState({likes:json['likes']}); this.setState({liked:json['liked']})})
+    .catch(err => {console.log("fetch error" + err)})
+  }
+
+  likePost(post,user_id){
+    let body = JSON.stringify({post,user_id});
+    fetch(`/api/likes/${post}`, {headers,body,method:"POST"})
+    .then(res => {return res.json();}).then(()=>this.getLikes(this.props.comment.id))
+    .catch(err => {console.log("fetch error" + err)})
+  }
+
+  unlikePost(post,user_id){
+    let body = JSON.stringify({user_id});
+    fetch(`/api/likes/${post}`, {headers,body,method:"DELETE"})
+    .then(res => {return res.json();}).then(()=>this.getLikes(this.props.comment.id))
+    .catch(err => {console.log("fetch error" + err)})
+  }
+
+  handleLikes=(e)=>{
+    e.preventDefault();
+    if(!this.state.liked){
+      this.likePost(this.props.comment.id, this.props.user.id)
+    }else{
+      this.unlikePost(this.props.comment.id, this.props.user.id)
+    }
+  }
+
+  componentWillMount(){
+    this.getLikes(this.props.comment.id);
+
+  }
+
   render(){
      var comment = this.props.comment;
      var meta = this.props.meta;
@@ -47,8 +90,12 @@ class Comment extends Component{
         <div className="post" >
           <div className="post-avi" style = {meta&&meta[comment.user_id] ? {backgroundImage: `url(${meta[comment.user_id]['avi_path']})`} : {}}></div>
           <div className="text">
+          <p className="post-timestamp">{this.parseDate(comment.timestamp)}</p>
+
             <p> <Link to={"/about/"}>@{meta&&meta[comment.user_id] ? meta[comment.user_id]['username']:""}</Link></p>
             <p>{comment.text}</p>
+            <IconButton onClick={this.handleLikes.bind(this)}><FaThumbsUp/></IconButton>
+            <span>{this.state.likes.length} likes </span>
             <IconButton onClick={this.showReply}><FaComment/></IconButton>
             <IconButton onClick={e=>{e.preventDefault();this.deletePost(comment.id)}}>
               <FaTrash className={this.props.user.id !== comment.user_id ? "hidden" : ""}/>

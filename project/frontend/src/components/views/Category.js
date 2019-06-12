@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import '../static/Home.css';
 import {Link} from 'react-router-dom';
 import Navbar from './Navbar';
-import {FaComments,FaTrash,FaPlus} from 'react-icons/fa';
+import {FaComments,FaTimes,FaPlus} from 'react-icons/fa';
 import IconButton from '@material-ui/core/IconButton';
 import {headers} from '../forms/global.js'
 
@@ -85,7 +85,7 @@ class Category extends Component{
                 this.state.user_topics.map((el,idx) => {
                     return[
                         <li  key={idx}>
-                          <IconButton onClick={e=>{e.preventDefault();this.deleteUserTopic(el.id);} }><FaTrash/></IconButton>
+                          <IconButton onClick={e=>{e.preventDefault();this.deleteUserTopic(el.id);} }><FaTimes/></IconButton>
                           <Link to={this.props.match.params.category_id+'/'+el.id}>{el.name}</Link>
                         </li>
                     ];

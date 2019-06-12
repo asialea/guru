@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Navbar from './Navbar';
 import '../static/About.css';
 import {FaGithub,FaLinkedin,FaTwitter,FaEnvelope,FaUser,FaMapMarker} from 'react-icons/fa';
+import ReccPopup from '../forms/ReccPopup';
+
 
 class AboutView extends Component{
   constructor() {
@@ -13,7 +15,8 @@ class AboutView extends Component{
       education:[],
       skills:[],
       interests:[],
-      avi:{}
+      avi:{},
+      showPopup: false,
     }
   }
 
@@ -55,8 +58,23 @@ fetch(`/api/user-skills/${this.props.match.params.username}/`)
     });
   }
 
+  parseDate(timestamp){
+    if(timestamp){
+    var t = timestamp.split(/[-:T]/)
+    var d = new Date(Date.UTC(t[0],t[1],t[2]));
+    return d.toString().slice(4,15)
+    }
+  }
+
   parse_type(type){
     return (type ==='MR' ? 'Mentor' : 'Mentee')
+  }
+
+  togglePopup= e => {
+    e.preventDefault();
+    this.setState({
+     showPopup: !this.state.showPopup
+    });
   }
 
   render(){
@@ -65,6 +83,7 @@ fetch(`/api/user-skills/${this.props.match.params.username}/`)
       <header>
         <Navbar history={this.props.history}/>
       </header>
+
       <div className="flex-box">
       <div className="about-header"></div>
       <div className="about-body">
@@ -73,12 +92,14 @@ fetch(`/api/user-skills/${this.props.match.params.username}/`)
           <div className="flex-box">
             <img id="pro-pic" alt="user avi" src={this.state.user.avi__avi_path}/>
           </div>
+
           <span className="social">
             <a href={this.state.aboutUser.github}><FaGithub className="social-icon"/></a>
             <a href={this.state.aboutUser.linkedin}><FaLinkedin className="social-icon"/></a>
             <a href={this.state.aboutUser.twitter_handle}><FaTwitter className="social-icon"/></a>
             <a href={this.state.user.email}><FaEnvelope className="social-icon"/></a>
           </span>
+
           <article id="bio">
             <p className="desc res-item">{this.state.aboutUser.bio}</p>
           </article>
@@ -109,9 +130,15 @@ fetch(`/api/user-skills/${this.props.match.params.username}/`)
 
         <section id="about-user">
           <span><h1 id="name">{this.state.user.first_name} {this.state.user.last_name}</h1>
-
           ({this.parse_type(this.state.user.type)})
           </span>
+
+          <button id="recommend" onClick={this.togglePopup} className="submit">Write a Reccomendation</button>
+          {this.state.showPopup ?
+            <ReccPopup closePopup={this.togglePopup.bind(this)}/>
+          : null
+          }
+
           <p><FaUser/> @{this.state.user.username}</p>
           <p><FaMapMarker/> {this.state.aboutUser.location}</p>
         </section>
@@ -124,7 +151,7 @@ fetch(`/api/user-skills/${this.props.match.params.username}/`)
                  return <div className="edu-ex" key={el.id}>
                       <h3 className="main res-item">{el.company}, </h3><span className="res-item">{el.location} -</span>
                       <span className="position">{el.position} </span>
-                      <p className="date res-item">{el.start}-{el.end}</p>
+                      <p className="date res-item">{this.parseDate(el.start)} - {this.parseDate(el.end)}</p>
                       <p className="desc res-item">{el.description}</p>
                  </div>
              })}
@@ -138,7 +165,7 @@ fetch(`/api/user-skills/${this.props.match.params.username}/`)
                     return <div className="edu-ex" key={el.id}>
                          <h3 className="main res-item">{el.school}, </h3><span className="res-item">{el.location} -</span>
                          <span className="position">{el.degree} </span>
-                         <p className="edu res-item">{el.start}-{el.end}</p>
+                         <p className="edu res-item">{this.parseDate(el.start)} - {this.parseDate(el.end)}</p>
                     </div>
                 })}
             </div>

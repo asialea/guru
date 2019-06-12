@@ -15,7 +15,7 @@ class SearchResult extends Component{
       <div id="users">
       {
         this.props.users.map((el,idx) => {
-          if(el.id!==this.props.user.id && (this.props.type).includes(el.type)){
+          if(el.username!==this.props.user.username && (this.props.type).includes(el.type)){
             return <div  className={!this.props.hidden ? 'user-icon':'hidden'} key={idx}>
             <div>
                  <Link to={"/about/"+el.username}><img alt="profile-pic"  className="pro-pic"src={el.avi__avi_path}/>

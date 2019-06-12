@@ -247,3 +247,10 @@ label{
   border: 0.5px solid rgba(57,63,72,.2);
   background-color: transparent;
 }
+
+#recommend{
+  width: auto;
+  float: right;
+  margin: 1em auto;
+  padding: 0 0.4em;
+}

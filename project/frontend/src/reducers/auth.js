@@ -48,6 +48,11 @@ export default function auth(state=initialState, action) {
       return {...state, errors: action.data, token: null, user: null,
         isAuthenticated: false, isLoading: false};
 
+    case 'DELETE_SUCCESSFUL':
+      localStorage.removeItem("token");
+      return {...state, errors: action.data, token: null, user: null,
+        isAuthenticated: false, isLoading: false};
+
     default:
       return state;
   }

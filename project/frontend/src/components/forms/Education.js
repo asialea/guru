@@ -30,6 +30,14 @@ class Education extends Component{
 
       }
 
+  parseDate(timestamp){
+    if(timestamp){
+    var t = timestamp.split(/[-:T]/)
+    var d = new Date(Date.UTC(t[0],t[1],t[2]));
+    return d.toString().slice(4,15)
+    }
+  }
+
   addEducation(edu){
     let body = JSON.stringify(edu);
     headers["Authorization"] = `Token ${this.props.token}`;
@@ -96,8 +104,8 @@ class Education extends Component{
             return <div className="edu-ex" key={el.id}>
                  <h3 className="main res-item">{el.school}, </h3><span className="res-item">{el.location} -</span>
                  <span className="position">{el.degree} </span>
-                  <FaTimes className={this.state.hidden ? 'hidden':'deleteSkill'} onClick={(e) => {this.deleteEducation(el.id);}}/>
-                 <p className="edu res-item">{el.start} to {el.end}</p>
+                  <FaTimes className={this.state.hidden ? 'hidden':'delete'} onClick={(e) => {this.deleteEducation(el.id);}}/>
+                 <p className="edu res-item">{this.parseDate(el.start)} - {this.parseDate(el.end)}</p>
             </div>
           })}
       </div>

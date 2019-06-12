@@ -73,13 +73,16 @@ def update_attrs(instance, data):
     instance_pk = instance.pk
     for key, value in data.items():
         if hasattr(instance, key):
-            setattr(instance, key, value)
+            if(key == 'password'):
+                instance.set_password(value)
+            else:
+                setattr(instance, key, value)
         else:
             raise KeyError("Failed to update non existing attribute {}.{}".format(
                 instance.__class__.__name__, key
             ))
         instance.save()
-    return instance.__class__.objects.get(pk=instance_pk)
+    return instance.__class__.objects.get(id=instance_pk)
 
 class UpdateUserView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated, ]
@@ -94,18 +97,18 @@ class UpdateUserView(generics.GenericAPIView):
 class UserView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated, ]
     serializer_class = UserSerializer
+    queryset = User.objects.all()
 
     def get(self, request):
         serializer = UserSerializer(self.request.user)
         return Response(serializer.data)
 
     def delete(self, request, *args, **kwargs):
-        # the Post object
-        self.object = self.get_object()
-        if self.object.User == self.request.data['user']:
-            self.object.delete()
+        user = self.request.user
+        try:
+            user.delete()
             return Response({"success":("Successfully deleted.")})
-        else:
+        except Exception:
             return Response("Unsuccessful")
 
 
@@ -114,12 +117,13 @@ class AboutUserView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated, ]
     serializer_class = AboutUserSerializer
 
-    def put(self, request, *args, **kwargs):
-        AboutUser.objects.filter(user_id=self.request.user.id).update(github=self.request.data['github'],location=self.request.data['location'],
-        linkedin=self.request.data['linkedin'],twitter_handle=self.request.data['twitter_handle'],bio=self.request.data['bio'])
-        return Response({"aboutUser": "updated" })
-
-
+    def patch(self, request):
+        try:
+            user = AboutUser.objects.get(user_id=self.request.user.id)
+            res = update_attrs(user,self.request.data)
+            return Response(AboutUserSerializer(res, context=self.get_serializer_context()).data)
+        except Exception as e:
+            return Response(e.args)
 
 
 class AviView(generics.GenericAPIView):
@@ -369,7 +373,7 @@ class TopicView(generics.GenericAPIView):
             x['posts']=Post.objects.filter(topic=x['id']).count()
         return Response({'data':data,'category':category})
 
-
+from datetime import datetime
 
 class PostView(generics.GenericAPIView):
     serializer_class = PostSerializer
@@ -398,7 +402,8 @@ class PostView(generics.GenericAPIView):
                     "id": comment['id'],
                     "text": comment['text'],
                     "reply_to":comment['reply_to'],
-                    "user_id":comment['user_id']
+                    "user_id":comment['user_id'],
+                    "timestamp":comment['timestamp'],
                 }  # create dict from comment
                 replies = getChildren(comment['id'])
                 if len(replies) > 0:
@@ -410,7 +415,6 @@ class PostView(generics.GenericAPIView):
         topic = Topic.objects.get(id=id).name
         post_ser = PostSerializer(posts,many=True)
         data = post_ser.data
-
         meta={}
         user_ids = Post.objects.filter(topic=id).values('user_id').distinct()
         for x in user_ids:
@@ -421,6 +425,7 @@ class PostView(generics.GenericAPIView):
 
         user_avi = User.objects.filter(id=self.request.user.id).values('avi__avi_path')[0]['avi__avi_path']
         data=comments_to_dicts(data)
+
         return Response({'data':data,'topic':topic,'meta':meta,'user_avi':user_avi})
 
     def delete(self,request,**kwargs):
@@ -429,7 +434,6 @@ class PostView(generics.GenericAPIView):
         post = Post.objects.filter(id=id).delete()
         return Response({"Post deleted"})
 
-from django.http import HttpResponse
 
 class RecentTopicView(generics.GenericAPIView):
     serializer_class = TopicSerializer
@@ -457,3 +461,27 @@ class UserTopicView(generics.GenericAPIView):
         assert (self.request.user.id == Topic.objects.filter(id=id).values('created_by')[0]['created_by'])
         topic = Topic.objects.filter(id=id).delete()
         return Response({"Topic deleted"})
+
+class LikesView(generics.GenericAPIView):
+    serializer_class = LikesSerializer
+    queryset = Likes.objects.all()
+
+    def get(self,request,**kwargs):
+        post_id = self.kwargs['post_id']
+        likes = Likes.objects.filter(post = post_id)
+        serializer = LikesSerializer(likes,many=True)
+        liked = Likes.objects.filter(post = post_id, user_id=self.request.user.id).exists()
+        return Response({'likes':serializer.data,'liked':liked})
+
+    def post(self,request,**kwargs):
+        serializer = self.get_serializer(data=self.request.data)
+        serializer.is_valid(raise_exception=True)
+        like = serializer.save()
+        return Response(LikesSerializer(like, context=self.get_serializer_context()).data)
+
+    def delete(self,request,**kwargs):
+        try:
+            Likes.objects.filter(post= self.kwargs['post_id'],user_id=self.request.user.id).delete()
+            return Response({"Post deleted"})
+        except Exception as e:
+            return Response(e.args)

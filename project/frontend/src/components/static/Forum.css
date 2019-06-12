@@ -136,6 +136,11 @@ div.text{
   float:right;
 }
 
+.post-timestamp{
+  display: inline-block;
+  float:right;
+}
+
 .view-replies:hover{
   cursor: pointer;
 }
@@ -168,4 +173,8 @@ tr:hover td, tr:hover th{
 
 #forum .table tr,#about .table tr,#aboutUser .table tr{
   transition: none;
+}
+
+.post span{
+  font-size: 0.9em;
 }

@@ -32,6 +32,14 @@ class Experience extends Component{
       this.refs.company.value ="";
     }
 
+  parseDate(timestamp){
+    if(timestamp){
+      var t = timestamp.split(/[-:T]/)
+      var d = new Date(Date.UTC(t[0],t[1],t[2]));
+      return d.toString().slice(4,15)
+    }
+  }
+
   addWork(work){
     let body = JSON.stringify(work);
     headers["Authorization"] = `Token ${this.props.token}`;
@@ -102,7 +110,7 @@ class Experience extends Component{
                  <h3 className="main res-item">{el.company}, </h3><span className="res-item">{el.location} -</span>
                  <span className="position">{el.position} </span>
                  <FaTimes className={this.state.hidden ? 'hidden':'delete'} onClick={(e) => {this.deleteWork(el.id);}} />
-                 <p className="date res-item">{el.start} to {el.end}</p>
+                 <p className="date res-item">{this.parseDate(el.start)} - {this.parseDate(el.end)}</p>
                  <p className="desc res-item">{el.description}</p>
             </div>
           })}
