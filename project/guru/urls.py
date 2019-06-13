@@ -33,6 +33,8 @@ urlpatterns = [
     url('^api/user-work/(?P<username>[a-zA-Z0-9_.-s]+)/$',views.ReadWorkView.as_view()),
     url('^api/user-skills/(?P<username>[a-zA-Z0-9_.-s]+)/$',views.ReadSkillsView.as_view()),
     url('^api/user-interests/(?P<username>[a-zA-Z0-9_.-s]+)/$',views.ReadInterestsView.as_view()),
+    url('^api/rec/(?P<username>[a-zA-Z0-9_.-s]+)/$', views.RecommendationView.as_view()),
+
     # Search
     url('^api/filter/$',views.FilterUserView.as_view()),
     # Forum

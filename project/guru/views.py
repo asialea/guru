@@ -13,13 +13,8 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 from django.db.models import Q
+from config import cloud_config
 
-
-cloudinary.config(
-  cloud_name = "guruapp",
-  api_key = "328295839766139",
-  api_secret = "fw8b85Ig7I0e2bOslPzvRjjaCHM"
-)
 
 
 class UserViewSet(generics.ListCreateAPIView):
@@ -444,8 +439,6 @@ class RecentTopicView(generics.GenericAPIView):
         serializer = TopicSerializer(topics,many=True)
         return Response(serializer.data)
 
-
-
 class UserTopicView(generics.GenericAPIView):
     serializer_class = TopicSerializer
     queryset = Topic.objects.all()
@@ -482,6 +475,30 @@ class LikesView(generics.GenericAPIView):
     def delete(self,request,**kwargs):
         try:
             Likes.objects.filter(post= self.kwargs['post_id'],user_id=self.request.user.id).delete()
-            return Response({"Post deleted"})
+            return Response({"Like deleted"})
+        except Exception as e:
+            return Response(e.args)
+
+class RecommendationView(generics.GenericAPIView):
+    serializer_class = RecommendationSerializer
+    queryset = Recommendation.objects.all()
+
+    def get(self,request,**kwargs):
+        username = str(self.kwargs['username'])
+        user = User.objects.get(username=username)
+        rec = Recommendation.objects.filter(user_id = user.id).values('author__username','author','text','user_id')
+        serializer = RecommendationViewSerializer(rec,many=True)
+        return Response(serializer.data)
+
+    def post(self,request,**kwargs):
+        serializer = self.get_serializer(data=self.request.data)
+        serializer.is_valid(raise_exception=True)
+        rec = serializer.save()
+        return Response(RecommendationSerializer(rec, context=self.get_serializer_context()).data)
+
+    def delete(self,request,**kwargs):
+        try:
+            Recommendation.objects.filter(rec= self.kwargs['rec_id']).delete()
+            return Response({"rec deleted"})
         except Exception as e:
             return Response(e.args)

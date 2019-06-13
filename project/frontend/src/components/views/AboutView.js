@@ -15,9 +15,18 @@ class AboutView extends Component{
       education:[],
       skills:[],
       interests:[],
+      rec:[],
       avi:{},
       showPopup: false,
     }
+  }
+
+  fetchRec = ()=>{
+    fetch(`/api/rec/${this.props.match.params.username}/`)
+     .then(response => { return response.json();}).then(responseData => {return responseData;})
+    .then (json =>this.setState({rec: json})).catch(err => {
+          console.log("fetch error" + err);
+      });
   }
 
 componentWillMount(){
@@ -27,11 +36,11 @@ componentWillMount(){
   .catch(err => {console.log("fetch error" + err);
     });
 
-fetch(`/api/aboutUser/${this.props.match.params.username}/`)
-  .then(response => { return response.json();}).then(responseData => {return responseData; })
- .then (json =>this.setState({aboutUser: json})).catch(err => {
-       console.log("fetch error" + err);
-   })
+  fetch(`/api/aboutUser/${this.props.match.params.username}/`)
+    .then(response => { return response.json();}).then(responseData => {return responseData; })
+   .then (json =>this.setState({aboutUser: json})).catch(err => {
+         console.log("fetch error" + err);
+     })
 
  fetch(`/api/user-work/${this.props.match.params.username}/`)
    .then(response => { return response.json();}).then(responseData => {return responseData; })
@@ -39,23 +48,26 @@ fetch(`/api/aboutUser/${this.props.match.params.username}/`)
         console.log("fetch error" + err);
     });
 
-fetch(`/api/user-edu/${this.props.match.params.username}/`)
-  .then(response => { return response.json();}).then(responseData => {return responseData;})
- .then (json =>this.setState({education: json})).catch(err => {
-       console.log("fetch error" + err);
-   });
+  fetch(`/api/user-edu/${this.props.match.params.username}/`)
+    .then(response => { return response.json();}).then(responseData => {return responseData;})
+   .then (json =>this.setState({education: json})).catch(err => {
+         console.log("fetch error" + err);
+     });
 
-fetch(`/api/user-skills/${this.props.match.params.username}/`)
- .then(response => { return response.json();}).then(responseData => {return responseData;})
-.then (json =>this.setState({skills: json})).catch(err => {
-      console.log("fetch error" + err);
-  });
+  fetch(`/api/user-skills/${this.props.match.params.username}/`)
+   .then(response => { return response.json();}).then(responseData => {return responseData;})
+  .then (json =>this.setState({skills: json})).catch(err => {
+        console.log("fetch error" + err);
+    });
 
   fetch(`/api/user-interests/${this.props.match.params.username}/`)
    .then(response => { return response.json();}).then(responseData => {return responseData;})
   .then (json =>this.setState({interests: json})).catch(err => {
         console.log("fetch error" + err);
     });
+
+  this.fetchRec()
+
   }
 
   parseDate(timestamp){
@@ -135,7 +147,7 @@ fetch(`/api/user-skills/${this.props.match.params.username}/`)
 
           <button id="recommend" onClick={this.togglePopup} className="submit">Write a Reccomendation</button>
           {this.state.showPopup ?
-            <ReccPopup closePopup={this.togglePopup.bind(this)}/>
+            <ReccPopup fetch={this.fetchRec} username={this.props.match.params.username} user_id={this.state.user.id} text={"Tell us about "+this.state.user.first_name} closePopup={this.togglePopup.bind(this)}/>
           : null
           }
 
@@ -166,6 +178,17 @@ fetch(`/api/user-skills/${this.props.match.params.username}/`)
                          <h3 className="main res-item">{el.school}, </h3><span className="res-item">{el.location} -</span>
                          <span className="position">{el.degree} </span>
                          <p className="edu res-item">{this.parseDate(el.start)} - {this.parseDate(el.end)}</p>
+                    </div>
+                })}
+            </div>
+          </article>
+
+          <article>
+            {this.state.rec.length > 0 ? <div className="accordion btn-animated"><h2>Reccomendations</h2></div> : null}
+            <div>
+              {this.state.rec.map(el => {
+                    return <div className="edu-ex" key={el.id}>
+                         <p className="desc res-item">"{el.text}" - @{el.author__username}</p>
                     </div>
                 })}
             </div>

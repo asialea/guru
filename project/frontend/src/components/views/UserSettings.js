@@ -25,7 +25,9 @@ class UserSettings extends Component {
 
 
   render () {
+
   return (
+
     <div id="settings">
       <header>
         <Navbar history={this.props.history}/>
@@ -56,6 +58,7 @@ const mapStateToProps = state => {
     return {
         user: state.auth.user,
         token: state.auth.token,
+
     }
 }
 

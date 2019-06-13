@@ -254,3 +254,10 @@ label{
   margin: 1em auto;
   padding: 0 0.4em;
 }
+
+.popup_inner textarea{
+  width: 70%;
+  height: 50%;
+  display: block;
+  margin: 1em auto;
+}

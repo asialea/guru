@@ -90,6 +90,7 @@ class UserViewSerializer(serializers.Serializer):
     avi__avi_path = serializers.CharField()
     first_name = serializers.CharField()
     last_name = serializers.CharField()
+    id = serializers.IntegerField()
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -109,4 +110,15 @@ class PostSerializer(serializers.ModelSerializer):
 class LikesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Likes
+        fields = '__all__'
+
+class RecommendationViewSerializer(serializers.Serializer):
+    author = serializers.IntegerField()
+    text = serializers.CharField()
+    author__username = serializers.CharField()
+    user_id = serializers.IntegerField()
+
+class RecommendationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Recommendation
         fields = '__all__'
