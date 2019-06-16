@@ -92,7 +92,7 @@ class Comment extends Component{
           <div className="text">
           <p className="post-timestamp">{this.parseDate(comment.timestamp)}</p>
 
-            <p> <Link to={"/about/"}>@{meta&&meta[comment.user_id] ? meta[comment.user_id]['username']:""}</Link></p>
+            <p> {meta&&meta[comment.user_id] ? <Link to={`/about/${meta[comment.user_id]['username']}`}>@{meta[comment.user_id]['username']}</Link>:null}</p>
             <p>{comment.text}</p>
             <IconButton onClick={this.handleLikes.bind(this)}><FaThumbsUp/></IconButton>
             <span>{this.state.likes.length} likes </span>

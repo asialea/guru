@@ -13,8 +13,7 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 from django.db.models import Q
-from config import cloud_config
-
+from . import config
 
 
 class UserViewSet(generics.ListCreateAPIView):

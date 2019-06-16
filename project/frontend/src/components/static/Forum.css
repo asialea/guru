@@ -40,7 +40,6 @@ ul li{
 
 #recent-topics h2{
   font-size: 1.5em;
-  font-size: 2vw;
   font-weight: normal;
   align-self: left;
   border-bottom: 2px solid rgba(226, 125, 96,0.2);
@@ -55,7 +54,7 @@ ul li{
 h1.forum-h1{
   grid-column: 3/8;
   grid-row: 1/7;
-  font-size: 3vw;
+  font-size: 2em;
   font-weight: normal;
   text-align: left;
   border-bottom: 2px solid rgba(226, 125, 96,0.2);
@@ -63,7 +62,7 @@ h1.forum-h1{
 }
 
  #post-list h1{
-  font-size: 2vw;
+  font-size: 2em;
 }
 
 #forum table,#topic-list table{
@@ -177,4 +176,23 @@ tr:hover td, tr:hover th{
 
 .post span{
   font-size: 0.9em;
+}
+
+#tablinks{
+  overflow: auto;
+   white-space: nowrap;
+  overflow-y: hidden;
+}
+
+@media only screen and (max-width: 780px) {
+  .forum-body{
+    display:block;
+    width: 90%;
+  }
+
+
+  #topic .forum-body{
+    width: 95%;
+  }
+
 }

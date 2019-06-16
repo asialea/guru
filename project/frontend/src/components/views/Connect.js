@@ -82,6 +82,7 @@ class Connect extends Component{
           <SearchResult users={this.state.users} hidden={this.state.hidden} type={this.state.type}/>
 
           <Tabs>
+          <div id="tablinks">
             <TabLink className={!this.state.hidden ? 'hidden':'tablink'} to="tab1" default>All ({this.state.user_query ? this.state.user_query.all.length :null})</TabLink>
             <TabLink className={!this.state.hidden ? 'hidden':'tablink'} to="tab2">People ({this.state.user_query ? this.state.user_query.name.length :null})</TabLink>
             <TabLink className={!this.state.hidden ? 'hidden':'tablink'} to="tab3">Company ({this.state.user_query ? this.state.user_query.company.length :null})</TabLink>
@@ -89,7 +90,7 @@ class Connect extends Component{
             <TabLink className={!this.state.hidden ? 'hidden':'tablink'} to="tab5">Skill ({this.state.user_query ? this.state.user_query.skill.length :null})</TabLink>
             <TabLink className={!this.state.hidden ? 'hidden':'tablink'} to="tab6">Interest ({this.state.user_query ? this.state.user_query.interest.length :null})</TabLink>
             <TabLink className={!this.state.hidden ? 'hidden':'tablink'} to="tab7">School ({this.state.user_query ? this.state.user_query.school.length :null})</TabLink>
-
+          </div>
             <TabContent className={!this.state.hidden ? 'hidden':''} for="tab1">
               <SearchResult users={this.state.user_query ? this.state.user_query.all:[]} hidden={!this.state.hidden} type={this.state.type}/>
             </TabContent>

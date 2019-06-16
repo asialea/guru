@@ -28,21 +28,19 @@ class Register extends Component {
   render () {
       return (
     <div className="form-container">
-      <p id = "banner"> Join the tech community </p>
-      <p id = "banner2"> Get started - it's free </p>
         <form onSubmit={this.registerSubmit}>
-          <div className="row ">
+        <p id = "banner"> Join the tech community </p>
+        <p id = "banner2"> Get started - it's free </p>
+          <div className="row">
             <div className="col-6">
-              <input className=""  type="text" placeholder="First Name" maxLength="30" pattern="^[a-zA-Z]+$"
+              <input className="inputdiv"  type="text" placeholder="First Name" maxLength="30" pattern="^[a-zA-Z]+$"
               onChange={e => this.setState({first_name: e.target.value})} required />
             </div>
-            <div className="col-6">
+            <div className="inputdiv col-6">
               <input className="" type="text" placeholder="Last Name" maxLength="150" pattern="^[a-zA-Z]+$"
               onChange={e => this.setState({last_name: e.target.value})} required/>
             </div>
-          </div>
 
-          <div className = "row">
             <div className="inputdiv col-12">
               <input className = ""  type="text" placeholder="Username" maxLength="30" pattern="^[a-zA-Z0-9]+$"
               onChange={e => this.setState({username: e.target.value})} required/>

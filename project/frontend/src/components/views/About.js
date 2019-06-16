@@ -16,6 +16,7 @@ class About extends Component{
   state = {
     aboutUser:{},
     hidden:true,
+    avi:{},
 
   }
 
@@ -27,6 +28,11 @@ class About extends Component{
     this.setState({hidden:!this.state.hidden});
   }
 
+  fetchAvi = ()=>{
+    fetch(`/api/avi/${this.props.user.id}/`)
+      .then(response => { return response.json();}).then(json =>this.setState({avi: json}))
+      .catch(err => {console.log("fetch error" + err);});
+            }
 
   fetchAboutUser = ()=>{
     fetch(`/api/aboutUser/${this.props.user.username}/`)
@@ -37,6 +43,8 @@ class About extends Component{
 
   componentWillMount(){
       this.fetchAboutUser();
+      this.fetchAvi();
+
     }
 
   render(){
@@ -48,9 +56,18 @@ class About extends Component{
       <div className="flex-box">
       <div className="about-header"></div>
         <div className="about-body">
+        <img id="pro-pic" alt="user avi" src={this.state.avi.avi_path}/>
+        <section id="about-user">
+          <span><h1 id="name">{this.props.user.first_name} {this.props.user.last_name} </h1>
+          ({this.parse_type(this.props.user.type)})
+             <IconButton onClick={this.show}><FaEdit  className="about-expand"/></IconButton>
+          </span>
+          <p><FaUser/> @{this.props.user.username}</p>
+          <p><FaMapMarker/> {this.state.aboutUser.location}</p>
+        </section>
 
           <section id="bio-contact">
-            <AboutUser hidden={this.state.hidden} fetchAboutUser={this.fetchAboutUser} aboutUser={this.state.aboutUser}/>
+            <AboutUser fetchAvi={this.fetchAvi} hidden={this.state.hidden} fetchAboutUser={this.fetchAboutUser} aboutUser={this.state.aboutUser}/>
             <article>
               <Skills/>
             </article>
@@ -59,14 +76,6 @@ class About extends Component{
             </article>
           </section>
 
-          <section id="about-user">
-            <span><h1 id="name">{this.props.user.first_name} {this.props.user.last_name} </h1>
-            ({this.parse_type(this.props.user.type)})
-               <IconButton onClick={this.show}><FaEdit  className="about-expand"/></IconButton>
-            </span>
-            <p><FaUser/> @{this.props.user.username}</p>
-            <p><FaMapMarker/> {this.state.aboutUser.location}</p>
-          </section>
 
           <section id="resume">
             <article>

@@ -3,6 +3,7 @@ import Navbar from './Navbar';
 import '../static/About.css';
 import {FaGithub,FaLinkedin,FaTwitter,FaEnvelope,FaUser,FaMapMarker} from 'react-icons/fa';
 import ReccPopup from '../forms/ReccPopup';
+import {Link} from 'react-router-dom';
 
 
 class AboutView extends Component{
@@ -99,11 +100,23 @@ componentWillMount(){
       <div className="flex-box">
       <div className="about-header"></div>
       <div className="about-body">
+      <img id="pro-pic" alt="user avi" src={this.state.user.avi__avi_path}/>
 
+      <section id="about-user">
+        <span><h1 id="name">{this.state.user.first_name} {this.state.user.last_name}</h1>
+        ({this.parse_type(this.state.user.type)})
+        </span>
+
+        <button id="recommend" onClick={this.togglePopup} className="submit">Write a Reccomendation</button>
+        {this.state.showPopup ?
+          <ReccPopup fetch={this.fetchRec} username={this.props.match.params.username} user_id={this.state.user.id} text={"Tell us about "+this.state.user.first_name} closePopup={this.togglePopup.bind(this)}/>
+        : null
+        }
+
+        <p><FaUser/> @{this.state.user.username}</p>
+        <p><FaMapMarker/> {this.state.aboutUser.location}</p>
+      </section>
         <section id="bio-contact">
-          <div className="flex-box">
-            <img id="pro-pic" alt="user avi" src={this.state.user.avi__avi_path}/>
-          </div>
 
           <span className="social">
             <a href={this.state.aboutUser.github}><FaGithub className="social-icon"/></a>
@@ -140,21 +153,6 @@ componentWillMount(){
           </article>
         </section>
 
-        <section id="about-user">
-          <span><h1 id="name">{this.state.user.first_name} {this.state.user.last_name}</h1>
-          ({this.parse_type(this.state.user.type)})
-          </span>
-
-          <button id="recommend" onClick={this.togglePopup} className="submit">Write a Reccomendation</button>
-          {this.state.showPopup ?
-            <ReccPopup fetch={this.fetchRec} username={this.props.match.params.username} user_id={this.state.user.id} text={"Tell us about "+this.state.user.first_name} closePopup={this.togglePopup.bind(this)}/>
-          : null
-          }
-
-          <p><FaUser/> @{this.state.user.username}</p>
-          <p><FaMapMarker/> {this.state.aboutUser.location}</p>
-        </section>
-
         <section id="resume">
           <article>
            <div className="accordion btn-animated"><h2>Experience</h2></div>
@@ -186,9 +184,9 @@ componentWillMount(){
           <article>
             {this.state.rec.length > 0 ? <div className="accordion btn-animated"><h2>Reccomendations</h2></div> : null}
             <div>
-              {this.state.rec.map(el => {
-                    return <div className="edu-ex" key={el.id}>
-                         <p className="desc res-item">"{el.text}" - @{el.author__username}</p>
+              {this.state.rec.map((el,idx) =>{
+                    return <div className="edu-ex" key={idx}>
+                         <p className="desc res-item">"{el.text}" - <Link to={`/about/${el.author__username}`}>@{el.author__username}</Link></p>
                     </div>
                 })}
             </div>

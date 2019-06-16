@@ -42,16 +42,11 @@ class AboutUser extends Component {
 
   aboutSave = (e) => {
     e.preventDefault();
-    this.fetchAvi();
+    this.props.fetchAvi()
     delete this.state.aboutUser['user_id']
     this.updateAboutUser(this.state.aboutUser)
   }
 
-  fetchAvi(){
-    fetch(`/api/avi/${this.props.user.id}/`)
-      .then(response => { return response.json();}).then(json =>this.setState({avi: json}))
-      .catch(err => {console.log("fetch error" + err);});
-            }
 
   handleChange(param,value){
     let updatedUser = this.state.aboutUser;
@@ -59,16 +54,11 @@ class AboutUser extends Component {
     this.setState({aboutUser:updatedUser})
   }
 
-  componentWillMount(){
-      this.fetchAvi();
-    }
-
   render () {
     var aboutUser=this.props.aboutUser;
       return (
         <div>
         <div className="flex-box">
-          <img id="pro-pic" alt="user avi" src={this.state.avi.avi_path}/>
         </div>
         <div className={this.props.hidden ? 'hidden':'form'}>
         <button onClick={this.uploadWidget} id="pro-upload" className="submit">Pro Pic</button>

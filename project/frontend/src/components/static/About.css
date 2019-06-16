@@ -20,13 +20,12 @@
   position: absolute;
   top:0px;
   width: 100%;
-  height: 30%;
+  height: 200px;
   background-color: #edeae5;
   box-shadow: 0 3px 15px rgba(57,63,72,.3);
 }
 
 #pro-pic,#pro-pic-user{
-  width: 80%;
   height:auto;
   border-radius: 50%;
   background-position: center center;
@@ -74,7 +73,7 @@ form{
 }
 
 #bio-contact{
-  grid-row-start:2;
+  grid-row-start:10;
 }
 
 .accordion{
@@ -114,7 +113,8 @@ span svg{
 }
 
 #about-user{
-  grid-row-start: 2;
+  grid-row-start: 1;
+  grid-column: 2;
 }
 
 #name{
@@ -201,7 +201,7 @@ span svg{
   width: auto;
   border-radius: .25rem;
   text-align: center;
-  border: 0.5px solid rgb(39, 179, 45,0.1);
+  border: 0.5px solid rgba(39, 179, 45,0.1);
   font-size: 0.8em;
   letter-spacing: .03rem;
   text-transform: uppercase;
@@ -260,4 +260,23 @@ label{
   height: 50%;
   display: block;
   margin: 1em auto;
+}
+
+
+@media only screen and (max-width: 750px) {
+.about-body,#recommend{
+  display: block;
+  float: none;
+}
+
+#pro-pic, #about-user span,#about-user p{
+  display: block;
+  text-align: center;
+
+}
+
+
+#pro-pic{
+  margin: 0 auto;
+}
 }

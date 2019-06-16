@@ -7,7 +7,7 @@ import {FaUser,FaNewspaper,FaIdCard,FaUsers,FaSignOutAlt,FaArrowLeft} from 'reac
 import IconButton from '@material-ui/core/IconButton';
 import {Redirect} from 'react-router-dom';
 import head from './head-color.svg'
-
+import NavLinks from './NavLinks'
 
 class Navbar extends Component{
 
@@ -37,7 +37,7 @@ class Navbar extends Component{
             </Link>
           </div>
         </div>
-
+        <NavLinks/>
         <div className="nav-right" >
           <div className="nav-item text-center">
             <Link to="/settings"><IconButton>

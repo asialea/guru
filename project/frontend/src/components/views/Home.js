@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import '../static/Home.css';
 import Register from '../forms/Register';
+import Login from '../forms/Login';
+import LoginPopup from '../forms/LoginPopup';
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {auth} from "../../actions";
@@ -11,13 +13,19 @@ class Home extends Component {
   state = {
    username: "",
    password: "",
+  showPopup: false,
   }
 
   onSubmit = e => {
     e.preventDefault();
     this.props.login(this.state.username, this.state.password);
   }
-
+  togglePopup= e => {
+    e.preventDefault();
+    this.setState({
+     showPopup: !this.state.showPopup
+    });
+  }
 
   render () {
 
@@ -27,33 +35,21 @@ class Home extends Component {
 
   return (
     <div id="home">
+
       <div className="header header-fill header-fixed">
         <div className="header-brand">
           <div className="nav-item no-hover">
               <h1 className="title"><img className="logo" src={head} alt="lotus"/>Guru</h1>
           </div>
         </div>
-        <div className="nav-item">
-        {this.props.errors.length > 0 && (
-          <ul>
-            {this.props.errors.map(error => (
-              <li key={error.field}>{error.message}</li>
-            ))}
-          </ul>
-        )}
-        </div>
 
-        <form id="login-form">
-          <div className="form-group">
-            <input className = "login-input"  type="text"
-             placeholder="Username" onChange={e => this.setState({username: e.target.value})}/>
-            <input className = "login-input"  type="password"
-             placeholder="Password" onChange={e => this.setState({password: e.target.value})}/>
-            <button className ='submit' onClick={this.onSubmit} id='login-submit'>Login</button>
-          </div>
-        </form>
+        <button id="media-login" className="submit" onClick={this.togglePopup.bind(this)}>Login</button>
+        <Login/>
       </div>
 
+      {this.state.showPopup ?
+      <LoginPopup closePopup={this.togglePopup.bind(this)}/>
+      :null}
         <div id = "user-div">
           <Register/>
         </div>

@@ -21,7 +21,7 @@
   display: inline-grid;
   grid-column-gap:1em;
   grid-row-gap:1em;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(170px,1fr));
   grid-template-rows: auto;
 }
 
@@ -50,7 +50,7 @@ button.tab-link-active{
   align-self: center;
   justify-self:center;
   overflow: hidden;
-  border: 0.5px solid rgb(39, 179, 45,0.1);
+  border: 0.5px solid rgba(39, 179, 45,0.1);
   padding: 0.5rem;
   text-align: center;
   box-shadow: 0 3px 15px rgba(57,63,72,.1);
