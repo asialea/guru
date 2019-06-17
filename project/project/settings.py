@@ -20,11 +20,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'x-sc4c)o6o+n6_j4-nes7-o6cbnkgm@-mt$4z^o4r8fa(lbii-')
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG =  os.environ.get('DJANGO_DEBUG', '') != 'False'
-DEBUG=True
+DEBUG =  os.environ.get('DJANGO_DEBUG', '') != 'False'
 
 ALLOWED_HOSTS = ['*']
 
@@ -91,9 +90,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME' : 'Guru',
         'USER' : 'root',
-        'PASSWORD': '1110asia',
+        'PASSWORD': os.environ['MYSQL_PASSWORD'],
         'HOST' : 'localhost',
-        'PORT' : '3306',
+        'PORT' : os.environ['MYSQL_PORT'],
 
     }
 }
