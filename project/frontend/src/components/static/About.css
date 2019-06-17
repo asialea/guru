@@ -1,7 +1,7 @@
 .about-body{
   display: grid;
   grid-template-columns: 1fr 2fr;
-  grid-template-rows: repeat(20,5%);
+  grid-auto-rows: 10vw;
   width: 75%;
   margin: 0 auto;
   position: absolute;
@@ -25,13 +25,15 @@
   box-shadow: 0 3px 15px rgba(57,63,72,.3);
 }
 
-#pro-pic,#pro-pic-user{
+#pro-pic{
   height:auto;
   border-radius: 50%;
   background-position: center center;
   background-size: cover;
   border:0.5px solid #dee4ed;
   box-shadow: 0 3px 15px rgba(57,63,72,.8);
+  margin: 0 auto;
+  grid-row-start: 1;
 }
 
 
@@ -43,7 +45,7 @@
 
 #resume{
   grid-column: 2;
-  grid-row-start:5;
+  grid-row-start:2;
   margin-top: 2em;
 
 }
@@ -73,7 +75,7 @@ form{
 }
 
 #bio-contact{
-  grid-row-start:10;
+  grid-row-start:3;
 }
 
 .accordion{
@@ -262,21 +264,26 @@ label{
   margin: 1em auto;
 }
 
+@media only screen and (max-width: 1100px) {
 
+  #bio-contact{
+    grid-row-start: 4;
+  }
+
+  #resume{
+    grid-row-start: 3;
+  }
+}
 @media only screen and (max-width: 750px) {
-.about-body,#recommend{
-  display: block;
-  float: none;
-}
+  .about-body,#recommend{
+    display: block;
+    float: none;
+  }
 
-#pro-pic, #about-user span,#about-user p{
-  display: block;
-  text-align: center;
+  #pro-pic, #about-user span,#about-user p,#name{
+    display: block;
+    text-align: center;
 
-}
+  }
 
-
-#pro-pic{
-  margin: 0 auto;
-}
 }

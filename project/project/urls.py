@@ -26,5 +26,4 @@ urlpatterns = [
     path('', include('frontend.urls')),
     path('auth/', include('rest_framework.urls')),
     url(r'^', TemplateView.as_view(template_name="index.html")),
-
 ]

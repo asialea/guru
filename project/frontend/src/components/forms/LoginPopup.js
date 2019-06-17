@@ -22,15 +22,22 @@ class LoginPopup extends React.Component {
     return (
 
       <div className='popup'>
-        <div className='popup_inner'>
+        <div className='popup_inner login-popup'>
           <IconButton onClick={this.props.closePopup}><FaTimes/></IconButton>
+          <h1>Login</h1>
           <form id="">
-            <div className="">
-              <input className = "login-popup"  type="text"
-               placeholder="Username" onChange={e => this.setState({username: e.target.value})}/>
-              <input className = "login-popup"  type="password"
-               placeholder="Password" onChange={e => this.setState({password: e.target.value})}/>
-              <button className ='submit' onClick={this.onSubmit} >Login</button>
+            <div className="row">
+              <div className="inputdiv col-12">
+                <input className = ""  type="text"
+                 placeholder="Username" onChange={e => this.setState({username: e.target.value})}/>
+              </div>
+              <div className="inputdiv col-12">
+                <input className = "login-popup"  type="password"
+                 placeholder="Password" onChange={e => this.setState({password: e.target.value})}/>
+              </div>
+              <div className="inputdiv col-12">
+                <button className ='submit' onClick={this.onSubmit} >Login</button>
+              </div>
             </div>
             <div id="errors" className="">
             {this.props.errors.length > 0 && (

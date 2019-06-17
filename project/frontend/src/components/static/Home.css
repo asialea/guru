@@ -17,10 +17,15 @@ div.header{
   background-color:  #41b3a3;
 }
 
+div.header-brand,.nav-right{
+  height:55px;
+}
+
 h1.title{
   font-size: 2.5em;
   color: white;
   text-align: left;
+  display: inline;
 }
 
 #home,#user-settings{
@@ -170,8 +175,19 @@ div.nav-item{
   top: 25%;
   bottom: 25%;
   margin: auto;
-  border-radius: 20px;
+  border-radius: 10px;
   background: white;
+}
+
+.popup_inner.login-popup{
+  left: 15%;
+  right: 15%;
+  top: 15%;
+  bottom: 15%;
+}
+
+.login-popup h1{
+  text-align: center;
 }
 
 #delete-user{

@@ -3,10 +3,9 @@ import {connect} from "react-redux";
 import {auth} from "../../actions";
 import '../static/Home.css';
 import {Link} from 'react-router-dom';
-import {FaUser,FaNewspaper,FaIdCard,FaUsers,FaSignOutAlt,FaArrowLeft} from 'react-icons/fa';
+import {FaUser,FaNewspaper,FaIdCard,FaUsers,FaSignOutAlt} from 'react-icons/fa';
 import IconButton from '@material-ui/core/IconButton';
 import {Redirect} from 'react-router-dom';
-import head from './head-color.svg'
 
 
 class NavLinks extends Component{
@@ -25,9 +24,9 @@ class NavLinks extends Component{
   render(){
 
     return(
-      <div class="dropdown">
-            <button class="dropbtn">MENU</button>
-            <div class="dropdown-content">
+      <div className="dropdown">
+            <button className="dropbtn">MENU</button>
+            <div className="dropdown-content">
               <ul>
 
             <Link to="/settings"><IconButton>

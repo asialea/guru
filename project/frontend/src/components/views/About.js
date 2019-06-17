@@ -58,8 +58,8 @@ class About extends Component{
         <div className="about-body">
         <img id="pro-pic" alt="user avi" src={this.state.avi.avi_path}/>
         <section id="about-user">
-          <span><h1 id="name">{this.props.user.first_name} {this.props.user.last_name} </h1>
-          ({this.parse_type(this.props.user.type)})
+          <h1 id="name">{this.props.user.first_name} {this.props.user.last_name} </h1>
+          <span>({this.parse_type(this.props.user.type)})
              <IconButton onClick={this.show}><FaEdit  className="about-expand"/></IconButton>
           </span>
           <p><FaUser/> @{this.props.user.username}</p>
