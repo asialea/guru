@@ -43,9 +43,9 @@ class Login extends Component {
 
 const mapStateToProps = state => {
   let errors = [];
-  if (state.auth.errors) {
-    errors = Object.keys(state.auth.errors).map(field => {
-      return {field, message: state.auth.errors[field]};
+  if (state.auth.login_errors) {
+    errors = Object.keys(state.auth.login_errors).map(field => {
+      return {field, message: state.auth.login_errors[field]};
     });
   }
   return {

@@ -50,7 +50,7 @@ class Home extends Component {
       {this.state.showPopup ?
       <LoginPopup closePopup={this.togglePopup.bind(this)}/>
       :null}
-        <div id = "user-div">
+        <div id="user-div">
           <Register/>
         </div>
       <div>{this.props.children}</div>

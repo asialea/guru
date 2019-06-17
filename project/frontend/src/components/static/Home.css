@@ -92,7 +92,7 @@ button.submit{
 
 #banner{
   padding-top: 1.5em;
-  font-size: 2em;
+  font-size: 1.5em;
   font-weight: bold;
   text-align: center;
   margin: 0 auto;
@@ -100,7 +100,6 @@ button.submit{
 }
 
 #banner2{
-  text-align: center;
   font-size: 1.5em;
 }
 
@@ -122,6 +121,7 @@ button.submit{
 
 #home p{
   text-align: center;
+  line-height: normal;
 }
 
 #home div.form-group{
@@ -197,11 +197,6 @@ div.nav-item{
   background-color:red;
 }
 
-#errors{
-  display: block;
-}
-
-
 
 /* The container <div> - needed to position the dropdown content */
 .dropdown {
@@ -245,6 +240,16 @@ div.nav-item{
 
 
 @media only screen and (max-width: 780px) {
+  #back{
+      font-size: 1em;
+      padding: 0;
+    }
+
+  h1.title{
+    font-size: 1.7em;
+    margin: 0
+    }
+
  #login-form{
    display: none;
  }
@@ -264,6 +269,12 @@ div.nav-item{
    top: 1em;
  }
 
+#home input, #home select{
+   height: 3em;
+   font-size: 0.9em;
+   line-height: 1em;
+ }
+
 }
 
 @media only screen and (max-width: 600px) {
@@ -276,5 +287,6 @@ div.nav-item{
     height: 100%;
     overflow: scroll;
   }
+
 
 }

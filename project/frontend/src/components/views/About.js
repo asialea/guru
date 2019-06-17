@@ -58,13 +58,15 @@ class About extends Component{
         <div className="about-body">
         <img id="pro-pic" alt="user avi" src={this.state.avi.avi_path}/>
         <section id="about-user">
+          <span>
+          <IconButton onClick={this.show}><FaEdit  className="about-expand"/></IconButton>
           <h1 id="name">{this.props.user.first_name} {this.props.user.last_name} </h1>
-          <span>({this.parse_type(this.props.user.type)})
-             <IconButton onClick={this.show}><FaEdit  className="about-expand"/></IconButton>
+        ({this.parse_type(this.props.user.type)})
           </span>
           <p><FaUser/> @{this.props.user.username}</p>
           <p><FaMapMarker/> {this.state.aboutUser.location}</p>
         </section>
+
 
           <section id="bio-contact">
             <AboutUser fetchAvi={this.fetchAvi} hidden={this.state.hidden} fetchAboutUser={this.fetchAboutUser} aboutUser={this.state.aboutUser}/>
@@ -85,7 +87,6 @@ class About extends Component{
             <article>
               <Education/>
             </article>
-
           </section>
         </div>
       </div>
