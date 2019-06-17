@@ -144,3 +144,9 @@ button.tab-link-active{
   margin: 0 auto;
   height: 33px;
 }
+
+@media only screen and (max-width: 780px) {
+  #users{
+  grid-template-columns: repeat(auto-fill, minmax(130px,1fr));
+}
+}

@@ -43,25 +43,25 @@ componentWillMount(){
          console.log("fetch error" + err);
      })
 
- fetch(`/api/user-work/${this.props.match.params.username}/`)
+ fetch(`/api/work/${this.props.match.params.username}/`)
    .then(response => { return response.json();}).then(responseData => {return responseData; })
   .then (json =>this.setState({work: json})).catch(err => {
         console.log("fetch error" + err);
     });
 
-  fetch(`/api/user-edu/${this.props.match.params.username}/`)
+  fetch(`/api/edu/${this.props.match.params.username}/`)
     .then(response => { return response.json();}).then(responseData => {return responseData;})
    .then (json =>this.setState({education: json})).catch(err => {
          console.log("fetch error" + err);
      });
 
-  fetch(`/api/user-skills/${this.props.match.params.username}/`)
+  fetch(`/api/skills/${this.props.match.params.username}/`)
    .then(response => { return response.json();}).then(responseData => {return responseData;})
   .then (json =>this.setState({skills: json})).catch(err => {
         console.log("fetch error" + err);
     });
 
-  fetch(`/api/user-interests/${this.props.match.params.username}/`)
+  fetch(`/api/interests/${this.props.match.params.username}/`)
    .then(response => { return response.json();}).then(responseData => {return responseData;})
   .then (json =>this.setState({interests: json})).catch(err => {
         console.log("fetch error" + err);

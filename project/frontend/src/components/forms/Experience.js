@@ -43,7 +43,7 @@ class Experience extends Component{
   addWork(work){
     let body = JSON.stringify(work);
     headers["Authorization"] = `Token ${this.props.token}`;
-    fetch(`api/work/`,{headers,body,method:"POST",})
+    fetch(`api/work/${this.props.user.username}/`,{headers,body,method:"POST",})
       .then(res => {
         if (res.status >= 400 && res.status < 500) {
           return res.json().then(data => {
@@ -58,14 +58,15 @@ class Experience extends Component{
   deleteWork=(id)=>{
       let body = JSON.stringify({id});
       headers["Authorization"] = `Token ${this.props.token}`;
-      fetch(`api/work/${id}/`, {headers,body,method:"DELETE"})
+      fetch(`api/work/${this.props.user.username}/`, {headers,body,method:"DELETE"})
         .then(()=>this.fetchWork())
         .catch(err => {console.log("fetch error" + err)});
       }
 
 
   fetchWork(){
-    fetch(`/api/user-work/${this.props.user.username}/`)
+    headers["Authorization"] = `Token ${this.props.token}`;
+    fetch(`/api/work/${this.props.user.username}/`, {headers})
       .then(response => { return response.json();}).then(responseData => {return responseData; })
       .then (json =>this.setState({work: json}))
       .catch(err => {console.log("fetch error" + err);

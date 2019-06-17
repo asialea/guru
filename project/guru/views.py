@@ -136,10 +136,21 @@ class AviView(generics.GenericAPIView):
         avi = Avi.objects.filter(user_id=int(self.request.data['user_id'])).update(avi_path = self.request.data['avi_path'],)
         return Response({"success":("Successfully submitted.")})
 
+
 class WorkView(generics.GenericAPIView):
-    permission_classes = [permissions.IsAuthenticated, ]
     queryset = Work.objects.all()
     serializer_class = WorkSerializer
+
+    def get(self, request, username):
+        try:
+            username = str(self.kwargs['username'])
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return Response(None)
+
+        work = Work.objects.filter(user_id=user.id).all().order_by('end').reverse()
+        serializer = WorkSerializer(work,many=True)
+        return Response(serializer.data)
 
     def post(self,request, *args, **kwargs):
         serializer = self.get_serializer(data=self.request.data)
@@ -148,64 +159,11 @@ class WorkView(generics.GenericAPIView):
         return Response(WorkSerializer(work, context=self.get_serializer_context()).data)
 
     def delete(self,request, *args, **kwargs):
-        work_id = self.kwargs['id']
+        work_id = self.request.data['id']
         work = Work.objects.filter(id=work_id).delete()
         return Response({"success":("Successfully deleted.")})
 
-
-class UserSkillsView(generics.GenericAPIView):
-    permission_classes = [permissions.IsAuthenticated, ]
-    queryset = UserSkills.objects.all()
-    serializer_class = UserSkillsSerializer
-
-    def post(self,request, *args, **kwargs):
-        serializer = self.get_serializer(data=self.request.data)
-        serializer.is_valid(raise_exception=True)
-        skill = serializer.save()
-        return Response(UserSkillsSerializer(skill, context=self.get_serializer_context()).data)
-
-    def delete(self,request, *args, **kwargs):
-        skill_id = self.kwargs['id']
-        skill = UserSkills.objects.filter(id=skill_id).delete()
-        return Response({"id":skill_id})
-
-
 class UserInterestsView(generics.GenericAPIView):
-    permission_classes = [permissions.IsAuthenticated, ]
-    queryset = UserInterests.objects.all()
-    serializer_class = UserInterestsSerializer
-
-
-    def post(self,request, *args, **kwargs):
-        serializer = self.get_serializer(data=self.request.data)
-        serializer.is_valid(raise_exception=True)
-        interest = serializer.save()
-        return Response(UserInterestsSerializer(interest, context=self.get_serializer_context()).data)
-
-    def delete(self,request, *args, **kwargs):
-        interest_id = self.kwargs['id']
-        skill = UserInterests.objects.filter(id=interest_id).delete()
-        return Response({"success":("Successfully deleted.")})
-
-
-class EducationView(generics.GenericAPIView):
-    permission_classes = [permissions.IsAuthenticated, ]
-    queryset = Education.objects.all()
-    serializer_class = EducationSerializer
-
-    def post(self,request, *args, **kwargs):
-        serializer = self.get_serializer(data=self.request.data)
-        serializer.is_valid(raise_exception=True)
-        edu = serializer.save()
-        return Response(EducationSerializer(edu, context=self.get_serializer_context()).data)
-
-    def delete(self,request, *args, **kwargs):
-        edu_id = self.kwargs['id']
-        edu = Education.objects.filter(id=edu_id).delete()
-        return Response({"success":("Successfully deleted.")})
-
-# READ ONLY VIEWS
-class ReadInterestsView(generics.RetrieveAPIView):
     serializer_class = UserInterestsSerializer
     queryset = UserInterests.objects.all()
     def get(self, request, username):
@@ -219,9 +177,22 @@ class ReadInterestsView(generics.RetrieveAPIView):
         serializer = UserInterestsSerializer(interests,many=True)
         return Response(serializer.data)
 
-class ReadSkillsView(generics.RetrieveAPIView):
+    def post(self,request, *args, **kwargs):
+        serializer = self.get_serializer(data=self.request.data)
+        serializer.is_valid(raise_exception=True)
+        interest = serializer.save()
+        return Response(UserInterestsSerializer(interest, context=self.get_serializer_context()).data)
+
+    def delete(self,request, *args, **kwargs):
+        interest_id = self.request.data['id']
+        skill = UserInterests.objects.filter(id=interest_id).delete()
+        return Response({"success":("Successfully deleted.")})
+
+
+class UserSkillsView(generics.GenericAPIView):
     serializer_class = UserSkillsSerializer
     queryset = UserSkills.objects.all()
+
     def get(self, request, username):
         try:
             username = str(self.kwargs['username'])
@@ -233,25 +204,33 @@ class ReadSkillsView(generics.RetrieveAPIView):
         serializer = UserSkillsSerializer(skills,many=True)
         return Response(serializer.data)
 
+    def post(self,request, *args, **kwargs):
+        serializer = self.get_serializer(data=self.request.data)
+        serializer.is_valid(raise_exception=True)
+        skill = serializer.save()
+        return Response(UserSkillsSerializer(skill, context=self.get_serializer_context()).data)
 
-class ReadWorkView(generics.RetrieveAPIView):
-    serializer_class = WorkSerializer
-    queryset = Work.objects.all()
-    def get(self, request, username):
-        try:
-            username = str(self.kwargs['username'])
-            user = User.objects.get(username=username)
-        except User.DoesNotExist:
-            return Response(None)
-
-        work = Work.objects.filter(user_id=user.id).all().order_by('end').reverse()
-        serializer = WorkSerializer(work,many=True)
-        return Response(serializer.data)
+    def delete(self,request, *args, **kwargs):
+        skill_id = self.request.data['id']
+        skill = UserSkills.objects.filter(id=skill_id).delete()
+        return Response({"id":skill_id})
 
 
-class ReadEducationView(generics.RetrieveAPIView):
-    serializer_class = EducationSerializer
+class EducationView(generics.GenericAPIView):
     queryset = Education.objects.all()
+    serializer_class = EducationSerializer
+
+    def post(self,request, *args, **kwargs):
+        serializer = self.get_serializer(data=self.request.data)
+        serializer.is_valid(raise_exception=True)
+        edu = serializer.save()
+        return Response(EducationSerializer(edu, context=self.get_serializer_context()).data)
+
+    def delete(self,request, *args, **kwargs):
+        edu_id = self.request.data['id']
+        edu = Education.objects.filter(id=edu_id).delete()
+        return Response({"success":("Successfully deleted.")})
+
     def get(self, request, username):
         try:
             username = str(self.kwargs['username'])
@@ -262,6 +241,7 @@ class ReadEducationView(generics.RetrieveAPIView):
         edu = Education.objects.filter(user_id=user.id).all().order_by('end').reverse()
         serializer = EducationSerializer(edu,many=True)
         return Response(serializer.data)
+
 
 class ReadAboutUserView(generics.RetrieveAPIView):
     serializer_class = AboutUserSerializer
@@ -288,6 +268,7 @@ class ReadUserView(generics.GenericAPIView):
         except User.DoesNotExist:
             user = None
         return user
+
 
 #SEARCH
 class FilterUserView(generics.GenericAPIView):

@@ -23,7 +23,7 @@ class Skills extends Component{
   addSkill=(user_id,skill)=>{
       let body = JSON.stringify({user_id,skill});
       headers["Authorization"] = `Token ${this.props.token}`;
-      fetch("/api/skills/", {headers,body,method:"POST"}).then(res => {return res.json();})
+      fetch(`/api/skills/${this.props.user.username}/`, {headers,body,method:"POST"}).then(res => {return res.json();})
         .then(responseData => {return responseData;})
         .then(this.refs.skill.value ="").then(()=>this.fetchSkills())
         .catch(err => {console.log("fetch error" + err)})
@@ -32,13 +32,13 @@ class Skills extends Component{
   deleteSkill= (id) => {
     let body = JSON.stringify({id});
     headers["Authorization"] = `Token ${this.props.token}`;
-    fetch(`/api/skills/${id}/`, {headers,body,method:"DELETE"}).then(()=>this.fetchSkills())
+    fetch(`/api/skills/${this.props.user.username}/`, {headers,body,method:"DELETE"}).then(()=>this.fetchSkills())
     .then(res => {return res.json();}).catch(err => {
               console.log("fetch error" + err)})
   }
 
   fetchSkills(){
-    fetch(`/api/user-skills/${this.props.user.username}/`)
+    fetch(`/api/skills/${this.props.user.username}/`)
      .then(response => {return response.json();}).then(responseData => {return responseData;})
      .then(json =>{this.setState({skills: json})})
      .catch(err => {console.log("fetch error" + err);

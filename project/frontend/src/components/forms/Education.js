@@ -41,7 +41,7 @@ class Education extends Component{
   addEducation(edu){
     let body = JSON.stringify(edu);
     headers["Authorization"] = `Token ${this.props.token}`;
-    fetch(`api/education/`,{headers,body,method:"POST",})
+    fetch(`/api/edu/${this.props.user.username}/`,{headers,body,method:"POST",})
       .then(res => {
         if (res.status >= 400 && res.status < 500) {
           return res.json().then(data => {
@@ -56,13 +56,13 @@ class Education extends Component{
   deleteEducation = (id) =>{
        let body = JSON.stringify({id});
        headers["Authorization"] = `Token ${this.props.token}`;
-       fetch(`api/education/${id}/`, {headers,body,method:"DELETE"}).then(res => {return res.json();})
+       fetch(`/api/edu/${this.props.user.username}/`, {headers,body,method:"DELETE"}).then(res => {return res.json();})
         .then(()=>this.fetchEducation())
         .catch(err => {console.log("fetch error" + err)})
       }
 
   fetchEducation(){
-    fetch(`/api/user-edu/${this.props.user.username}/`).then(response => response.json())
+    fetch(`/api/edu/${this.props.user.username}/`).then(response => response.json())
       .then(json =>{this.setState({education: json});})
       .catch(err => {console.log("fetch error" + err);});
                   }

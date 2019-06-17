@@ -24,7 +24,7 @@ class Interests extends Component{
   addInterest = (user_id,interest) => {
     let body = JSON.stringify({user_id,interest});
     headers["Authorization"] = `Token ${this.props.token}`;
-    fetch("/api/interests/", {headers,body,method:"POST"}).then(res => {return res.json();})
+    fetch(`/api/interests/${this.props.user.username}/`, {headers,body,method:"POST"}).then(res => {return res.json();})
     .then(this.refs.interest.value ="").then(()=>this.fetchInterests())
     .catch(err => {console.log("fetch error" + err)})
       }
@@ -33,13 +33,13 @@ class Interests extends Component{
   deleteInterest = (id) => {
       let body = JSON.stringify({id});
       headers["Authorization"] = `Token ${this.props.token}`;
-      fetch(`/api/interests/${id}/`, {headers,body,method:"DELETE"}).then(()=>this.fetchInterests())
+      fetch(`/api/interests/${this.props.user.username}/`, {headers,body,method:"DELETE"}).then(()=>this.fetchInterests())
       .then(res => {return res.json();}).catch(err => {
                 console.log("fetch error" + err)})
         }
 
   fetchInterests(){
-     fetch(`/api/user-interests/${this.props.user.username}/`)
+     fetch(`/api/interests/${this.props.user.username}/`)
         .then(response => { return response.json();}).then(responseData => {return responseData;})
         .then (json =>this.setState({interests: json}))
         .catch(err => {console.log("fetch error" + err);
