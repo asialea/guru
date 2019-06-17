@@ -41,12 +41,14 @@ class Comment extends Component{
 
   deletePost(id){
     let body = JSON.stringify({id});
+    headers["Authorization"] = `Token ${this.props.token}`;
     fetch(`/api/post/${this.props.match.params.topic_id}/`, {headers,body,method:"DELETE"})
     .then(res => {return res.json();}).then(()=>this.props.fetchPosts())
     .catch(err => {console.log("fetch error" + err)})
   }
 
   getLikes(post){
+    headers["Authorization"] = `Token ${this.props.token}`;
     fetch(`/api/likes/${post}`, {headers,method:"GET"})
     .then(res => {return res.json();})
     .then(json=>{this.setState({likes:json['likes']}); this.setState({liked:json['liked']})})
@@ -62,6 +64,7 @@ class Comment extends Component{
 
   unlikePost(post,user_id){
     let body = JSON.stringify({user_id});
+    headers["Authorization"] = `Token ${this.props.token}`;
     fetch(`/api/likes/${post}`, {headers,body,method:"DELETE"})
     .then(res => {return res.json();}).then(()=>this.getLikes(this.props.comment.id))
     .catch(err => {console.log("fetch error" + err)})

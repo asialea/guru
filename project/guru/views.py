@@ -415,7 +415,7 @@ class RecentTopicView(generics.GenericAPIView):
     queryset = Topic.objects.all()
 
     def get(self,request,**kwargs):
-        topics = Topic.objects.all().order_by('-id')[:10]
+        topics = Topic.objects.all().order_by('-id')[:5]
         serializer = TopicSerializer(topics,many=True)
         return Response(serializer.data)
 
@@ -438,6 +438,7 @@ class UserTopicView(generics.GenericAPIView):
 class LikesView(generics.GenericAPIView):
     serializer_class = LikesSerializer
     queryset = Likes.objects.all()
+    permission_classes = [permissions.IsAuthenticated, ]
 
     def get(self,request,**kwargs):
         post_id = self.kwargs['post_id']
@@ -454,7 +455,7 @@ class LikesView(generics.GenericAPIView):
 
     def delete(self,request,**kwargs):
         try:
-            Likes.objects.filter(post= self.kwargs['post_id'],user_id=self.request.user.id).delete()
+            Likes.objects.filter(post= self.kwargs['post_id'],user_id=self.request.data['user_id']).delete()
             return Response({"Like deleted"})
         except Exception as e:
             return Response(e.args)
