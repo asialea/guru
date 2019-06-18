@@ -55,7 +55,7 @@ class Interests extends Component{
       <div>
       <button onClick={this.show} className="accordion btn-animated"><h2>Interests<FaPlus onClick={this.show} className="expand"/></h2></button>
         <div className={this.state.hidden ? 'hidden':'form'}>
-         <div className="form-group">
+         <div className="input-flex">
           <input className="input-small group-1" ref="interest" onChange={(e) => this.setState({interest: e.target.value})}
           maxLength="50" placeholder="Interest" type="text"/>
           <button className = "submit"  onClick={this.new_interestSubmit.bind(this)}>Submit</button>

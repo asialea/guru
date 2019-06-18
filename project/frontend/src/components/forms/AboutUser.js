@@ -63,14 +63,14 @@ class AboutUser extends Component {
         <div className={this.props.hidden ? 'hidden':'form'}>
         <button onClick={this.uploadWidget} id="pro-upload" className="submit">Pro Pic</button>
             <form  onSubmit={this.aboutSave}>
-               <div className="form-group">
+
                 <input defaultValue={aboutUser.github} className="input-small" onChange={e => this.handleChange("github",e.target.value)}
                 maxLength="200" placeholder="Github Url" type="url"/>
-                <input defaultValue={aboutUser.linkedin} className="input-small " onChange={e => this.handleChange("linkedin",e.target.value)}
+                <input defaultValue={aboutUser.linkedin} className="input-small" onChange={e => this.handleChange("linkedin",e.target.value)}
                 maxLength="100" placeholder="Linkedin Url" type="url"/>
-                <input defaultValue={aboutUser.twitter_handle} className="input-small " onChange={e => this.handleChange("twitter_handle",e.target.value)}
+                <input defaultValue={aboutUser.twitter_handle} className="input-small" onChange={e => this.handleChange("twitter_handle",e.target.value)}
                 maxLength="100" placeholder="Twitter Url" type="url"/>
-               </div>
+
                <input defaultValue={aboutUser.location} className="input-small" onChange={e => this.handleChange("location",e.target.value)}
                maxLength="30" placeholder="Location" type="text"/>
 

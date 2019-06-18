@@ -83,18 +83,20 @@ class Education extends Component{
       <div>
       <button onClick={this.show} className="accordion btn-animated"><h2>Education<FaPlus onClick={this.show} className="expand"/></h2></button>
       <div className={this.state.hidden ? 'hidden':'form'}>
-       <div className="form-group">
-        <input className="input-small group-1" ref="school" onChange={e => this.setState({school: e.target.value})}
+       <div className="input-flex">
+        <input className="input-small" ref="school" onChange={e => this.setState({school: e.target.value})}
         maxLength="50" placeholder="School" type="text" required/>
-        <input className="input-small group-1" ref="degree" onChange={e => this.setState({degree: e.target.value})}
+        <input className="input-small" ref="degree" onChange={e => this.setState({degree: e.target.value})}
         maxLength="50" placeholder="Degree" type="text" required/>
-        <input className="input-small group-1" ref="location" onChange={e => this.setState({location: e.target.value})}
+        </div>
+        <div className="input-flex">
+        <input className="input-small" ref="location" onChange={e => this.setState({location: e.target.value})}
         maxLength="50" placeholder="Location" type="text" required/>
-        <input className="input-small group-2" ref="start" onChange={e => this.setState({start: e.target.value})} id="start" type="date"/>
+        <input className="input-small" ref="start" onChange={e => this.setState({start: e.target.value})} id="start" type="date"/>
         <label>to</label>
-        <input className="input-small group-2" ref="end" onChange={e => this.setState({end: e.target.value})} id="end" type="date"/>
+        <input className="input-small" ref="end" onChange={e => this.setState({end: e.target.value})} id="end" type="date"/>
        </div>
-       <div className="form-group">
+       <div className="input-flex">
          <button className = "submit"  onClick={this.new_eduSubmit.bind(this)}>Submit</button>
        </div>
       </div>

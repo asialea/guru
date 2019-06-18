@@ -89,16 +89,18 @@ class Experience extends Component{
       <div>
       <button onClick={this.show} className="accordion btn-animated"><h2>Experience<FaPlus onClick={this.show} className="expand"/></h2></button>
       <div className={this.state.hidden ? 'hidden':'form'}>
-         <div className="form-group">
-          <input className="input-small group-1" ref="company" onChange={e => this.setState({company: e.target.value})}
+         <div className="input-flex">
+          <input className="input-small" ref="company" onChange={e => this.setState({company: e.target.value})}
           maxLength="50" placeholder="Company" type="text"/>
-          <input className="input-small group-1" ref="position" onChange={e => this.setState({position: e.target.value})}
+          <input className="input-small" ref="position" onChange={e => this.setState({position: e.target.value})}
           maxLength="50" placeholder="Position" type="text"/>
-          <input className="input-small group-1" ref="location" onChange={e => this.setState({location: e.target.value})}
+          </div>
+          <div className="input-flex">
+          <input className="input-small" ref="location" onChange={e => this.setState({location: e.target.value})}
           maxLength="50" placeholder="Location" type="text"/>
-          <input className="input-small group-2" ref="start" onChange={e => this.setState({start: e.target.value})} id="start" type="date"/>
+          <input className="input-small" ref="start" onChange={e => this.setState({start: e.target.value})} id="start" type="date"/>
           <label>to</label>
-          <input className="input-small group-2" ref="end" onChange={e => this.setState({end: e.target.value})} id="end" type="date" />
+          <input className="input-small" ref="end" onChange={e => this.setState({end: e.target.value})} id="end" type="date" />
          </div>
           <textarea onChange={e => this.setState({description: e.target.value})} maxLength="300" placeholder="Description"></textarea>
           <div className="form-group">

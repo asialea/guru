@@ -44,7 +44,6 @@ class UserSettings extends Component {
   }
 
   render () {
-    console.log(this.props)
       return (
     <div className="form-container">
       <p id = "banner">Account Settings</p>

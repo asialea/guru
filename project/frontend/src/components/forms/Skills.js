@@ -54,7 +54,7 @@ class Skills extends Component{
       <div>
       <button onClick={this.show} className="accordion btn-animated"><h2>Skills<FaPlus onClick={this.show} className="expand"/></h2></button>
         <div className={this.state.hidden ? 'hidden':'form'}>
-         <div className="form-group">
+         <div className="input-flex">
           <input className="input-small group-1" ref="skill" onChange={e => this.setState({skill: e.target.value})} maxLength="50" placeholder="Skill" type="text"/>
           <button className = "submit"  onClick={this.new_skillSubmit.bind(this)}>Submit</button>
          </div>

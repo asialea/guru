@@ -1,7 +1,7 @@
 .about-body{
   display: grid;
   grid-template-columns: 1fr 2fr;
-  grid-template-rows: repeat(20,5%);
+  grid-template-rows: repeat(5,20%);
   width: 75%;
   margin: 0 auto;
   position: absolute;
@@ -15,24 +15,26 @@
   justify-content: center;
 }
 
+.about-header:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
 .about-header{
   position: absolute;
   top:0px;
   width: 100%;
-  height: 23%;
+  height: 30%;
   background-color: #edeae5;
   box-shadow: 0 3px 15px rgba(57,63,72,.3);
 }
 
 #pro-pic{
   height:auto;
-  border-radius: 50%;
   background-position: center center;
-  background-size: cover;
   border:0.5px solid #dee4ed;
   box-shadow: 0 3px 15px rgba(57,63,72,.8);
   margin: 0 auto;
-  grid-row-start: 1;
 }
 
 
@@ -44,7 +46,7 @@
 
 #resume{
   grid-column: 2;
-  grid-row-start:4;
+  grid-row-start:2;
   margin-top: 2em;
 }
 
@@ -57,18 +59,19 @@ form{
   width: 100%;
 }
 
-.input-small.group-1{
-  width: 30%;
-  margin-right: 6px;
+.form-group{
+  display: flex;
+  justify-content: space-between;
 }
 
-.input-small.group-2{
-  width: 20%;
-  margin-left:6px;
+.input-small{
+  margin: 0 0.4em;
+  max-width: 30em;
 }
 
-#bio-contact{
-  grid-row-start:9;
+#bio-section,#about-user{
+  grid-row-start:1;
+  padding-top: 2em;
 }
 
 .accordion{
@@ -111,12 +114,13 @@ span svg{
 #about-user{
   grid-row-start: 1;
   grid-column: 2;
+
 }
 
 #name{
   display: inline-block;
   font-weight: normal;
-  font-size: 2.5rem;
+  font-size: 2em;
   text-transform: capitalize;
   line-height: normal;
 }
@@ -178,8 +182,10 @@ span svg{
 
 }
 
-#aboutUser .form-group input.input-small{
-  margin-right: 4px;
+.input-flex{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.3em;
 }
 
 .edu-ex{
@@ -259,83 +265,49 @@ label{
   margin: 1em auto;
 }
 
+.square-container{
+  display: flex;
+  align-items: center;
+}
+
+.contact-tab,.tablink.contact-tab{
+  display: none;
+}
+
 @media only screen and (max-width: 1100px) {
 
+  #about-user p,#name{
+    text-align: center;
+    margin: 0 auto;
+    display: block;
+  }
+
+  .contact-tab,.tablink.contact-tab{
+    display: inline-block;
+  }
   .about-body,#recommend{
     display: block;
     float: none;
   }
-  .about-body2{
-    display: block;
+
+  #bio-contact{
+    display: none;
   }
-
-   #pro-pic,#about-user p,#about-user span{
-    display: block;
-    text-align: center;
-    font-size: 1em;
-    line-height: normal;
-  }
-
-  #name{
-    font-size: 1.5em;
-  }
-   #pro-pic{
-     width:30vw;
-   }
-
-   .main.res-item{
-      font-size: 0.9em;
-   }
-
-   .res-item,.position{
-     font-size: 0.8em;
-     line-height: normal;
-   }
-   .accordion h2{
-     font-size: 1em;
-   }
-
-   .skill{
-     font-size: 0.7em;
-   }
-   .social-icon{
-     font-size: 1.3em;
-   }
 
 }
 
+@media only screen and (max-width: 780px) {
 
-@media only screen and (max-width: 600px) {
-  .about-header{
-    height: 20%;
+  .input-small{
+    margin: 0.4em;
+    max-width: 90%;
   }
 
-  #pro-pic,#about-user p,#about-user span{
-    font-size: 0.8em;
-  }
+.input-flex{
+  display: block;
+}
 
-  #name{
-    font-size: 1.3em;
-  }
-
-  #pro-pic{
-    width:37vw;
-  }
-
-   .main.res-item{
-      font-size: 0.8em;
-   }
-
-   .res-item,.position{
-     font-size: 0.7em;
-     line-height: normal;
-   }
-
-   .skill{
-     font-size: 0.6em;
-   }
-   .social-icon{
-     font-size: 1.1em;
-   }
-
+#pro-pic{
+  height: 40vw;
+}
 }
