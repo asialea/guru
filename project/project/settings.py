@@ -88,7 +88,7 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME' : 'Guru',
+        'NAME' : os.environ['GURU_DB'],
         'USER' : 'root',
         'PASSWORD': os.environ['MYSQL_PASSWORD'],
         'HOST' : 'localhost',
