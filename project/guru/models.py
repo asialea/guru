@@ -96,3 +96,4 @@ class Recommendation(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null = True,related_name = 'author')
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null = True,related_name = 'user')
     text = models.TextField(max_length=500, blank=False,null = False,default="")
+    rating = models.IntegerField(null=True,blank=True)

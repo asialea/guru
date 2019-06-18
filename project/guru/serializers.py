@@ -117,6 +117,7 @@ class RecommendationViewSerializer(serializers.Serializer):
     text = serializers.CharField()
     author__username = serializers.CharField()
     user_id = serializers.IntegerField()
+    rating = serializers.IntegerField()
 
 class RecommendationSerializer(serializers.ModelSerializer):
     class Meta:

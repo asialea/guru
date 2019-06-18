@@ -460,6 +460,8 @@ class LikesView(generics.GenericAPIView):
         except Exception as e:
             return Response(e.args)
 
+from django.db.models import Avg
+
 class RecommendationView(generics.GenericAPIView):
     serializer_class = RecommendationSerializer
     queryset = Recommendation.objects.all()
@@ -467,9 +469,14 @@ class RecommendationView(generics.GenericAPIView):
     def get(self,request,**kwargs):
         username = str(self.kwargs['username'])
         user = User.objects.get(username=username)
-        rec = Recommendation.objects.filter(user_id = user.id).values('author__username','author','text','user_id')
+        rec = Recommendation.objects.filter(user_id = user.id).values('author__username','author','text','user_id','rating')
+        try:
+            rec_average = round(Recommendation.objects.filter(user_id = user.id).aggregate(Avg('rating'))['rating__avg'])
+        except TypeError:
+            rec_average = 0
+
         serializer = RecommendationViewSerializer(rec,many=True)
-        return Response(serializer.data)
+        return Response({"data":serializer.data,"avg":rec_average})
 
     def post(self,request,**kwargs):
         serializer = self.get_serializer(data=self.request.data)

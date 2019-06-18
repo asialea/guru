@@ -53,7 +53,7 @@ h1.title{
   height: 2.5em;
 }
 
-#login-submit,button.submit,.dropbtn{
+#login-submit,button.submit{
   display:inline;
   background-color: #374054;
   border-color: #374054;
@@ -102,6 +102,8 @@ button.submit{
 
 #banner2{
   font-size: 1.5em;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .form-container{
@@ -181,15 +183,12 @@ div.nav-item{
 }
 
 .popup_inner{
-  left: 15%;
-  right: 15%;
-  top: 15%;
-  bottom: auto;
-}
-
-.popup_inner{
   padding-bottom: 1em;
   z-index: 4;
+}
+
+.popup_inner p{
+  text-align: center;
 }
 
 .login-popup h1{
@@ -243,7 +242,6 @@ div.nav-item{
 
 
 
-
 @media only screen and (max-width: 780px) {
   #back{
       font-size: 1em;
@@ -264,14 +262,22 @@ div.nav-item{
  }
 
  .dropdown{
-   display: inline-block;
- }
-
- #media-login,.dropbtn {
    display: inline;
    position: absolute;
-   right: 1em;
-   top: 1em;
+   right: 0;
+   top:0;
+ }
+
+.dropbtn,#media-login {
+   display: inline;
+   position: absolute;
+   right: 0.5em;
+   top:0.2em;
+ }
+
+ #media-login{
+    right: 1em;
+    top:1em;
  }
 
 #home input, #home select{
@@ -291,6 +297,12 @@ div.nav-item{
     width: 100%;
     height: 100%;
     overflow: scroll;
+  }
+  .popup_inner{
+    left: 15%;
+    right: 15%;
+    top: 15%;
+    bottom: auto;
   }
 
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Navbar from './Navbar';
 import '../static/About.css';
-import {FaGithub,FaLinkedin,FaTwitter,FaEnvelope,FaUser,FaMapMarker} from 'react-icons/fa';
+import {FaGithub,FaLinkedin,FaTwitter,FaEnvelope,FaUser,FaMapMarker,FaStar} from 'react-icons/fa';
 import ReccPopup from '../forms/ReccPopup';
 import {Link} from 'react-router-dom';
 import {Tabs,TabLink,TabContent} from 'react-tabs-redux';
@@ -20,13 +20,14 @@ class AboutView extends Component{
       rec:[],
       avi:{},
       showPopup: false,
+      avg:null,
     }
   }
 
   fetchRec = ()=>{
     fetch(`/api/rec/${this.props.match.params.username}/`)
      .then(response => { return response.json();}).then(responseData => {return responseData;})
-    .then (json =>this.setState({rec: json})).catch(err => {
+    .then (json =>{this.setState({rec: json.data});this.setState({avg: json.avg})} ).catch(err => {
           console.log("fetch error" + err);
       });
   }
@@ -130,9 +131,11 @@ componentWillMount(){
           <ReccPopup fetch={this.fetchRec} username={this.props.match.params.username} user_id={this.state.user.id} text={"Tell us about "+this.state.user.first_name} closePopup={this.togglePopup.bind(this)}/>
         : null
         }
-
         <p><FaUser/> @{this.state.user.username} ({this.parse_type(this.state.user.type)})</p>
-        <p><FaMapMarker/> {this.state.aboutUser.location}</p>
+        {this.state.location ? <p><FaMapMarker/> {this.state.aboutUser.location}</p> : null}
+        <p id="">
+            {this.state.avg ? Array(this.state.avg).fill(<FaStar className=""/>):null}
+        </p>
       </section>
 
       <section id="resume">

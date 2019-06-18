@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
-import '../static/AboutForm.css';
 import {headers,uploadConfig} from './global.js'
 import {FaGithub,FaLinkedin,FaTwitter} from 'react-icons/fa';
 

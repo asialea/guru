@@ -7,7 +7,7 @@ import Interests from '../forms/Interests'
 import Experience from '../forms/Experience'
 import Education from '../forms/Education'
 import AboutUser from '../forms/AboutUser'
-import {FaUser,FaMapMarker,FaEdit} from 'react-icons/fa';
+import {FaUser,FaMapMarker,FaEdit,FaStar} from 'react-icons/fa';
 import IconButton from '@material-ui/core/IconButton';
 import {Tabs,TabLink,TabContent} from 'react-tabs-redux';
 
@@ -18,6 +18,8 @@ class About extends Component{
     aboutUser:{},
     form_hidden:true,
     avi:{},
+    rec:[],
+    avg:null,
 
   }
 
@@ -42,10 +44,18 @@ class About extends Component{
       .catch(err => {console.log("fetch error" + err);})
   }
 
+  fetchRec = ()=>{
+    fetch(`/api/rec/${this.props.user.username}/`)
+     .then(response => { return response.json();}).then(responseData => {return responseData;})
+    .then (json =>{this.setState({rec: json.data});this.setState({avg: json.avg})} ).catch(err => {
+          console.log("fetch error" + err);
+      });
+  }
+
   componentWillMount(){
       this.fetchAboutUser();
       this.fetchAvi();
-
+      this.fetchRec();
     }
 
   render(){
@@ -72,8 +82,11 @@ class About extends Component{
             <IconButton onClick={this.show}><FaEdit  className="about-expand"/></IconButton>
           {this.props.user.first_name} {this.props.user.last_name}
           </p>
-          <p><FaUser/> @{this.props.user.username}   ({this.parse_type(this.props.user.type)})</p>
-          <p><FaMapMarker/> {this.state.aboutUser.location}</p>
+          <div id="recommend">
+              {this.state.avg ? Array(this.state.avg).fill(<FaStar className="social-icon"/>):null}
+          </div>
+          <p><FaUser fill="#e27d60"/> @{this.props.user.username}   ({this.parse_type(this.props.user.type)})</p>
+          <p><FaMapMarker fill="#e27d60"/> {this.state.aboutUser.location}</p>
         </section>
 
         <section id="resume">

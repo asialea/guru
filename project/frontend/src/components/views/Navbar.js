@@ -37,8 +37,10 @@ class Navbar extends Component{
             </Link>
           </div>
         </div>
-        <NavLinks/>
-        <div className="nav-right" >
+        <div className="nav-item text-center">
+          <NavLinks/>
+          </div>
+        <div className="nav-right">
           <div className="nav-item text-center">
             <Link to="/settings"><IconButton>
               <FaUser/>
