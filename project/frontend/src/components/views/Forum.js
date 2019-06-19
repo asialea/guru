@@ -38,6 +38,7 @@ class Forum extends Component{
           <div id="recent-topics">
             <h2>Recent Topics</h2>
             <div>
+            {this.state.recent_topics.length > 0 ?
               <ul>
               {
                 this.state.recent_topics.map((el,idx) => {
@@ -46,7 +47,7 @@ class Forum extends Component{
                     ];
                 })
               }
-            </ul>
+            </ul> : <p> No topics posted </p>}
             </div>
           </div>
           <div id="category-list">

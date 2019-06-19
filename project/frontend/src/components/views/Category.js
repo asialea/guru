@@ -78,8 +78,9 @@ class Category extends Component{
         </header>
         <div className="flex-box">
           <div className="forum-body">
-            <div id="recent-topics">
+             <div id="recent-topics">
               <h2>Your Topics</h2>
+            {this.state.user_topics.length > 0 ?
               <ul>
               {
                 this.state.user_topics.map((el,idx) => {
@@ -91,7 +92,7 @@ class Category extends Component{
                     ];
                 })
               }
-            </ul>
+            </ul> : <p>No items </p>}
             </div>
 
             <div id="category-list">

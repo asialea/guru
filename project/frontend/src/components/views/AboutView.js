@@ -126,15 +126,15 @@ componentWillMount(){
           {this.state.user.first_name} {this.state.user.last_name}
         </p>
 
-        <button id="recommend" onClick={this.togglePopup} className="submit">Write a Reccomendation</button>
+        <button id="recommend" onClick={this.togglePopup} className="submit">Write a Review</button>
         {this.state.showPopup ?
           <ReccPopup fetch={this.fetchRec} username={this.props.match.params.username} user_id={this.state.user.id} text={"Tell us about "+this.state.user.first_name} closePopup={this.togglePopup.bind(this)}/>
         : null
         }
         <p><FaUser/> @{this.state.user.username} ({this.parse_type(this.state.user.type)})</p>
         {this.state.location ? <p><FaMapMarker/> {this.state.aboutUser.location}</p> : null}
-        <p id="">
-            {this.state.avg ? Array(this.state.avg).fill(<FaStar className=""/>):null}
+        <p>
+            {this.state.avg ? Array(this.state.avg).fill(<FaStar className="social-icon"/>):null}
         </p>
       </section>
 
@@ -146,7 +146,7 @@ componentWillMount(){
           <TabLink className='tablink' to="tab2">Education</TabLink>
           <TabLink className='tablink' to="tab3">Skills </TabLink>
           <TabLink className='tablink' to="tab4">Interests</TabLink>
-          <TabLink className='tablink' to="tab6">Recommendations</TabLink>
+          <TabLink className='tablink' to="tab6">Reviews</TabLink>
 
         </div>
 
@@ -166,9 +166,10 @@ componentWillMount(){
         <TabContent for="tab1">
 
             <article>
-             <div className="accordion btn-animated"><h2>Experience</h2></div>
+            {this.state.work.length > 0 ?
              <div>
-             {this.state.work.map(el => {
+
+                 {this.state.work.map(el => {
                    return <div className="edu-ex" key={el.id}>
                         <h3 className="main res-item">{el.company}, </h3><span className="res-item">{el.location} -</span>
                         <span className="position">{el.position} </span>
@@ -176,14 +177,16 @@ componentWillMount(){
                         <p className="desc res-item">{el.description}</p>
                    </div>
                })}
-            </div>
+              </div>
+               :<p> No items </p>}
+
             </article>
 
         </TabContent>
 
-          <TabContent className={!this.state.hidden ? 'hidden':''} for="tab2">
+          <TabContent for="tab2">
           <article>
-            <div className="accordion btn-animated"><h2>Education</h2></div>
+          {this.state.work.educaion > 0 ?
             <div>
               {this.state.education.map(el => {
                     return <div className="edu-ex" key={el.id}>
@@ -193,6 +196,7 @@ componentWillMount(){
                     </div>
                 })}
             </div>
+            : <p>No items </p>}
           </article>
 
           </TabContent>
@@ -200,7 +204,7 @@ componentWillMount(){
           <TabContent for="tab3">
           <article>
           <article>
-            <div className="accordion btn-animated"><h2>Skills</h2></div>
+          {this.state.skills.length > 0 ?
             <div>
             {this.state.skills.map(el => {
                   return <div className="skill" key={el.id}>
@@ -209,6 +213,7 @@ componentWillMount(){
                   </div>
               })}
             </div>
+            : <p>No items</p>}
           </article>
 
           </article>
@@ -216,7 +221,7 @@ componentWillMount(){
 
           <TabContent for="tab4">
           <article>
-            <div className="accordion btn-animated"><h2>Interests</h2></div>
+          {this.state.interests.length > 0 ?
             <div>
             {this.state.interests.map(el => {
                   return <div className="skill" key={el.id}>
@@ -224,12 +229,13 @@ componentWillMount(){
                   </div>
               })}
             </div>
+            :<p> No items</p>}
           </article>
           </TabContent>
 
         <TabContent for="tab6">
         <article>
-          {this.state.rec.length > 0 ? <div className="accordion btn-animated"><h2>Reccomendations</h2></div> : null}
+        {this.state.rec.length > 0 ?
           <div>
             {this.state.rec.map((el,idx) =>{
                   return <div className="edu-ex" key={idx}>
@@ -237,6 +243,7 @@ componentWillMount(){
                   </div>
               })}
           </div>
+          :<p>No items</p>}
         </article>
         </TabContent>
 

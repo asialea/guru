@@ -11,7 +11,6 @@ import {FaUser,FaMapMarker,FaEdit,FaStar} from 'react-icons/fa';
 import IconButton from '@material-ui/core/IconButton';
 import {Tabs,TabLink,TabContent} from 'react-tabs-redux';
 
-
 class About extends Component{
 
   state = {
@@ -67,19 +66,18 @@ class About extends Component{
       <div className="flex-box">
       <div className="about-header"></div>
       <div className="about-body">
-
         <section id="bio-section">
           <div className="square-container">
             <img id="pro-pic" alt="user avi" src={this.state.avi.avi_path}/>
           </div>
           <div id="bio-contact">
-          <AboutUser  fetchAvi={this.fetchAvi} hidden={this.state.form_hidden} fetchAboutUser={this.fetchAboutUser} aboutUser={this.state.aboutUser}/>
+            <AboutUser show={this.show} fetchAvi={this.fetchAvi} hidden={this.state.form_hidden} fetchAboutUser={this.fetchAboutUser} aboutUser={this.state.aboutUser}/>
           </div>
         </section>
 
         <section id="about-user">
           <p id="name">
-            <IconButton onClick={this.show}><FaEdit  className="about-expand"/></IconButton>
+            <IconButton onClick={this.show}> <FaEdit  className="about-expand"/></IconButton>
           {this.props.user.first_name} {this.props.user.last_name}
           </p>
           <div id="recommend">
@@ -92,39 +90,40 @@ class About extends Component{
         <section id="resume">
           <Tabs>
           <div id="tablinks">
-            <TabLink className={!this.state.hidden ? 'hidden':'tablink contact-tab'} to="tab5">About</TabLink>
-            <TabLink className={!this.state.hidden ? 'hidden':'tablink'} to="tab1" default>Experience</TabLink>
-            <TabLink className={!this.state.hidden ? 'hidden':'tablink'} to="tab2">Education</TabLink>
-            <TabLink className={!this.state.hidden ? 'hidden':'tablink'} to="tab3">Skills </TabLink>
-            <TabLink className={!this.state.hidden ? 'hidden':'tablink'} to="tab4">Interests</TabLink>
+            <TabLink className='tablink contact-tab' to="tab5">About</TabLink>
+            <TabLink className='tablink' to="tab1" default>Experience</TabLink>
+            <TabLink className='tablink' to="tab2">Education</TabLink>
+            <TabLink className='tablink' to="tab3">Skills </TabLink>
+            <TabLink className='tablink' to="tab4">Interests</TabLink>
           </div>
 
-          <TabContent className={!this.state.hidden ? 'hidden':'contact-tab'} for="tab5">
+          <TabContent className="" for="tab5">
           <article>
-          <AboutUser fetchAvi={this.fetchAvi} hidden={this.state.form_hidden} fetchAboutUser={this.fetchAboutUser} aboutUser={this.state.aboutUser}/>
+          <IconButton onClick={this.show}><FaEdit className="about-expand"/></IconButton>
 
+          <AboutUser fetchAvi={this.fetchAvi} hidden={this.state.form_hidden} fetchAboutUser={this.fetchAboutUser} aboutUser={this.state.aboutUser}/>
           </article>
           </TabContent>
 
-            <TabContent className={!this.state.hidden ? 'hidden':''} for="tab1">
+            <TabContent  for="tab1">
             <article>
               <Experience/>
             </article>
             </TabContent>
 
-            <TabContent className={!this.state.hidden ? 'hidden':''} for="tab2">
+            <TabContent  for="tab2">
             <article>
               <Education/>
             </article>
             </TabContent>
 
-            <TabContent className={!this.state.hidden ? 'hidden':''} for="tab3">
+            <TabContent  for="tab3">
             <article>
               <Skills/>
             </article>
             </TabContent>
 
-            <TabContent className={!this.state.hidden ? 'hidden':''} for="tab4">
+            <TabContent  for="tab4">
             <article>
               <Interests/>
             </article>
