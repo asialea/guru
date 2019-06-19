@@ -37,7 +37,6 @@ class Forum extends Component{
         <div className="forum-body">
           <div id="recent-topics">
             <h2>Recent Topics</h2>
-            <div>
             {this.state.recent_topics.length > 0 ?
               <ul>
               {
@@ -48,7 +47,6 @@ class Forum extends Component{
                 })
               }
             </ul> : <p> No topics posted </p>}
-            </div>
           </div>
           <div id="category-list">
             <h1 className="forum-h1">Forums</h1>
