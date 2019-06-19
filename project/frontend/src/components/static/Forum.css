@@ -18,7 +18,7 @@
 }
 
 #recent-topics div{
-  height: 15em;
+  max-height: 15em;
   overflow: scroll;
 }
 
