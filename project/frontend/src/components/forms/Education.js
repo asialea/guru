@@ -81,7 +81,7 @@ class Education extends Component{
     }
       return(
       <div>
-      <button onClick={this.show} className="accordion btn-animated"><h2>Education<FaPlus onClick={this.show} className="expand"/></h2></button>
+      <button onClick={this.show} className="accordion btn-animated"><FaPlus onClick={this.show} className="expand"/></button>
       <div className={this.state.hidden ? 'hidden':'form'}>
        <div className="input-flex">
         <input className="input-small" ref="school" onChange={e => this.setState({school: e.target.value})}

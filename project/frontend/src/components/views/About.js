@@ -98,35 +98,24 @@ class About extends Component{
           </div>
 
           <TabContent className="" for="tab5">
-          <article>
           <IconButton onClick={this.show}><FaEdit className="about-expand"/></IconButton>
-
           <AboutUser fetchAvi={this.fetchAvi} hidden={this.state.form_hidden} fetchAboutUser={this.fetchAboutUser} aboutUser={this.state.aboutUser}/>
-          </article>
           </TabContent>
 
             <TabContent  for="tab1">
-            <article>
               <Experience/>
-            </article>
             </TabContent>
 
             <TabContent  for="tab2">
-            <article>
               <Education/>
-            </article>
             </TabContent>
 
             <TabContent  for="tab3">
-            <article>
               <Skills/>
-            </article>
             </TabContent>
 
             <TabContent  for="tab4">
-            <article>
               <Interests/>
-            </article>
             </TabContent>
 
           </Tabs>

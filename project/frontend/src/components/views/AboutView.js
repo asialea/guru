@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import Navbar from './Navbar';
 import '../static/About.css';
-import {FaGithub,FaLinkedin,FaTwitter,FaEnvelope,FaUser,FaMapMarker,FaStar} from 'react-icons/fa';
+import {FaGithub,FaLinkedin,FaTwitter,FaEnvelope,FaUser,FaMapMarker,FaStar,FaTimes} from 'react-icons/fa';
 import ReccPopup from '../forms/ReccPopup';
 import {Link} from 'react-router-dom';
 import {Tabs,TabLink,TabContent} from 'react-tabs-redux';
+import IconButton from '@material-ui/core/IconButton';
+import {connect} from "react-redux";
+import {headers} from '../forms/global.js'
 
 
 class AboutView extends Component{
@@ -31,6 +34,14 @@ class AboutView extends Component{
           console.log("fetch error" + err);
       });
   }
+
+deleteReview(id){
+  let body = JSON.stringify({id});
+  headers["Authorization"] = `Token ${this.props.token}`;
+  fetch(`/api/rec/${this.props.match.params.username}/`, {headers,body,method:"DELETE"})
+  .then(res => {return res.json();}).then(()=>this.fetchRec())
+  .catch(err => {console.log("fetch error" + err)})
+}
 
 componentWillMount(){
  fetch(`/api/user/${this.props.match.params.username}/`)
@@ -93,6 +104,7 @@ componentWillMount(){
   }
 
   render(){
+    console.log(this.state.rec);
     return(
     <div className="body" id="about">
       <header>
@@ -239,14 +251,18 @@ componentWillMount(){
           <div>
             {this.state.rec.map((el,idx) =>{
                   return <div className="edu-ex" key={idx}>
-                       <p className="desc res-item">"{el.text}" - <Link to={`/about/${el.author__username}`}>@{el.author__username}</Link></p>
+                       <p className="desc res-item">
+                        "{el.text}" - <Link to={`/about/${el.author__username}`}>@{el.author__username}</Link>
+                        {el.author__username === this.props.user.username ?
+                          <IconButton onClick={e=>{e.preventDefault();this.deleteReview(el.id);}}><FaTimes className="delete"/></IconButton>
+                        : null}
+                       </p>
                   </div>
               })}
           </div>
           :<p>No items</p>}
         </article>
         </TabContent>
-
         </Tabs>
         </section>
         </div>
@@ -256,4 +272,13 @@ componentWillMount(){
   }
 }
 
-export default (AboutView);
+const mapStateToProps = state => {
+    return {
+      token:state.auth.token,
+        user: state.auth.user,
+    }
+}
+
+
+
+export default connect(mapStateToProps)(AboutView);

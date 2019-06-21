@@ -123,6 +123,10 @@ span svg{
 
 }
 
+.about-input{
+  margin-top: 0.5em;
+}
+
 .main{
     display: inline-block;
     font-size: 1.2rem;

@@ -469,7 +469,7 @@ class RecommendationView(generics.GenericAPIView):
     def get(self,request,**kwargs):
         username = str(self.kwargs['username'])
         user = User.objects.get(username=username)
-        rec = Recommendation.objects.filter(user_id = user.id).values('author__username','author','text','user_id','rating')
+        rec = Recommendation.objects.filter(user_id = user.id).values('author__username','author','text','user_id','rating','id')
         try:
             rec_sum = Recommendation.objects.filter(user_id = user.id).aggregate(Sum('rating'))
             rec_average = round((5 + rec_sum['rating__sum'])/(len(rec)+1))
@@ -487,7 +487,7 @@ class RecommendationView(generics.GenericAPIView):
 
     def delete(self,request,**kwargs):
         try:
-            Recommendation.objects.filter(rec= self.kwargs['rec_id']).delete()
+            Recommendation.objects.filter(id=self.request.data['id']).delete()
             return Response({"rec deleted"})
         except Exception as e:
             return Response(e.args)

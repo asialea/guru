@@ -33,7 +33,7 @@ return (
     <div className='popup_inner'>
       <IconButton onClick={this.props.closePopup}><FaTimes/></IconButton>
       <p id="banner2">{this.props.text}  </p>
-      <textarea onChange={e => this.setState({text:e.target.value})} maxLength="500" placeholder="Write a Reccomendation"></textarea>
+      <textarea onChange={e => this.setState({text:e.target.value})} maxLength="500" placeholder="Write a Reccomendation" required></textarea>
       <p>Leave a Rating (optional) :
         <select id="rating" onChange={e => this.setState({rating: parseInt(e.target.value)})}>
             <option></option>

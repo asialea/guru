@@ -61,27 +61,26 @@ class AboutUser extends Component {
         </div>
         <div className={this.props.hidden ? 'hidden':'form'}>
         <button onClick={this.uploadWidget} id="pro-upload" className="submit">Pro Pic</button>
-            <form  onSubmit={this.aboutSave}>
+          <form  onSubmit={this.aboutSave}>
+            <input defaultValue={aboutUser.github} className="about-input" onChange={e => this.handleChange("github",e.target.value)}
+            maxLength="200" placeholder="Github Url" type="url"/>
+            <input defaultValue={aboutUser.linkedin} className="about-input" onChange={e => this.handleChange("linkedin",e.target.value)}
+            maxLength="100" placeholder="Linkedin Url" type="url"/>
+            <input defaultValue={aboutUser.twitter_handle} className="about-input" onChange={e => this.handleChange("twitter_handle",e.target.value)}
+            maxLength="100" placeholder="Twitter Url" type="url"/>
 
-                <input defaultValue={aboutUser.github} className="input-small" onChange={e => this.handleChange("github",e.target.value)}
-                maxLength="200" placeholder="Github Url" type="url"/>
-                <input defaultValue={aboutUser.linkedin} className="input-small" onChange={e => this.handleChange("linkedin",e.target.value)}
-                maxLength="100" placeholder="Linkedin Url" type="url"/>
-                <input defaultValue={aboutUser.twitter_handle} className="input-small" onChange={e => this.handleChange("twitter_handle",e.target.value)}
-                maxLength="100" placeholder="Twitter Url" type="url"/>
+           <input defaultValue={aboutUser.location} className="about-input" onChange={e => this.handleChange("location",e.target.value)}
+           maxLength="30" placeholder="Location" type="text"/>
 
-               <input defaultValue={aboutUser.location} className="input-small" onChange={e => this.handleChange("location",e.target.value)}
-               maxLength="30" placeholder="Location" type="text"/>
-
-               <textarea defaultValue={aboutUser.bio} onChange={e => this.handleChange("bio",e.target.value)} maxLength="500" placeholder="Bio"></textarea>
-               <button className ="submit">Save</button>
-            </form>
+           <textarea defaultValue={aboutUser.bio} onChange={e => this.handleChange("bio",e.target.value)} maxLength="500" placeholder="Bio"></textarea>
+           <button className ="submit">Save</button>
+          </form>
         </div>
         <div>
           <span className="social">
-            <a href={this.props.aboutUser.github}><FaGithub className="social-icon"/></a>
-            <a href={this.props.aboutUser.linkedin}><FaLinkedin className="social-icon"/></a>
-            <a href={this.props.aboutUser.twitter_handle}><FaTwitter className="social-icon"/></a>
+            {this.props.aboutUser.github !== "" ? <a href={this.props.aboutUser.github}><FaGithub className="social-icon"/></a> : null}
+            {this.props.aboutUser.linkedin !== "" ? <a href={this.props.aboutUser.linkedin}><FaLinkedin className="social-icon"/></a> :null}
+            {this.props.aboutUser.twitter_handle !== "" ? <a href={this.props.aboutUser.twitter_handle}><FaTwitter className="social-icon"/></a>:null}
           </span>
           <article id="bio">
             <p className="desc res-item">{this.props.aboutUser.bio}</p>

@@ -53,7 +53,7 @@ class Interests extends Component{
   render(){
       return(
       <div>
-      <button onClick={this.show} className="accordion btn-animated"><h2>Interests<FaPlus onClick={this.show} className="expand"/></h2></button>
+      <button onClick={this.show} className="accordion btn-animated"><FaPlus onClick={this.show} className="expand"/></button>
         <div className={this.state.hidden ? 'hidden':'form'}>
          <div className="input-flex">
           <input className="input-small group-1" ref="interest" onChange={(e) => this.setState({interest: e.target.value})}
