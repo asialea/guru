@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import {headers,uploadConfig} from './global.js'
-import {FaGithub,FaLinkedin,FaTwitter} from 'react-icons/fa';
+import {FaGithub,FaLinkedin,FaTwitter,FaPlus,FaCamera} from 'react-icons/fa';
+import TextareaAutosize from 'react-textarea-autosize';
+import IconButton from '@material-ui/core/IconButton';
+
 
 class AboutUser extends Component {
 
   state = {
     aboutUser:{},
     avi:{},
+    url:null,
+    site:null,
   }
 
   uploadWidget=(e)=> {
@@ -41,9 +46,10 @@ class AboutUser extends Component {
 
   aboutSave = (e) => {
     e.preventDefault();
-    this.props.fetchAvi()
-    delete this.state.aboutUser['user_id']
-    this.updateAboutUser(this.state.aboutUser)
+    this.props.fetchAvi();
+    delete this.state.aboutUser['user_id'];
+    this.updateAboutUser(this.state.aboutUser);
+    this.props.show();
   }
 
 
@@ -51,6 +57,7 @@ class AboutUser extends Component {
     let updatedUser = this.state.aboutUser;
     updatedUser[param]=value;
     this.setState({aboutUser:updatedUser})
+    console.log(updatedUser)
   }
 
   render () {
@@ -60,19 +67,26 @@ class AboutUser extends Component {
         <div className="flex-box">
         </div>
         <div className={this.props.hidden ? 'hidden':'form'}>
-        <button onClick={this.uploadWidget} id="pro-upload" className="submit">Pro Pic</button>
           <form  onSubmit={this.aboutSave}>
-            <input defaultValue={aboutUser.github} className="about-input" onChange={e => this.handleChange("github",e.target.value)}
-            maxLength="200" placeholder="Github Url" type="url"/>
-            <input defaultValue={aboutUser.linkedin} className="about-input" onChange={e => this.handleChange("linkedin",e.target.value)}
-            maxLength="100" placeholder="Linkedin Url" type="url"/>
-            <input defaultValue={aboutUser.twitter_handle} className="about-input" onChange={e => this.handleChange("twitter_handle",e.target.value)}
-            maxLength="100" placeholder="Twitter Url" type="url"/>
+          <div className="input-flex-2">
+            <IconButton onClick={this.uploadWidget}><FaCamera color="#374054"/></IconButton>
+            <input defaultValue={aboutUser.github} id="url" className="input-small"
+            maxLength="200" placeholder="Github Url" type="url" onChange={e => this.setState({url:e.target.value})}/>
+            <select className="input-small" onChange={e => this.setState({site:e.target.value})}>
+              <option value="github">Github</option>
+              <option value="linkedin">Linkedin</option>
+              <option value="twitter_handle">Twitter</option>
+            </select>
+            <IconButton className="expand" onClick={e => this.handleChange(this.state.site,this.state.url)}>
+            <FaPlus color="#374054"/></IconButton>
+
+          </div>
 
            <input defaultValue={aboutUser.location} className="about-input" onChange={e => this.handleChange("location",e.target.value)}
            maxLength="30" placeholder="Location" type="text"/>
 
-           <textarea defaultValue={aboutUser.bio} onChange={e => this.handleChange("bio",e.target.value)} maxLength="500" placeholder="Bio"></textarea>
+           <TextareaAutosize defaultValue={aboutUser.bio} onChange={e => this.handleChange("bio",e.target.value)} maxLength="500"
+           placeholder="Bio" minRows={1} maxRows={1}/>
            <button className ="submit">Save</button>
           </form>
         </div>

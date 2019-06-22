@@ -124,3 +124,9 @@ class RecommendationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recommendation
         fields = '__all__'
+
+class EmailSerializer(serializers.Serializer):
+    subject = serializers.CharField()
+    message = serializers.CharField()
+    sender = serializers.CharField()
+    receiver = serializers.CharField()

@@ -26,7 +26,7 @@ class About extends Component{
     return (type ==='MR' ? 'Mentor' : 'Mentee')
   }
 
-  show = (e) =>{
+  show = () =>{
     this.setState({form_hidden:!this.state.form_hidden});
   }
 
@@ -99,7 +99,7 @@ class About extends Component{
 
           <TabContent className="" for="tab5">
           <IconButton onClick={this.show}><FaEdit className="about-expand"/></IconButton>
-          <AboutUser fetchAvi={this.fetchAvi} hidden={this.state.form_hidden} fetchAboutUser={this.fetchAboutUser} aboutUser={this.state.aboutUser}/>
+          <AboutUser show={this.show} fetchAvi={this.fetchAvi} hidden={this.state.form_hidden} fetchAboutUser={this.fetchAboutUser} aboutUser={this.state.aboutUser}/>
           </TabContent>
 
             <TabContent  for="tab1">
@@ -119,7 +119,7 @@ class About extends Component{
             </TabContent>
 
           </Tabs>
-  </section>
+        </section>
         </div>
       </div>
       <div>{this.props.children}</div>

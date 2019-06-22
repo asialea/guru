@@ -95,7 +95,7 @@ class Comment extends Component{
           <div className="text">
           <p className="post-timestamp">{this.parseDate(comment.timestamp)}</p>
 
-            <p> {meta&&meta[comment.user_id] ? <Link to={`/about/${meta[comment.user_id]['username']}`}>@{meta[comment.user_id]['username']}</Link>:null}</p>
+            <p> {meta&&meta[comment.user_id] ? <Link to={meta[comment.user_id]['username']!==this.props.user.username ? `/about/${meta[comment.user_id]['username']}` :"/about/"}>@{meta[comment.user_id]['username']}</Link>:null}</p>
             <p>{comment.text}</p>
             <IconButton onClick={this.handleLikes.bind(this)}><FaThumbsUp/></IconButton>
             <span>{this.state.likes.length} likes </span>
@@ -104,8 +104,7 @@ class Comment extends Component{
               <FaTrash className={this.props.user.id !== comment.user_id ? "hidden" : ""}/>
             </IconButton>
             <TextareaAutosize  className={this.state.reply_hidden ? "hidden" : ""}id="new-post" onChange={e => this.setState({reply: e.target.value})}
-             maxLength="500" minRows={1} maxRows={6}
-             placeholder="Reply"/>
+             maxLength="500" minRows={1} maxRows={6} placeholder="Reply"/>
             <p onClick={e =>this.submitReply(comment.id)} className={this.state.reply_hidden ? "hidden" : "reply"}>Reply</p>
             <p className="view-replies" onClick={this.show}>{comment.replies ? "View "+comment.replies.length + " replies" : ""}</p>
           </div>

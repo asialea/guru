@@ -41,4 +41,6 @@ urlpatterns = [
     url('^api/recent_topics/$', views.RecentTopicView.as_view()),
     url('^api/likes/(?P<post_id>\d+)', views.LikesView.as_view()),
 
+    url('^api/email/$', views.EmailView.as_view()),
+
 ]

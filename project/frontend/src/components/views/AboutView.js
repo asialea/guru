@@ -3,6 +3,7 @@ import Navbar from './Navbar';
 import '../static/About.css';
 import {FaGithub,FaLinkedin,FaTwitter,FaEnvelope,FaUser,FaMapMarker,FaStar,FaTimes} from 'react-icons/fa';
 import ReccPopup from '../forms/ReccPopup';
+import EmailPopup from '../forms/EmailPopup';
 import {Link} from 'react-router-dom';
 import {Tabs,TabLink,TabContent} from 'react-tabs-redux';
 import IconButton from '@material-ui/core/IconButton';
@@ -24,6 +25,7 @@ class AboutView extends Component{
       avi:{},
       showPopup: false,
       avg:null,
+      emailPopup:false,
     }
   }
 
@@ -103,8 +105,14 @@ componentWillMount(){
     });
   }
 
+  toggleEmailPopup= e => {
+    e.preventDefault();
+    this.setState({
+     emailPopup: !this.state.emailPopup
+    });
+  }
+
   render(){
-    console.log(this.state.rec);
     return(
     <div className="body" id="about">
       <header>
@@ -115,6 +123,11 @@ componentWillMount(){
       <div className="about-header"></div>
       <div className="about-body">
 
+      {this.state.emailPopup ?
+        <EmailPopup  sender={this.props.user.email} reciever={this.state.user.email}
+         text={"Send email to "+this.state.user.first_name} closePopup={this.toggleEmailPopup.bind(this)}/>
+          : null}
+
       <section id="bio-section">
         <div className="square-container">
           <img id="pro-pic" alt="user avi" src={this.state.user.avi__avi_path}/>
@@ -124,9 +137,8 @@ componentWillMount(){
             <a href={this.state.aboutUser.github}><FaGithub className="social-icon"/></a>
             <a href={this.state.aboutUser.linkedin}><FaLinkedin className="social-icon"/></a>
             <a href={this.state.aboutUser.twitter_handle}><FaTwitter className="social-icon"/></a>
-            <a href={this.state.user.email}><FaEnvelope className="social-icon"/></a>
+            <span onClick={this.toggleEmailPopup}><FaEnvelope className="social-icon"/></span>
           </span>
-
           <article id="bio">
             <p className="desc res-item">{this.state.aboutUser.bio}</p>
           </article>
@@ -140,14 +152,14 @@ componentWillMount(){
 
         <button id="recommend" onClick={this.togglePopup} className="submit">Write a Review</button>
         {this.state.showPopup ?
-          <ReccPopup fetch={this.fetchRec} username={this.props.match.params.username} user_id={this.state.user.id} text={"Tell us about "+this.state.user.first_name} closePopup={this.togglePopup.bind(this)}/>
+          <ReccPopup fetch={this.fetchRec} username={this.props.match.params.username}
+          user_id={this.state.user.id} text={"Tell us about "+this.state.user.first_name} closePopup={this.togglePopup.bind(this)}/>
         : null
         }
+
         <p><FaUser/> @{this.state.user.username} ({this.parse_type(this.state.user.type)})</p>
         {this.state.location ? <p><FaMapMarker/> {this.state.aboutUser.location}</p> : null}
-        <p>
-            {this.state.avg ? Array(this.state.avg).fill(<FaStar className="social-icon"/>):null}
-        </p>
+        <p>{this.state.avg ? Array(this.state.avg).fill(<FaStar className="social-icon"/>):null}</p>
       </section>
 
       <section id="resume">
@@ -167,7 +179,7 @@ componentWillMount(){
             <a href={this.state.aboutUser.github}><FaGithub className="social-icon"/></a>
             <a href={this.state.aboutUser.linkedin}><FaLinkedin className="social-icon"/></a>
             <a href={this.state.aboutUser.twitter_handle}><FaTwitter className="social-icon"/></a>
-            <a href={this.state.user.email}><FaEnvelope className="social-icon"/></a>
+            <IconButton onClick={this.toggleEmailPopup}><FaEnvelope/></IconButton>
           </span>
 
           <article id="bio">
@@ -196,7 +208,7 @@ componentWillMount(){
 
         </TabContent>
 
-          <TabContent for="tab2">
+        <TabContent for="tab2">
           <article>
           {this.state.work.educaion > 0 ?
             <div>
@@ -211,10 +223,9 @@ componentWillMount(){
             : <p>No items </p>}
           </article>
 
-          </TabContent>
+        </TabContent>
 
-          <TabContent for="tab3">
-          <article>
+        <TabContent for="tab3">
           <article>
           {this.state.skills.length > 0 ?
             <div>
@@ -227,9 +238,7 @@ componentWillMount(){
             </div>
             : <p>No items</p>}
           </article>
-
-          </article>
-          </TabContent>
+        </TabContent>
 
           <TabContent for="tab4">
           <article>
@@ -275,7 +284,7 @@ componentWillMount(){
 const mapStateToProps = state => {
     return {
       token:state.auth.token,
-        user: state.auth.user,
+      user: state.auth.user,
     }
 }
 

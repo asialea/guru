@@ -13,6 +13,8 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 from django.db.models import Q
+from django.core.mail import BadHeaderError,send_mail
+from django.http import HttpResponse
 from . import config
 
 
@@ -491,3 +493,15 @@ class RecommendationView(generics.GenericAPIView):
             return Response({"rec deleted"})
         except Exception as e:
             return Response(e.args)
+
+class EmailView(generics.GenericAPIView):
+    serializer_class = EmailSerializer
+
+    def post(self,request,**kwargs):
+        try:
+            send_mail(self.request.data['subject'],self.request.data['message'],self.request.data['sender'],
+            [self.request.data['receiver']],
+            fail_silently=False,)
+        except BadHeaderError:
+            return HttpResponse('Invalid header found.')
+        return HttpResponse('Sent')
