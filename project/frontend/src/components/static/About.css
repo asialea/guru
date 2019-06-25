@@ -98,12 +98,12 @@ span svg{
 #about-user{
   grid-column: 2;
   grid-row:1;
-  padding-top: 2em;
+  overflow: scroll;
 }
 
 #bio-section{
   grid-row-start:1;
-  padding-top: 2em;
+  padding-top: 1em;
   display: inline-block;
 }
 
@@ -266,7 +266,7 @@ label{
 }
 
 #recommend{
-  padding: 0 0.1em;
+  padding: 0 0.5em;
   z-index: 0;
 }
 
@@ -303,10 +303,15 @@ input{
 
   #about-user{
     float: right;
+    width: 57%;
+    max-height: 12em;
+  }
+
+  #resume{
+    margin-top:3em;
   }
 
   #about-user p, #about-user div,#name{
-    /* text-align: left; */
     margin: 0 auto;
     display: block;
   }
@@ -327,14 +332,14 @@ input{
   }
 
   #recommend{
-    margin-right: 0;
-    position: absolute;
+    margin:0.5em 0;
   }
 }
 
 @media only screen and (max-width: 780px) {
   .about-body{
     margin-top: 0;
+    padding-top: 1em;
   }
 
   .social-icon.star{
@@ -375,7 +380,7 @@ input{
     margin: 0 auto;
   }
   #about-user{
-    padding-top: 1em;
+    padding-top: 0em;
   }
   #resume{
     padding-top:0;

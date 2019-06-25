@@ -14,7 +14,7 @@ import {Tabs,TabLink,TabContent} from 'react-tabs-redux';
 
 class About extends Component{
 
-  state = {
+  state = { 
     aboutUser:{},
     form_hidden:true,
     avi:{},
