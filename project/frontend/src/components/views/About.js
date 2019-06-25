@@ -85,14 +85,14 @@ class About extends Component{
           </div>
           <p><FaUser fill="#e27d60"/> @{this.props.user.username}   ({this.parse_type(this.props.user.type)})</p>
           <p><FaMapMarker fill="#e27d60"/> {this.state.aboutUser.location}</p>
-          <span className="social">
+          <p className="social">
             {this.state.aboutUser.github !== "" ? <a href={this.state.aboutUser.github}><FaGithub className="social-icon"/></a> : null}
             {this.state.aboutUser.linkedin !== "" ? <a href={this.state.aboutUser.linkedin}><FaLinkedin className="social-icon"/></a> :null}
             {this.state.aboutUser.twitter !== "" ? <a href={this.state.aboutUser.twitter}><FaTwitter className="social-icon"/></a>:null}
             {this.state.aboutUser.facebook !== "" ? <a href={this.state.aboutUser.facebook}><FaFacebook className="social-icon"/></a>:null}
             {this.state.aboutUser.personal !== "" ? <a href={this.state.aboutUser.personal}><FaLink className="social-icon"/></a>:null}
 
-          </span>
+          </p>
         </section>
 
         <section id="resume">

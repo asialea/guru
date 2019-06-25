@@ -151,7 +151,7 @@ componentWillMount(){
         <p><FaUser fill="#e27d60"/> @{this.state.user.username} ({this.parse_type(this.state.user.type)})</p>
         {this.state.location ? <p><FaMapMarker fill="#e27d60"/> {this.state.aboutUser.location}</p> : null}
 
-        <span className="social">
+        <p className="social">
         {this.state.aboutUser.github !== "" ? <a href={this.state.aboutUser.github}><FaGithub className="social-icon"/></a> : null}
         {this.state.aboutUser.linkedin !== "" ? <a href={this.state.aboutUser.linkedin}><FaLinkedin className="social-icon"/></a> :null}
         {this.state.aboutUser.twitter !== "" ? <a href={this.state.aboutUser.twitter}><FaTwitter className="social-icon"/></a>:null}
@@ -159,7 +159,7 @@ componentWillMount(){
         {this.state.aboutUser.personal !== "" ? <a href={this.state.aboutUser.personal}><FaLink className="social-icon"/></a>:null}
 
           <span onClick={this.toggleEmailPopup}><FaEnvelope className="social-icon"/></span>
-        </span>
+        </p>
       </section>
 
 
