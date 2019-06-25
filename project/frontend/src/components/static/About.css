@@ -3,11 +3,11 @@
   grid-template-columns: 1fr 2fr;
   grid-template-rows: repeat(5,150px);
   width: 75%;
-  margin: 0 auto;
+  margin: 2em auto;
   position: absolute;
   top: 60px;
   bottom: 0;
-  grid-column-gap:4em;
+  grid-column-gap:1em;
 }
 
 .flex-box{
@@ -33,8 +33,9 @@
 #resume{
   grid-column: 2;
   grid-row-start:2;
-  margin-top: 1em;
+  margin-top: 2em;
   padding-bottom: 5em;
+  padding-top:1em;
 }
 
 
@@ -96,19 +97,19 @@ span svg{
 
 #about-user{
   grid-column: 2;
-  padding-bottom: 2em;
-  grid-row:1/3;
+  padding-bottom: 1em;
+  grid-row:1;
   padding-top: 2em;
 }
 
 #bio-section{
   grid-row-start:1;
   padding-top: 2em;
+  display: inline-block;
 }
 
 #about #tablinks{
   border-top: 0.5px solid rgba(39, 179, 45,0.4);
-  padding-top: 1em;
 }
 
 #name{
@@ -121,7 +122,7 @@ span svg{
 
 #about-user p{
   padding: 0;
-  margin: 0;
+  margin: 0 0.1em;
 
 }
 
@@ -231,22 +232,26 @@ label{
    display: none;
  }
 
-.social{
-  width: 70%;
-  display: flex;
-  justify-content: space-between;
+.social,{
   margin: 1em auto;
+  overflow: scroll;
 }
+
 
 .social-icon{
-  font-size: 1.7em;
-  color: #374054;
+  font-size: 1.2em;
   z-index: -1;
+  color: #374054;
 }
 
+.social-icon.star{
+  font-size:1.7em;
+}
 
 #bio{
-  margin: 0 auto;
+  margin: 0.5em auto;
+  width: 90%;
+  padding-top: 1em;
 }
 
 #pro-upload{
@@ -258,8 +263,11 @@ label{
 #recommend,#star-rating{
   width: auto;
   float: right;
-  margin: 1em auto;
-  padding: 0 0.4em;
+  margin-right: 10em;
+}
+
+#recommend{
+  padding: 0 0.1em;
 }
 
 .popup_inner textarea{
@@ -287,18 +295,18 @@ input{
   padding: 0.5em;
 }
 
-#recommend{
-  margin-right: 10em;
-}
-
-@media only screen and (max-width: 1100px) {
+@media only screen and (max-width: 900px) {
 
   .contact-tab.tab-content-visible{
     display: block;
   }
 
+  #about-user{
+    float: right;
+  }
+
   #about-user p, #about-user div,#name{
-    text-align: center;
+    text-align: left;
     margin: 0 auto;
     display: block;
   }
@@ -306,13 +314,9 @@ input{
 .tablink.contact-tab{
     display: inline-block;
   }
-  .about-body,#recommend{
+  .about-body,#recommend,#star-rating{
     display: block;
     float: none;
-  }
-
-  #recommend{
-    margin-right: auto;
   }
 
   #bio-contact{
@@ -324,12 +328,33 @@ input{
 }
 
 @media only screen and (max-width: 780px) {
+  .about-body{
+    margin-top: 0;
+  }
+
+  .social-icon.star{
+    font-size:1.4em;
+  }
 
   .input-flex{
     display: block;
   }
 
 #pro-pic{
-  height: 40vw;
+  height: 30vw;
   }
+}
+
+@media only screen and (max-width: 500px) {
+  #name{
+    font-size: 1.5em;
+  }
+    .social-icon.star{
+      font-size: 1em;
+    }
+
+  #about-user p{
+    font-size: 0.9em;
+  }
+
 }

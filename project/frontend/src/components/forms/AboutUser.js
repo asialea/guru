@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import {headers,uploadConfig} from './global.js'
-import {FaGithub,FaLinkedin,FaTwitter,FaPlus,FaCamera} from 'react-icons/fa';
+import {FaPlus,FaCamera} from 'react-icons/fa';
 import TextareaAutosize from 'react-textarea-autosize';
 import IconButton from '@material-ui/core/IconButton';
 
@@ -70,14 +70,17 @@ class AboutUser extends Component {
           <form  onSubmit={this.aboutSave}>
           <div className="input-flex-2">
             <IconButton onClick={this.uploadWidget}><FaCamera color="#374054"/></IconButton>
-            <input defaultValue={aboutUser.github} id="url" className="input-small"
-            maxLength="200" placeholder="Github Url" type="url" onChange={e => this.setState({url:e.target.value})}/>
+            <input defaultValue="http://" id="url" className="input-small"
+            maxLength="200" placeholder="Url" type="text" onChange={e => this.setState({url:e.target.value})}/>
             <select className="input-small" onChange={e => this.setState({site:e.target.value})}>
+              <option value=""></option>
               <option value="github">Github</option>
               <option value="linkedin">Linkedin</option>
-              <option value="twitter_handle">Twitter</option>
+              <option value="twitter">Twitter</option>
+              <option value="facebook">Facebook</option>
+              <option value="personal">Personal</option>
             </select>
-            <IconButton className="expand" onClick={e => this.handleChange(this.state.site,this.state.url)}>
+            <IconButton className="expand" onClick={e => {this.handleChange(this.state.site,this.state.url); alert("Url added")}}>
             <FaPlus color="#374054"/></IconButton>
 
           </div>
@@ -91,11 +94,6 @@ class AboutUser extends Component {
           </form>
         </div>
         <div>
-          <span className="social">
-            {this.props.aboutUser.github !== "" ? <a href={this.props.aboutUser.github}><FaGithub className="social-icon"/></a> : null}
-            {this.props.aboutUser.linkedin !== "" ? <a href={this.props.aboutUser.linkedin}><FaLinkedin className="social-icon"/></a> :null}
-            {this.props.aboutUser.twitter_handle !== "" ? <a href={this.props.aboutUser.twitter_handle}><FaTwitter className="social-icon"/></a>:null}
-          </span>
           <article id="bio">
             <p className="desc res-item">{this.props.aboutUser.bio}</p>
           </article>

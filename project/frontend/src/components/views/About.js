@@ -7,9 +7,10 @@ import Interests from '../forms/Interests'
 import Experience from '../forms/Experience'
 import Education from '../forms/Education'
 import AboutUser from '../forms/AboutUser'
-import {FaUser,FaMapMarker,FaEdit,FaStar} from 'react-icons/fa';
+import {FaUser,FaMapMarker,FaEdit,FaStar,FaGithub,FaLinkedin,FaTwitter,FaPlus,FaFacebook,FaLink} from 'react-icons/fa';
 import IconButton from '@material-ui/core/IconButton';
 import {Tabs,TabLink,TabContent} from 'react-tabs-redux';
+
 
 class About extends Component{
 
@@ -64,7 +65,6 @@ class About extends Component{
         <Navbar history={this.props.history}/>
       </header>
       <div className="flex-box">
-      <div className="about-header"></div>
       <div className="about-body">
         <section id="bio-section">
           <div className="square-container">
@@ -77,14 +77,22 @@ class About extends Component{
 
         <section id="about-user">
           <p id="name">
-            <IconButton onClick={this.show}> <FaEdit  className="about-expand"/></IconButton>
           {this.props.user.first_name} {this.props.user.last_name}
+          <IconButton onClick={this.show}> <FaEdit  className="about-expand"/></IconButton>
           </p>
-          <div id="recommend">
-              {this.state.avg ? Array(this.state.avg).fill(<FaStar className="social-icon"/>):null}
+          <div id="star-rating">
+              {this.state.avg ? Array(this.state.avg).fill(<FaStar className="social-icon star"/>):null}
           </div>
           <p><FaUser fill="#e27d60"/> @{this.props.user.username}   ({this.parse_type(this.props.user.type)})</p>
           <p><FaMapMarker fill="#e27d60"/> {this.state.aboutUser.location}</p>
+          <span className="social">
+            {this.state.aboutUser.github !== "" ? <a href={this.state.aboutUser.github}><FaGithub className="social-icon"/></a> : null}
+            {this.state.aboutUser.linkedin !== "" ? <a href={this.state.aboutUser.linkedin}><FaLinkedin className="social-icon"/></a> :null}
+            {this.state.aboutUser.twitter !== "" ? <a href={this.state.aboutUser.twitter}><FaTwitter className="social-icon"/></a>:null}
+            {this.state.aboutUser.facebook !== "" ? <a href={this.state.aboutUser.facebook}><FaFacebook className="social-icon"/></a>:null}
+            {this.state.aboutUser.personal !== "" ? <a href={this.state.aboutUser.personal}><FaLink className="social-icon"/></a>:null}
+
+          </span>
         </section>
 
         <section id="resume">
@@ -98,8 +106,9 @@ class About extends Component{
           </div>
 
           <TabContent className="" for="tab5">
-          <IconButton onClick={this.show}><FaEdit className="about-expand"/></IconButton>
-          <AboutUser show={this.show} fetchAvi={this.fetchAvi} hidden={this.state.form_hidden} fetchAboutUser={this.fetchAboutUser} aboutUser={this.state.aboutUser}/>
+            <button onClick={this.show} className="accordion btn-animated"><FaPlus onClick={this.show} className="expand"/></button>
+            <AboutUser show={this.show} fetchAvi={this.fetchAvi} hidden={this.state.form_hidden} fetchAboutUser={this.fetchAboutUser}
+             aboutUser={this.state.aboutUser}/>
           </TabContent>
 
             <TabContent  for="tab1">
