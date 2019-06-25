@@ -170,6 +170,7 @@ div.nav-item{
   bottom: 0;
   margin: auto;
   background-color: rgba(0,0,0, 0.5);
+  z-index: 1;
 }
 .popup_inner {
   position: absolute;
@@ -184,7 +185,6 @@ div.nav-item{
 
 .popup_inner{
   padding-bottom: 1em;
-  z-index: 4;
 }
 
 .popup_inner p{

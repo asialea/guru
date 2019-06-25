@@ -267,6 +267,7 @@ label{
 
 #recommend{
   padding: 0 0.1em;
+  z-index: 0;
 }
 
 .popup_inner textarea{
@@ -305,7 +306,7 @@ input{
   }
 
   #about-user p, #about-user div,#name{
-    text-align: left;
+    /* text-align: left; */
     margin: 0 auto;
     display: block;
   }

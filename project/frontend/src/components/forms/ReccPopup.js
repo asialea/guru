@@ -34,9 +34,8 @@ return (
       <IconButton onClick={this.props.closePopup}><FaTimes/></IconButton>
       <p id="banner2">{this.props.text}  </p>
       <textarea onChange={e => this.setState({text:e.target.value})} maxLength="500" placeholder="Write a Reccomendation" required></textarea>
-      <p>Leave a Rating (optional) :
+      <p>Leave a Rating :
         <select id="rating" onChange={e => this.setState({rating: parseInt(e.target.value)})}>
-            <option></option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
