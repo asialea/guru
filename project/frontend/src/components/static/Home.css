@@ -257,7 +257,7 @@ div.nav-item{
    display: none;
  }
 
- .nav-right{
+ .nav-right,h1.title{
    display: none;
  }
 

@@ -58,7 +58,7 @@ class Interests extends Component{
          <div className="input-flex">
           <input className="input-small group-1" ref="interest" onChange={(e) => this.setState({interest: e.target.value})}
           maxLength="50" placeholder="Interest" type="text"/>
-          <button className = "submit"  onClick={this.new_interestSubmit.bind(this)}>Submit</button>
+          <button className = "submit group-1"  onClick={this.new_interestSubmit.bind(this)}>Submit</button>
          </div>
         </div>
         <div>

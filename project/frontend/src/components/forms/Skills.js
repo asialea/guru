@@ -56,7 +56,7 @@ class Skills extends Component{
         <div className={this.state.hidden ? 'hidden':'form'}>
          <div className="input-flex">
           <input className="input-small group-1" ref="skill" onChange={e => this.setState({skill: e.target.value})} maxLength="50" placeholder="Skill" type="text"/>
-          <button className = "submit"  onClick={this.new_skillSubmit.bind(this)}>Submit</button>
+          <button className = "submit group-1"  onClick={this.new_skillSubmit.bind(this)}>Submit</button>
          </div>
         </div>
         <div>

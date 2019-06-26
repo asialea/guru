@@ -88,8 +88,8 @@ class AboutUser extends Component {
            <input defaultValue={aboutUser.location} className="about-input" onChange={e => this.handleChange("location",e.target.value)}
            maxLength="30" placeholder="Location" type="text"/>
 
-           <TextareaAutosize defaultValue={aboutUser.bio} onChange={e => this.handleChange("bio",e.target.value)} maxLength="500"
-           placeholder="Bio" minRows={1} maxRows={1}/>
+           <TextareaAutosize id="new-post" defaultValue={aboutUser.bio} onChange={e => this.handleChange("bio",e.target.value)} maxLength="500"
+           placeholder="Bio" minRows={1} maxRows={5}/>
            <button className ="submit">Save</button>
           </form>
         </div>

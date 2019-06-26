@@ -33,7 +33,6 @@
 #resume{
   grid-column: 2;
   grid-row-start:2;
-  margin-top: 2em;
   padding-bottom: 5em;
   padding-top:1em;
 }
@@ -99,6 +98,7 @@ span svg{
   grid-column: 2;
   grid-row:1;
   overflow: scroll;
+  padding-top: 1em;
 }
 
 #bio-section{
@@ -259,7 +259,7 @@ label{
   background-color: transparent;
 }
 
-#recommend,#star-rating{
+#star-rating{
   width: auto;
   float: right;
   margin-right: 10em;
@@ -268,6 +268,8 @@ label{
 #recommend{
   padding: 0 0.5em;
   z-index: 0;
+  width: auto;
+  margin: 2em auto;
 }
 
 .popup_inner textarea{
@@ -307,10 +309,6 @@ input{
     max-height: 12em;
   }
 
-  #resume{
-    margin-top:3em;
-  }
-
   #about-user p, #about-user div,#name{
     margin: 0 auto;
     display: block;
@@ -330,13 +328,19 @@ input{
   #about-user .about-expand{
     display: none;
   }
-
-  #recommend{
-    margin:0.5em 0;
-  }
 }
 
 @media only screen and (max-width: 780px) {
+  .input-small.group-1{
+    width: 60%;
+  }
+  .input-flex.submit{
+    display: inline-block;
+  }
+  .input-flex .input-small{
+    margin-top: 1em;
+  }
+
   .about-body{
     margin-top: 0;
     padding-top: 1em;

@@ -62,7 +62,7 @@ class Navbar extends Component{
             </IconButton></Link>
           </div>
           <div className="nav-item text-center">
-            <Link to="/"><IconButton onClick={this.props.logout}>
+            <Link to="/"><IconButton onClick={e=>{this.props.logout();window.location.reload(false);}}>
               <FaSignOutAlt/>
             </IconButton></Link>
           </div>

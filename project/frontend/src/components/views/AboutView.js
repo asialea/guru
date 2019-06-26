@@ -131,6 +131,9 @@ componentWillMount(){
         <div className="square-container">
           <img id="pro-pic" alt="user avi" src={this.state.user.avi__avi_path}/>
         </div>
+        <button id="recommend" onClick={this.togglePopup} className="submit">Write a Review</button>
+
+
         <div id="bio-contact">
             <p id="bio" className="desc res-item">{this.state.aboutUser.bio}</p>
         </div>
@@ -140,16 +143,16 @@ componentWillMount(){
         <p id="name">
           {this.state.user.first_name} {this.state.user.last_name}
         </p>
-        <button id="recommend" onClick={this.togglePopup} className="submit">Write a Review</button>
         {this.state.showPopup ?
           <ReccPopup fetch={this.fetchRec} username={this.props.match.params.username}
           user_id={this.state.user.id} text={"Tell us about "+this.state.user.first_name} closePopup={this.togglePopup.bind(this)}/>
         : null
         }
-        <p>{this.state.avg ? Array(this.state.avg).fill(<FaStar className="social-icon"/>):null}</p>
-
+        <div id="star-rating">
+            {this.state.avg ? Array(this.state.avg).fill(<FaStar className="social-icon star"/>):null}
+        </div>
         <p><FaUser fill="#e27d60"/> @{this.state.user.username} ({this.parse_type(this.state.user.type)})</p>
-        {this.state.location ? <p><FaMapMarker fill="#e27d60"/> {this.state.aboutUser.location}</p> : null}
+        {this.state.aboutUser.location ? <p><FaMapMarker fill="#e27d60"/> {this.state.aboutUser.location}</p> : null}
 
         <p className="social">
         {this.state.aboutUser.github !== "" ? <a href={this.state.aboutUser.github}><FaGithub className="social-icon"/></a> : null}
@@ -161,8 +164,6 @@ componentWillMount(){
           <span onClick={this.toggleEmailPopup}><FaEnvelope className="social-icon"/></span>
         </p>
       </section>
-
-
 
       <section id="resume">
         <Tabs>
