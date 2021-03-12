@@ -136,7 +136,7 @@
     ]
   },
   "devDependencies": {
-    "react-dev-utils": "^9.0.1",
+    "react-dev-utils": "^11.0.4",
     "webpack-bundle-tracker": "^0.4.2-beta"
   },
   "proxy": "http://localhost:8000"
